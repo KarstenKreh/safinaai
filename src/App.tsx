@@ -1,15 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
-  Phone,
   Shield,
-  Brain,
-  MessageSquare,
   ChevronDown,
   CheckCircle2,
   Bot,
   Menu,
   X,
-  PhoneOff,
   FileText,
   MessageCircle,
 } from 'lucide-react';
@@ -18,39 +14,40 @@ import { Features } from './components/Features';
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [isAnnualBilling, setIsAnnualBilling] = useState(true);
 
   const plans = [
     {
-      name: 'Free Trial',
-      price: '0',
+      name: 'Mini',
+      price: '15',
+      annualPrice: '12',
       features: [
-        '14-day trial',
-        'Basic call screening',
-        '5 AI conversations/month',
-        'Text summaries',
+        'Safina takes up to 50 calls/month',
+        'Personal Safina phone number included',
+        'All features of the Safina mobile app',
       ],
       cta: 'See plans',
     },
     {
-      name: 'Pro',
-      price: '19',
+      name: 'Basic',
+      price: '20',
+      annualPrice: '15',
       features: [
-        'Unlimited call screening',
-        'Unlimited AI conversations',
-        'Priority support',
-        'Custom greetings',
+        'Safina takes up to 100 calls/month',
+        'Personal Safina phone number included',
+        'All features of the Safina mobile app',
       ],
       cta: 'Get Pro',
       popular: true,
     },
     {
-      name: 'Enterprise',
-      price: 'Custom',
+      name: 'Pro',
+      price: '40',
+      annualPrice: '30',
       features: [
-        'Custom integration',
-        'Advanced analytics',
-        'Dedicated support',
-        'SLA guarantee',
+        'Safina takes unlimited calls',
+        'Personal Safina phone number included',
+        'All features of the Safina mobile app',
       ],
       cta: 'Contact Sales',
     },
@@ -79,6 +76,15 @@ function App() {
     },
   ];
 
+  const getDisplayPrice = (price: string | number): [string, string] => {
+    if (price === 'Custom') return ['Custom', ''];
+    const numPrice = parseFloat(price.toString());
+    // Use the annual price by default, and calculate monthly price if toggled
+    const formattedPrice = isAnnualBilling ? numPrice.toFixed(2) : (numPrice / 0.8).toFixed(2);
+    const [euros, cents] = formattedPrice.split('.');
+    return [euros, cents];
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Navigation */}
@@ -86,7 +92,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <div className="flex items-center">
-              <Bot className="h-8 w-8 text-blue-600" />
+              <Bot className="h-8 w-8 text-teal-600" />
               <span className="ml-2 text-xl font-bold text-gray-900">
                 SafinaAI
               </span>
@@ -123,8 +129,14 @@ function App() {
               <a href="#faq" className="text-gray-600 hover:text-gray-900">
                 FAQ
               </a>
-              <button className="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition-colors">
-                Get Started
+              <button 
+                className="bg-teal-600 text-white px-6 py-2 rounded-full hover:bg-teal-700 transition-colors"
+                onClick={() => {
+                  const pricingSection = document.getElementById('pricing');
+                  pricingSection?.scrollIntoView({ behavior: 'smooth' });
+                }}
+              >
+                See pricing
               </button>
             </div>
           </div>
@@ -146,7 +158,7 @@ function App() {
               <a href="#faq" className="block px-3 py-2 text-gray-600">
                 FAQ
               </a>
-              <button className="w-full mt-2 bg-blue-600 text-white px-6 py-2 rounded-full">
+              <button className="w-full mt-2 bg-teal-600 text-white px-6 py-2 rounded-full">
                 Get Started
               </button>
             </div>
@@ -156,7 +168,7 @@ function App() {
 
       {/* Hero Section */}
       <section
-        className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
+        className="relative pt-28 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
         style={{
           backgroundImage: 'url(/src/Images/Safina-call-agent-hero-background-soundwaves.jpg)',
           backgroundPosition: 'center center',
@@ -168,7 +180,7 @@ function App() {
           className="absolute inset-0"
           style={{
             mixBlendMode: 'screen',
-            opacity: 0.6,
+            opacity: 0.3,
             backgroundImage: 'url(/src/Images/Safina-call-agent-hero-background-soundwaves.jpg)',
             backgroundPosition: 'center center',
             backgroundSize: 'cover',
@@ -176,12 +188,12 @@ function App() {
         ></div>
 
         {/* Ensure content is vertically centered */}
-        <div className="relative flex justify-center px-4 min-h-screen">
-          <div className="max-w-screen-lg w-full flex flex-col gap-12 items-center">
+        <div className="relative flex justify-center px-4 min-h-[80vh]">
+          <div className="max-w-screen-lg w-full flex flex-col justify-between pt-16 sm:pt-24"> {/* Added padding-top here */}
             <div className="space-y-8 text-center">
               <h1 className="text-5xl sm:text-6xl lg:text-7xl text-white leading-snug font-semibold">
                 Your personal AI powered
-                <span className="text-blue-200"> call secretary</span>
+                <span className="text-teal-200"> call secretary</span>
               </h1>
 
               <p className="text-xl text-white">
@@ -190,24 +202,61 @@ function App() {
                 providing clear call summaries.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <button className="bg-white text-blue-600 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-200 transition-colors">
+                <button 
+                  className="bg-white text-teal-600 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-200 transition-colors"
+                  onClick={() => {
+                    const pricingSection = document.getElementById('pricing');
+                    pricingSection?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
                   See plans
                 </button>
               </div>
-              <div className="flex flex-wrap items-center gap-4 text-sm text-white justify-center">
-                <div className="flex items-center bg-white/[.15] p-2 rounded-xl">
-                  <MessageCircle className="w-5 h-5 text-white mr-2" />
-                  <span className="text-m">Natural Conversations</span>
-                </div>
-                <div className="flex items-center bg-white/[.15] p-2 rounded-xl">
-                  <FileText className="w-5 h-5 text-white mr-2" />
-                  <span className="text-m">Actionable Summaries</span>
-                </div>
-                <div className="flex items-center bg-white/[.15] p-2 rounded-xl">
-                  <Shield className="w-5 h-5 text-white mr-2" />
-                  <span className="text-m">Intercepting spam calls</span>
-                </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-4 text-sm text-white justify-center mt-8">
+              <div className="flex items-center bg-teal-600/[.15] p-2 rounded-xl">
+                <MessageCircle className="w-5 h-5 text-teal-200 mr-2" />
+                <span className="text-m">Natural Conversations</span>
               </div>
+              <div className="flex items-center bg-teal-600/[.15] p-2 rounded-xl">
+                <FileText className="w-5 h-5 text-teal-200 mr-2" />
+                <span className="text-m">Actionable Summaries</span>
+              </div>
+              <div className="flex items-center bg-teal-600/[.15] p-2 rounded-xl">
+                <Shield className="w-5 h-5 text-teal-200 mr-2" />
+                <span className="text-m">Intercepting spam calls</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Metrics Section */}
+      <section className="bg-gray-100 py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-12">
+            Safina helps an average user to ...
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="text-center">
+              <p className="text-lg">... save</p>
+              <p className="text-6xl font-bold text-teal-600 my-4">23 min</p>
+              <p className="text-lg">of time each month.</p>
+            </div>
+            <div className="text-center">
+              <p className="text-lg">... avoid</p>
+              <p className="text-6xl font-bold text-teal-600 my-4">46</p>
+              <p className="text-lg">unwanted interruptions.</p>
+            </div>
+            <div className="text-center">
+              <p className="text-lg">... summarizes calls with</p>
+              <p className="text-6xl font-bold text-teal-600 my-4">98%</p>
+              <p className="text-lg">accuracy.</p>
+            </div>
+            <div className="text-center">
+              <p className="text-lg">... intercepts</p>
+              <p className="text-6xl font-bold text-teal-600 my-4">13</p>
+              <p className="text-lg">spam calls a year.</p>
             </div>
           </div>
         </div>
@@ -256,7 +305,7 @@ function App() {
               },
             ].map((step, index) => (
               <div key={index} className="text-center">
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mx-auto mb-6 text-3xl font-bold">
+                <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center text-teal-600 mx-auto mb-6 text-3xl font-bold">
                   {step.number}
                 </div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">
@@ -279,17 +328,30 @@ function App() {
             <p className="mt-4 text-xl text-gray-600">
               Choose the plan that works best for you
             </p>
+            <div className="mt-6 flex items-center justify-center">
+              <span className={`mr-3 ${isAnnualBilling ? 'text-gray-500' : 'text-gray-700'}`}>Billed Monthly</span>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  className="sr-only peer"
+                  checked={isAnnualBilling}
+                  onChange={() => setIsAnnualBilling(!isAnnualBilling)}
+                />
+                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-teal-600"></div>
+              </label>
+              <span className={`ml-3 ${isAnnualBilling ? 'text-gray-700' : 'text-gray-500'}`}>Billed annually</span>
+            </div>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {plans.map((plan, index) => (
               <div
                 key={index}
                 className={`bg-white rounded-2xl shadow-lg p-8 ${
-                  plan.popular ? 'ring-2 ring-blue-600' : ''
+                  plan.popular ? 'ring-2 ring-teal-600' : ''
                 }`}
               >
                 {plan.popular && (
-                  <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                  <span className="bg-teal-600 text-white px-3 py-1 rounded-full text-sm font-medium">
                     Most Popular
                   </span>
                 )}
@@ -297,11 +359,22 @@ function App() {
                   {plan.name}
                 </h3>
                 <div className="mt-4 flex items-baseline">
-                  <span className="text-4xl font-bold">${plan.price}</span>
-                  {plan.price !== 'Custom' && (
-                    <span className="ml-1 text-gray-500">/month</span>
+                  {plan.price !== 'Custom' ? (
+                    <>
+                      <span className="text-4xl font-bold">{getDisplayPrice(plan.price)[0]}</span>
+                      <span className="text-xl">.{getDisplayPrice(plan.price)[1]}</span>
+                      <span className="ml-1 text-2xl">€</span>
+                      <span className="ml-1 text-gray-500 text-lg">/month</span>
+                    </>
+                  ) : (
+                    <span className="text-4xl font-bold">Custom</span>
                   )}
                 </div>
+                {isAnnualBilling && plan.price !== 'Custom' && (
+                  <p className="text-sm text-green-600 mt-2">
+                    Save 20% with annual billing
+                  </p>
+                )}
                 <ul className="mt-6 space-y-4">
                   {plan.features.map((feature, featureIndex) => (
                     <li key={featureIndex} className="flex items-center">
@@ -313,11 +386,11 @@ function App() {
                 <button
                   className={`w-full mt-8 px-6 py-3 rounded-full font-medium ${
                     plan.popular
-                      ? 'bg-blue-600 text-white hover:bg-blue-700'
+                      ? 'bg-teal-600 text-white hover:bg-teal-700'
                       : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
                   } transition-colors`}
                 >
-                  {plan.cta}
+                  Get Safina
                 </button>
               </div>
             ))}
@@ -362,15 +435,15 @@ function App() {
 
       {/* CTA */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto bg-gradient-to-r from-blue-600 to-blue-700 rounded-3xl p-12 text-center text-white">
+        <div className="max-w-7xl mx-auto bg-gradient-to-r from-teal-600 to-teal-700 rounded-3xl p-12 text-center text-white">
           <h2 className="text-3xl sm:text-4xl font-bold mb-6">
             Ready to Transform Your Call Experience?
           </h2>
-          <p className="text-xl mb-8 text-blue-100">
+          <p className="text-xl mb-8 text-teal-100">
             Join thousands of users who trust SafinaAI to manage their calls
             intelligently
           </p>
-          <button className="bg-white text-blue-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-blue-50 transition-colors">
+          <button className="bg-white text-teal-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-teal-50 transition-colors">
             Start Your Free Trial
           </button>
         </div>
