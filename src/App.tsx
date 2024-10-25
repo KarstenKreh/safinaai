@@ -158,8 +158,7 @@ function App() {
       <section
         className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
         style={{
-          backgroundImage:
-            'url(https://cdn.midjourney.com/7b750d78-b90e-4784-bdfc-040578cdb64f/0_2.png)',
+          backgroundImage: 'url(/src/Images/Safina-call-agent-hero-background-soundwaves.jpg)',
           backgroundPosition: 'center center',
           backgroundSize: 'cover',
         }}
@@ -169,9 +168,8 @@ function App() {
           className="absolute inset-0"
           style={{
             mixBlendMode: 'screen',
-            opacity: 0.3,
-            backgroundImage:
-              'url(https://cdn.midjourney.com/7b750d78-b90e-4784-bdfc-040578cdb64f/0_2.png)',
+            opacity: 0.6,
+            backgroundImage: 'url(/src/Images/Safina-call-agent-hero-background-soundwaves.jpg)',
             backgroundPosition: 'center center',
             backgroundSize: 'cover',
           }}
@@ -197,15 +195,15 @@ function App() {
                 </button>
               </div>
               <div className="flex flex-wrap items-center gap-4 text-sm text-white justify-center">
-                <div className="flex items-center bg-white/[.05] p-2 rounded-xl">
+                <div className="flex items-center bg-white/[.15] p-2 rounded-xl">
                   <MessageCircle className="w-5 h-5 text-white mr-2" />
                   <span className="text-m">Natural Conversations</span>
                 </div>
-                <div className="flex items-center bg-white/[.05] p-2 rounded-xl">
+                <div className="flex items-center bg-white/[.15] p-2 rounded-xl">
                   <FileText className="w-5 h-5 text-white mr-2" />
                   <span className="text-m">Actionable Summaries</span>
                 </div>
-                <div className="flex items-center bg-white/[.05] p-2 rounded-xl">
+                <div className="flex items-center bg-white/[.15] p-2 rounded-xl">
                   <Shield className="w-5 h-5 text-white mr-2" />
                   <span className="text-m">Intercepting spam calls</span>
                 </div>
