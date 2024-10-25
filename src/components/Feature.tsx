@@ -1,5 +1,4 @@
 import React from 'react';
-import { LucideIcon } from 'lucide-react';
 
 interface FeatureProps {
   icon: React.ReactNode;
@@ -9,11 +8,11 @@ interface FeatureProps {
 
 export function Feature({ icon, title, description }: FeatureProps) {
   return (
-    <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
-      <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-6">
-        {icon}
+    <div className="flex flex-col items-start text-left bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+      <div className="flex items-center justify-center w-12 h-12 mb-4 rounded-full bg-teal-100">
+        <div className="text-teal-500">{icon}</div>
       </div>
-      <h3 className="text-xl font-semibold text-gray-900 mb-4">{title}</h3>
+      <h3 className="mb-2 text-xl font-semibold text-gray-900">{title}</h3>
       <p className="text-gray-600">{description}</p>
     </div>
   );

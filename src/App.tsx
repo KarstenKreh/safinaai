@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Shield,
   ChevronDown,
@@ -13,41 +13,43 @@ import { Features } from './components/Features';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [visible, setVisible] = useState(true);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [isAnnualBilling, setIsAnnualBilling] = useState(true);
 
   const plans = [
     {
       name: 'Mini',
-      price: '15',
-      annualPrice: '12',
+      price: '12',
       features: [
-        'Safina takes up to 50 calls/month',
+        '<b>Safina takes up to 50 calls/month</b>',
         'Personal Safina phone number included',
         'All features of the Safina mobile app',
+        'Choose from dozens of different voices',
       ],
       cta: 'See plans',
     },
     {
       name: 'Basic',
       price: '20',
-      annualPrice: '15',
       features: [
-        'Safina takes up to 100 calls/month',
+        '<b>Safina takes up to 100 calls/month</b>',
         'Personal Safina phone number included',
         'All features of the Safina mobile app',
+        'Choose from dozens of different voices',
       ],
       cta: 'Get Pro',
       popular: true,
     },
     {
       name: 'Pro',
-      price: '40',
-      annualPrice: '30',
+      price: '32',
       features: [
-        'Safina takes unlimited calls',
+        '<b>Safina takes unlimited calls</b>',
         'Personal Safina phone number included',
-        'All features of the Safina mobile app',
+        'All features of the Safina mobile app',        
+        'Choose from dozens of different voices',
       ],
       cta: 'Contact Sales',
     },
@@ -55,40 +57,70 @@ function App() {
 
   const faqs = [
     {
-      question: 'How accurate is the AI in screening calls?',
-      answer:
-        'SafinaAI achieves 99.9% accuracy in identifying spam calls through advanced machine learning algorithms trained on millions of call patterns.',
+      question: 'What is Safina and how does it work?',
+      answer: 'Safina is an AI-powered personal phone secretary that manages your calls by answering those you miss or decline. It identifies spam or phishing calls, provides actionable summaries of interactions, and helps you avoid unnecessary interruptions.',
     },
     {
-      question: 'Can I customize how the AI responds to callers?',
-      answer:
-        'Yes! You can set custom greetings, conversation styles, and response preferences to match your personal or business needs.',
+      question: 'How does Safina determine which calls to answer?',
+      answer: 'Safina automatically answers a call if you decline it, if it rings more than five times, or if you\'re in Focus Mode, ensuring important calls are managed effectively without bothering you.',
     },
     {
-      question: 'What happens to my voicemail data?',
-      answer:
-        'All voicemail data is encrypted end-to-end and stored securely. We never share or sell your data to third parties.',
+      question: 'How does Safina assess the risk level of calls?',
+      answer: 'Safina evaluates calls and categorizes them into Harmless, Suspicious, or Dangerous. This assessment helps you understand the potential risk level of each call based on various indicators.',
     },
     {
-      question: 'Does it work with my current phone system?',
-      answer:
-        'SafinaAI integrates seamlessly with most major carriers and VoIP systems. Check our compatibility list for specific details.',
+      question: 'What type of information does Safina provide in call summaries?',
+      answer: 'Safina asks callers for the purpose of their call and provides concise summaries, offering you a clear understanding of the caller\'s intent and the importance of the interaction.',
+    },
+    {
+      question: 'How can I personalize Safina\'s voice and notification settings?',
+      answer: 'You can always modify Safina\'s voice and notification preferences by updating your profile settings, allowing you to tailor the experience to your liking.',
+    },
+    {
+      question: 'What are the benefits of upgrading to a higher plan with Safina?',
+      answer: 'Upgrading to a higher plan, such as Pro, allows for unlimited calls and access to all mobile app features, providing a comprehensive call management solution suitable for busy professionals.',
+    },
+    {
+      question: 'How does Focus Mode work with Safina?',
+      answer: 'In Focus Mode, all calls are seamlessly forwarded to Safina, allowing you to concentrate on your tasks without interruptions while ensuring that no calls are missed.',
+    },
+    {
+      question: 'Can Safina handle international calls?',
+      answer: 'Yes, Safina can always handle international calls, regardless of the subscription plan, providing consistent call management globally.',
+    },
+    {
+      question: 'Is it necessary to use the dedicated Safina number?',
+      answer: 'Using the dedicated Safina number is optional. Calls made to this number are always received by Safina, ensuring seamless handling and management, enhancing your call experience.',
     },
   ];
 
   const getDisplayPrice = (price: string | number): [string, string] => {
     if (price === 'Custom') return ['Custom', ''];
     const numPrice = parseFloat(price.toString());
-    // Use the annual price by default, and calculate monthly price if toggled
+    // Calculate the price based on billing frequency
     const formattedPrice = isAnnualBilling ? numPrice.toFixed(2) : (numPrice / 0.8).toFixed(2);
     const [euros, cents] = formattedPrice.split('.');
     return [euros, cents];
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      const visible = prevScrollPos > currentScrollPos || currentScrollPos < 10;
+
+      setPrevScrollPos(currentScrollPos);
+      setVisible(visible);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [prevScrollPos]);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       {/* Navigation */}
-      <nav className="fixed w-full bg-white/80 backdrop-blur-lg z-50 border-b border-gray-100">
+      <nav className={`fixed w-full bg-white/80 backdrop-blur-lg z-50 border-b border-gray-100 transition-transform duration-300 ${visible ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <div className="flex items-center">
@@ -114,23 +146,23 @@ function App() {
 
             {/* Desktop nav */}
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="text-gray-600 hover:text-gray-900">
+              <a href="#features" className="text-gray-600 hover:text-gray-900 text-base">
                 Features
               </a>
               <a
                 href="#how-it-works"
-                className="text-gray-600 hover:text-gray-900"
+                className="text-gray-600 hover:text-gray-900 text-base"
               >
                 How it Works
               </a>
-              <a href="#pricing" className="text-gray-600 hover:text-gray-900">
+              <a href="#pricing" className="text-gray-600 hover:text-gray-900 text-base">
                 Pricing
               </a>
-              <a href="#faq" className="text-gray-600 hover:text-gray-900">
+              <a href="#faq" className="text-gray-600 hover:text-gray-900 text-base">
                 FAQ
               </a>
               <button 
-                className="bg-teal-600 text-white px-6 py-2 rounded-full hover:bg-teal-700 transition-colors"
+                className="bg-teal-600 text-white px-6 py-2 rounded text-base font-medium hover:bg-teal-700 transition-colors"
                 onClick={() => {
                   const pricingSection = document.getElementById('pricing');
                   pricingSection?.scrollIntoView({ behavior: 'smooth' });
@@ -146,19 +178,19 @@ function App() {
         {isMenuOpen && (
           <div className="md:hidden bg-white border-b border-gray-100">
             <div className="px-2 pt-2 pb-3 space-y-1">
-              <a href="#features" className="block px-3 py-2 text-gray-600">
+              <a href="#features" className="block px-3 py-2 text-gray-600 text-lg">
                 Features
               </a>
-              <a href="#how-it-works" className="block px-3 py-2 text-gray-600">
+              <a href="#how-it-works" className="block px-3 py-2 text-gray-600 text-lg">
                 How it Works
               </a>
-              <a href="#pricing" className="block px-3 py-2 text-gray-600">
+              <a href="#pricing" className="block px-3 py-2 text-gray-600 text-lg">
                 Pricing
               </a>
-              <a href="#faq" className="block px-3 py-2 text-gray-600">
+              <a href="#faq" className="block px-3 py-2 text-gray-600 text-lg">
                 FAQ
               </a>
-              <button className="w-full mt-2 bg-teal-600 text-white px-6 py-2 rounded-full">
+              <button className="w-full mt-2 bg-teal-600 text-white px-6 py-3 rounded-full text-lg">
                 Get Started
               </button>
             </div>
@@ -191,19 +223,19 @@ function App() {
         <div className="relative flex justify-center px-4 min-h-[80vh]">
           <div className="max-w-screen-lg w-full flex flex-col justify-between pt-16 sm:pt-24"> {/* Added padding-top here */}
             <div className="space-y-8 text-center">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl text-white leading-snug font-semibold">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white leading-tight font-bold">
                 Your personal AI powered
-                <span className="text-teal-200"> call secretary</span>
+                <span className="text-teal-200"> call assistant</span>
               </h1>
 
-              <p className="text-xl text-white">
+              <p className="text-xl text-white max-w-2xl mx-auto">
                 Safina is an intelligent AI assistant designed to manage your
                 calls seamlessly by filtering unwanted or unknown callers and
                 providing clear call summaries.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <button 
-                  className="bg-white text-teal-600 px-8 py-4 rounded-xl text-lg font-semibold hover:bg-gray-200 transition-colors"
+                  className="bg-white text-teal-600 px-8 py-3 rounded text-lg font-medium hover:bg-gray-200 transition-colors"
                   onClick={() => {
                     const pricingSection = document.getElementById('pricing');
                     pricingSection?.scrollIntoView({ behavior: 'smooth' });
@@ -214,16 +246,16 @@ function App() {
               </div>
             </div>
             <div className="flex flex-wrap items-center gap-4 text-sm text-white justify-center mt-8">
-              <div className="flex items-center bg-teal-600/[.15] p-2 rounded-xl">
-                <MessageCircle className="w-5 h-5 text-teal-200 mr-2" />
+              <div className="flex items-center bg-white/[.15] p-2 rounded-xl">
+                <MessageCircle className="w-5 h-5 text-white mr-2" />
                 <span className="text-m">Natural Conversations</span>
               </div>
-              <div className="flex items-center bg-teal-600/[.15] p-2 rounded-xl">
-                <FileText className="w-5 h-5 text-teal-200 mr-2" />
+              <div className="flex items-center bg-white/[.15] p-2 rounded-xl">
+                <FileText className="w-5 h-5 text-white mr-2" />
                 <span className="text-m">Actionable Summaries</span>
               </div>
-              <div className="flex items-center bg-teal-600/[.15] p-2 rounded-xl">
-                <Shield className="w-5 h-5 text-teal-200 mr-2" />
+              <div className="flex items-center bg-white/[.15] p-2 rounded-xl">
+                <Shield className="w-5 h-5 text-white mr-2" />
                 <span className="text-m">Intercepting spam calls</span>
               </div>
             </div>
@@ -232,8 +264,8 @@ function App() {
       </section>
 
       {/* Metrics Section */}
-      <section className="bg-gray-100 py-16">
-        <div className="container mx-auto px-4">
+      <section className="bg-gray-100 py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">
             Safina helps an average user to ...
           </h2>
@@ -241,20 +273,20 @@ function App() {
             <div className="text-center">
               <p className="text-lg">... save</p>
               <p className="text-6xl font-bold text-teal-600 my-4">23 min</p>
-              <p className="text-lg">of time each month.</p>
+              <p className="text-lg">of time a month.</p>
             </div>
             <div className="text-center">
               <p className="text-lg">... avoid</p>
               <p className="text-6xl font-bold text-teal-600 my-4">46</p>
-              <p className="text-lg">unwanted interruptions.</p>
+              <p className="text-lg">unwanted interruptions a month.</p>
             </div>
             <div className="text-center">
-              <p className="text-lg">... summarizes calls with</p>
-              <p className="text-6xl font-bold text-teal-600 my-4">98%</p>
+              <p className="text-lg">... summarize calls with</p>
+              <p className="text-6xl font-bold text-teal-600 my-4">98 %</p>
               <p className="text-lg">accuracy.</p>
             </div>
             <div className="text-center">
-              <p className="text-lg">... intercepts</p>
+              <p className="text-lg">... intercept</p>
               <p className="text-6xl font-bold text-teal-600 my-4">13</p>
               <p className="text-lg">spam calls a year.</p>
             </div>
@@ -281,24 +313,28 @@ function App() {
             {[
               {
                 number: '1',
+                image: '/src/Images/Safina-AI-App-Mockup-01.jpg',
                 title: "Choose Safina's voice",
                 description:
                   'Select the voice that best matches your style and needs to ensure a personalized call management experience.',
               },
               {
                 number: '2',
+                image: '/src/Images/Safina-AI-App-Mockup-02.jpg',
                 title: 'Receive a test call',
                 description:
                   'Experience firsthand how Safina handles callers by going through a test call scenario with yourself.',
               },
               {
                 number: '3',
+                image: '/src/Images/Safina-AI-App-Mockup-03.jpg',
                 title: 'Get your new Safina number',
                 description:
                   'Receive a dedicated Safina number that will serve as your smart call management hub.',
               },
               {
                 number: '4',
+                image: '/src/Images/Safina-AI-App-Mockup-04.jpg',
                 title: 'Choose notification options',
                 description:
                   'Customize how you receive notifications about calls and interactions, aligning with your preferences.',
@@ -308,6 +344,7 @@ function App() {
                 <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center text-teal-600 mx-auto mb-6 text-3xl font-bold">
                   {step.number}
                 </div>
+                <img src={step.image} alt={`Step ${step.number}`} className="w-full h-48 object-cover rounded-lg mb-6" />
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">
                   {step.title}
                 </h3>
@@ -377,23 +414,43 @@ function App() {
                 )}
                 <ul className="mt-6 space-y-4">
                   {plan.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center">
-                      <CheckCircle2 className="w-5 h-5 text-green-500 mr-2" />
-                      <span className="text-gray-600">{feature}</span>
+                    <li key={featureIndex} className="flex items-start">
+                      <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-1 flex-shrink-0" />
+                      <span 
+                        className="text-gray-600 text-base" 
+                        dangerouslySetInnerHTML={{ __html: feature }}
+                      ></span>
                     </li>
                   ))}
                 </ul>
-                <button
-                  className={`w-full mt-8 px-6 py-3 rounded-full font-medium ${
-                    plan.popular
-                      ? 'bg-teal-600 text-white hover:bg-teal-700'
-                      : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
-                  } transition-colors`}
-                >
-                  Get Safina
+                <button className="mt-8 w-full bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition-colors">
+                  {plan.cta}
                 </button>
               </div>
             ))}
+          </div>
+          
+          {/* Availability and App Store Badges */}
+          <div className="mt-16 text-center">
+            <h3 className="text-2xl font-bold text-gray-900 mb-8">
+              Safina is Available for iOS, Android, and in your web browser
+            </h3>
+            <div className="flex justify-center space-x-4">
+              <a href="https://apps.apple.com/your-app-link" target="_blank" rel="noopener noreferrer">
+                <img 
+                  src="/src/Images/Badge-Safina-App-appstore.svg" 
+                  alt="Download on the App Store" 
+                  className="h-12"
+                />
+              </a>
+              <a href="https://play.google.com/store/apps/your-app-link" target="_blank" rel="noopener noreferrer">
+                <img 
+                  src="/src/Images/Badge-Safina-App-googleplay.svg" 
+                  alt="Get it on Google Play" 
+                  className="h-12"
+                />
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -415,7 +472,7 @@ function App() {
                     setActiveFaq(activeFaq === index ? null : index)
                   }
                 >
-                  <span className="font-medium text-gray-900">
+                  <span className="font-medium text-gray-900 text-lg">
                     {faq.question}
                   </span>
                   <ChevronDown
@@ -425,7 +482,7 @@ function App() {
                   />
                 </button>
                 {activeFaq === index && (
-                  <div className="px-6 pb-4 text-gray-600">{faq.answer}</div>
+                  <div className="px-6 pb-4 text-gray-600 text-base">{faq.answer}</div>
                 )}
               </div>
             ))}
@@ -439,11 +496,11 @@ function App() {
           <h2 className="text-3xl sm:text-4xl font-bold mb-6">
             Ready to Transform Your Call Experience?
           </h2>
-          <p className="text-xl mb-8 text-teal-100">
+          <p className="text-xl mb-8 text-teal-100 max-w-2xl mx-auto">
             Join thousands of users who trust SafinaAI to manage their calls
             intelligently
           </p>
-          <button className="bg-white text-teal-600 px-8 py-4 rounded-full text-lg font-semibold hover:bg-teal-50 transition-colors">
+          <button className="bg-white text-teal-600 px-8 py-3 rounded text-lg font-medium hover:bg-teal-50 transition-colors">
             Start Your Free Trial
           </button>
         </div>
