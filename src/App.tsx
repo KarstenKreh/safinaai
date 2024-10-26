@@ -8,6 +8,8 @@ import {
   X,
   FileText,
   MessageCircle,
+  Moon,
+  Sun,
 } from 'lucide-react';
 import { Features } from './components/Features';
 
@@ -17,41 +19,40 @@ function App() {
   const [visible, setVisible] = useState(true);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [isAnnualBilling, setIsAnnualBilling] = useState(true);
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
 
   const plans = [
     {
-      name: 'Mini',
+      name: 'Basic',
       price: '12',
       features: [
-        '<b>Safina takes up to 50 calls/month</b>',
+        'Safina takes up to 50 calls/month',
         'Personal Safina phone number included',
         'All features of the Safina mobile app',
         'Choose from dozens of different voices',
       ],
-      cta: 'See plans',
     },
     {
-      name: 'Basic',
+      name: 'Professional',
       price: '20',
       features: [
-        '<b>Safina takes up to 100 calls/month</b>',
-        'Personal Safina phone number included',
-        'All features of the Safina mobile app',
-        'Choose from dozens of different voices',
+        'Everything included in the Basic plan +',
+        'Safina takes up to 100 calls/month',
+        'Detailed call summaries and transcripts',
+        'Access to audio files of calls',
       ],
-      cta: 'Get Pro',
       popular: true,
     },
     {
-      name: 'Pro',
-      price: '32',
+      name: 'Enterprise',
+      price: 'Request',
       features: [
-        '<b>Safina takes unlimited calls</b>',
-        'Personal Safina phone number included',
-        'All features of the Safina mobile app',        
-        'Choose from dozens of different voices',
+        'Everything included in the Professional plan +',
+        'Safina takes unlimited calls',
+        'Access to our API',
+        'Custom voice training',        
+        'Add multiple Safina numbers',
       ],
-      cta: 'Contact Sales',
     },
   ];
 
@@ -95,12 +96,22 @@ function App() {
   ];
 
   const getDisplayPrice = (price: string | number): [string, string] => {
-    if (price === 'Custom') return ['Custom', ''];
-    const numPrice = parseFloat(price.toString());
-    // Calculate the price based on billing frequency
-    const formattedPrice = isAnnualBilling ? numPrice.toFixed(2) : (numPrice / 0.8).toFixed(2);
+    if (typeof price === 'string' && price.toLowerCase() === 'request') return ['Request', ''];
+    const numPrice = typeof price === 'string' ? parseFloat(price) : price;
+    const formattedPrice = (isAnnualBilling ? numPrice : numPrice / 0.8).toFixed(2);
     const [euros, cents] = formattedPrice.split('.');
     return [euros, cents];
+  };
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    setIsDarkTheme(savedTheme === 'dark');
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = !isDarkTheme;
+    setIsDarkTheme(newTheme);
+    localStorage.setItem('theme', newTheme ? 'dark' : 'light');
   };
 
   useEffect(() => {
@@ -117,16 +128,21 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [prevScrollPos]);
 
+  useEffect(() => {
+    // Apply the theme to the body element
+    document.body.classList.toggle('dark', isDarkTheme);
+  }, [isDarkTheme]);
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className={`min-h-screen ${isDarkTheme ? 'dark bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
       {/* Navigation */}
-      <nav className={`fixed w-full bg-white/80 backdrop-blur-lg z-50 border-b border-gray-100 transition-transform duration-300 ${visible ? 'translate-y-0' : '-translate-y-full'}`}>
+      <nav className={`fixed w-full ${isDarkTheme ? 'bg-gray-900/80' : 'bg-white/80'} backdrop-blur-lg z-50 border-b ${isDarkTheme ? 'border-gray-700' : 'border-gray-100'} transition-transform duration-300 ${visible ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <div className="flex items-center">
               <Bot className="h-8 w-8 text-teal-600" />
-              <span className="ml-2 text-xl font-bold text-gray-900">
-                SafinaAI
+              <span className={`ml-2 text-xl font-bold ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
+                Safina AI
               </span>
             </div>
 
@@ -146,19 +162,19 @@ function App() {
 
             {/* Desktop nav */}
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#features" className="text-gray-600 hover:text-gray-900 text-base">
+              <a href="#features" className={`${isDarkTheme ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} text-base`}>
                 Features
               </a>
               <a
                 href="#how-it-works"
-                className="text-gray-600 hover:text-gray-900 text-base"
+                className={`${isDarkTheme ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} text-base`}
               >
                 How it Works
               </a>
-              <a href="#pricing" className="text-gray-600 hover:text-gray-900 text-base">
+              <a href="#pricing" className={`${isDarkTheme ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} text-base`}>
                 Pricing
               </a>
-              <a href="#faq" className="text-gray-600 hover:text-gray-900 text-base">
+              <a href="#faq" className={`${isDarkTheme ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} text-base`}>
                 FAQ
               </a>
               <button 
@@ -168,7 +184,15 @@ function App() {
                   pricingSection?.scrollIntoView({ behavior: 'smooth' });
                 }}
               >
-                See pricing
+                Get Safina
+              </button>
+              
+              {/* Add theme toggle button */}
+              <button
+                onClick={toggleTheme}
+                className={`p-2 rounded-full ${isDarkTheme ? 'bg-gray-800 text-yellow-400' : 'bg-gray-200 text-gray-800'}`}
+              >
+                {isDarkTheme ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
               </button>
             </div>
           </div>
@@ -176,7 +200,7 @@ function App() {
 
         {/* Mobile menu */}
         {isMenuOpen && (
-          <div className="md:hidden bg-white border-b border-gray-100">
+          <div className={`md:hidden ${isDarkTheme ? 'bg-gray-900' : 'bg-white'} border-b ${isDarkTheme ? 'border-gray-700' : 'border-gray-100'}`}>
             <div className="px-2 pt-2 pb-3 space-y-1">
               <a href="#features" className="block px-3 py-2 text-gray-600 text-lg">
                 Features
@@ -191,7 +215,17 @@ function App() {
                 FAQ
               </a>
               <button className="w-full mt-2 bg-teal-600 text-white px-6 py-3 rounded-full text-lg">
-                Get Started
+                Get Safina
+              </button>
+            </div>
+            
+            {/* Add theme toggle button to mobile menu */}
+            <div className="px-3 py-2">
+              <button
+                onClick={toggleTheme}
+                className={`w-full text-left px-3 py-2 ${isDarkTheme ? 'text-white' : 'text-gray-600'}`}
+              >
+                {isDarkTheme ? 'Light Mode' : 'Dark Mode'}
               </button>
             </div>
           </div>
@@ -241,7 +275,7 @@ function App() {
                     pricingSection?.scrollIntoView({ behavior: 'smooth' });
                   }}
                 >
-                  See plans
+                  Get Safina
                 </button>
               </div>
             </div>
@@ -264,7 +298,7 @@ function App() {
       </section>
 
       {/* Metrics Section */}
-      <section className="bg-gray-100 py-16 px-4 sm:px-6 lg:px-8">
+      <section className={`py-16 px-4 sm:px-6 lg:px-8 ${isDarkTheme ? 'bg-gray-800' : 'bg-gray-100'}`}>
         <div className="max-w-7xl mx-auto">
           <h2 className="text-3xl font-bold text-center mb-12">
             Safina helps an average user to ...
@@ -295,19 +329,18 @@ function App() {
       </section>
 
       {/* Features Section */}
-      <Features />
+      <Features isDarkTheme={isDarkTheme} />
 
       {/* How It Works */}
       <section
         id="how-it-works"
-        className="py-20 bg-gray-50 px-4 sm:px-6 lg:px-8"
+        className={`py-20 px-4 sm:px-6 lg:px-8 ${isDarkTheme ? 'bg-gray-900' : 'bg-white'}`}
       >
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+            <h2 className={`text-3xl sm:text-4xl font-bold ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
               How It Works
             </h2>
-            <p className="mt-4 text-xl text-gray-600">(Think of a subheader)</p>
           </div>
           <div className="grid md:grid-cols-4 gap-8">
             {[
@@ -345,28 +378,91 @@ function App() {
                   {step.number}
                 </div>
                 <img src={step.image} alt={`Step ${step.number}`} className="w-full h-48 object-cover rounded-lg mb-6" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                <h3 className={`text-xl font-semibold ${isDarkTheme ? 'text-white' : 'text-gray-900'} mb-4`}>
                   {step.title}
                 </h3>
-                <p className="text-gray-600">{step.description}</p>
+                <p className={isDarkTheme ? 'text-gray-300' : 'text-gray-600'}>{step.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* New Features Section */}
+      <section className={`py-20 px-4 sm:px-6 lg:px-8 ${isDarkTheme ? 'bg-gray-800' : 'bg-gray-100'}`}>
+        <div className="max-w-7xl mx-auto">
+          <h2 className={`text-3xl sm:text-4xl font-bold text-center mb-16 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
+            Discover What Sets Safina Apart
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Card 1: Comprehensive Call Reports */}
+            <div className={`${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-hidden`}>
+              <div className="h-48 bg-gray-300"></div>
+              <div className="p-6">
+                <h3 className={`text-xl font-semibold mb-4 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>Comprehensive Call Reports</h3>
+                <p className={`${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>
+                  Receive detailed reports with conversation summaries, actionable insights, sentiment assessments, and for Professional Plan users, access to caller details, transcripts, and audio. Stay informed and manage communications effectively.
+                </p>
+              </div>
+            </div>
+
+            {/* Card 2: Seamless Multi-Device Access */}
+            <div className={`md:col-span-2 ${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-hidden`}>
+              <div className="md:flex">
+                <div className="md:w-1/2">
+                  <div className="h-48 md:h-full bg-gray-300"></div>
+                </div>
+                <div className="md:w-1/2 p-6">
+                  <h3 className={`text-xl font-semibold mb-4 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>Seamless Multi-Device Access</h3>
+                  <p className={`${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>
+                    Manage your calls effortlessly across devices—browser, iOS, or Android. Enjoy consistent, convenient access to your call tools anywhere, ensuring you're always connected and in control.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 3: Intuitive Dashboard Design */}
+            <div className={`md:col-span-2 ${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-hidden`}>
+              <div className="md:flex">
+                <div className="md:w-1/2 p-6">
+                  <h3 className={`text-xl font-semibold mb-4 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>Intuitive Dashboard Design</h3>
+                  <p className={`${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>
+                    Navigate a sleek dashboard for a quick overview of all calls. Access sentiment assessments easily, prioritize interactions, and maintain effective communication at a glance.
+                  </p>
+                </div>
+                <div className="md:w-1/2">
+                  <div className="h-48 md:h-full bg-gray-300"></div>
+                </div>
+              </div>
+            </div>
+
+            {/* Card 4: Personalized Interaction and Notifications */}
+            <div className={`${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-hidden`}>
+              <div className="h-48 bg-gray-300"></div>
+              <div className="p-6">
+                <h3 className={`text-xl font-semibold mb-4 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>Personalized Interaction and Notifications</h3>
+                <p className={`${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>
+                  Customize Safina's voice and tone—polite or witty—plus set unique call excuses. Choose email or push notifications for call summaries, aligning with your personal workflow preferences.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Pricing */}
-      <section id="pricing" className="py-20 px-4 sm:px-6 lg:px-8">
+      <section id="pricing" className={`py-20 px-4 sm:px-6 lg:px-8 ${isDarkTheme ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
-              Simple, Transparent Pricing
+            <h2 className={`text-3xl sm:text-4xl font-bold ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
+              Choose a plan that works for you
             </h2>
-            <p className="mt-4 text-xl text-gray-600">
-              Choose the plan that works best for you
-            </p>
             <div className="mt-6 flex items-center justify-center">
-              <span className={`mr-3 ${isAnnualBilling ? 'text-gray-500' : 'text-gray-700'}`}>Billed Monthly</span>
+              <span className={`mr-3 ${isAnnualBilling 
+                ? (isDarkTheme ? 'text-gray-400' : 'text-gray-500') 
+                : (isDarkTheme ? 'text-white' : 'text-gray-900')}`}>
+                Billed Monthly
+              </span>
               <label className="relative inline-flex items-center cursor-pointer">
                 <input
                   type="checkbox"
@@ -376,14 +472,18 @@ function App() {
                 />
                 <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-teal-300 dark:peer-focus:ring-teal-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-teal-600"></div>
               </label>
-              <span className={`ml-3 ${isAnnualBilling ? 'text-gray-700' : 'text-gray-500'}`}>Billed annually</span>
+              <span className={`ml-3 ${isAnnualBilling 
+                ? (isDarkTheme ? 'text-white' : 'text-gray-900') 
+                : (isDarkTheme ? 'text-gray-400' : 'text-gray-500')}`}>
+                Billed annually
+              </span>
             </div>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
             {plans.map((plan, index) => (
               <div
                 key={index}
-                className={`bg-white rounded-2xl shadow-lg p-8 ${
+                className={`${isDarkTheme ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg p-8 ${
                   plan.popular ? 'ring-2 ring-teal-600' : ''
                 }`}
               >
@@ -392,11 +492,11 @@ function App() {
                     Most Popular
                   </span>
                 )}
-                <h3 className="text-2xl font-bold text-gray-900 mt-4">
+                <h3 className={`text-2xl font-bold ${isDarkTheme ? 'text-white' : 'text-gray-900'} mt-4`}>
                   {plan.name}
                 </h3>
                 <div className="mt-4 flex items-baseline">
-                  {plan.price !== 'Custom' ? (
+                  {plan.price !== 'Request' ? (
                     <>
                       <span className="text-4xl font-bold">{getDisplayPrice(plan.price)[0]}</span>
                       <span className="text-xl">.{getDisplayPrice(plan.price)[1]}</span>
@@ -404,10 +504,15 @@ function App() {
                       <span className="ml-1 text-gray-500 text-lg">/month</span>
                     </>
                   ) : (
-                    <span className="text-4xl font-bold">Custom</span>
+                    <button
+                      onClick={() => window.location.href = 'mailto:support@safinaai.com'}
+                      className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg text-lg font-medium hover:bg-gray-400 transition-colors"
+                    >
+                      Request
+                    </button>
                   )}
                 </div>
-                {isAnnualBilling && plan.price !== 'Custom' && (
+                {isAnnualBilling && plan.price !== 'On request' && (
                   <p className="text-sm text-green-600 mt-2">
                     Save 20% with annual billing
                   </p>
@@ -417,22 +522,26 @@ function App() {
                     <li key={featureIndex} className="flex items-start">
                       <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-1 flex-shrink-0" />
                       <span 
-                        className="text-gray-600 text-base" 
+                        className={`${isDarkTheme ? 'text-gray-300' : 'text-gray-600'} text-base`}
                         dangerouslySetInnerHTML={{ __html: feature }}
                       ></span>
                     </li>
                   ))}
                 </ul>
-                <button className="mt-8 w-full bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition-colors">
-                  {plan.cta}
-                </button>
               </div>
             ))}
           </div>
           
+          {/* New primary button */}
+          <div className="mt-12 text-center">
+            <button className="bg-teal-600 text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-teal-700 transition-colors">
+              Get Safina
+            </button>
+          </div>
+          
           {/* Availability and App Store Badges */}
           <div className="mt-16 text-center">
-            <h3 className="text-2xl font-bold text-gray-900 mb-8">
+            <h3 className={`text-2xl font-bold mb-8 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
               Safina is Available for iOS, Android, and in your web browser
             </h3>
             <div className="flex justify-center space-x-4">
@@ -456,33 +565,33 @@ function App() {
       </section>
 
       {/* FAQ */}
-      <section id="faq" className="py-20 bg-gray-50 px-4 sm:px-6 lg:px-8">
+      <section id="faq" className={`py-20 px-4 sm:px-6 lg:px-8 ${isDarkTheme ? 'bg-gray-800' : 'bg-gray-50'}`}>
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
+            <h2 className={`text-3xl sm:text-4xl font-bold ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
               Frequently Asked Questions
             </h2>
           </div>
           <div className="space-y-4">
             {faqs.map((faq, index) => (
-              <div key={index} className="bg-white rounded-lg shadow">
+              <div key={index} className={`${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow`}>
                 <button
                   className="w-full px-6 py-4 text-left flex justify-between items-center"
                   onClick={() =>
                     setActiveFaq(activeFaq === index ? null : index)
                   }
                 >
-                  <span className="font-medium text-gray-900 text-lg">
+                  <span className={`font-medium ${isDarkTheme ? 'text-white' : 'text-gray-900'} text-lg`}>
                     {faq.question}
                   </span>
                   <ChevronDown
-                    className={`w-5 h-5 text-gray-500 transform transition-transform ${
+                    className={`w-5 h-5 ${isDarkTheme ? 'text-gray-400' : 'text-gray-500'} transform transition-transform ${
                       activeFaq === index ? 'rotate-180' : ''
                     }`}
                   />
                 </button>
                 {activeFaq === index && (
-                  <div className="px-6 pb-4 text-gray-600 text-base">{faq.answer}</div>
+                  <div className={`px-6 pb-4 ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'} text-base`}>{faq.answer}</div>
                 )}
               </div>
             ))}
@@ -491,28 +600,28 @@ function App() {
       </section>
 
       {/* CTA */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8">
+      <section className={`py-20 px-4 sm:px-6 lg:px-8 ${isDarkTheme ? 'bg-gray-900' : 'bg-white'}`}>
         <div className="max-w-7xl mx-auto bg-gradient-to-r from-teal-600 to-teal-700 rounded-3xl p-12 text-center text-white">
           <h2 className="text-3xl sm:text-4xl font-bold mb-6">
             Ready to Transform Your Call Experience?
           </h2>
           <p className="text-xl mb-8 text-teal-100 max-w-2xl mx-auto">
-            Join thousands of users who trust SafinaAI to manage their calls
+            Join thousands of users who trust Safina to manage their calls
             intelligently
           </p>
           <button className="bg-white text-teal-600 px-8 py-3 rounded text-lg font-medium hover:bg-teal-50 transition-colors">
-            Start Your Free Trial
+            Get Safina
           </button>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 py-12 px-4 sm:px-6 lg:px-8">
+      <footer className={`py-12 px-4 sm:px-6 lg:px-8 ${isDarkTheme ? 'bg-gray-900 text-gray-300' : 'bg-gray-900 text-gray-400'}`}>
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center text-white mb-4">
               <Bot className="h-6 w-6 mr-2" />
-              <span className="font-bold">SafinaAI</span>
+              <span className="font-bold">Safina AI</span>
             </div>
             <p className="text-sm">Intelligent call management powered by AI</p>
           </div>
@@ -578,7 +687,7 @@ function App() {
           </div>
         </div>
         <div className="max-w-7xl mx-auto mt-8 pt-8 border-t border-gray-800 text-sm text-center">
-          © {new Date().getFullYear()} SafinaAI. All rights reserved.
+          {new Date().getFullYear()} Safina AI. Fuck copyrights. Do whatever you want with it.
         </div>
       </footer>
     </div>
