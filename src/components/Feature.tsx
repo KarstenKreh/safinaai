@@ -14,7 +14,7 @@ export function Feature({ icon, title, description, isDarkTheme, delay = 0 }: Fe
 
   return (
     <div
-      ref={ref}
+      ref={ref as React.RefObject<HTMLDivElement>}
       className={`fade-in-up ${isInView ? 'visible' : ''} flex flex-col items-start text-left p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ${
         isDarkTheme ? 'bg-gray-800 text-white' : 'bg-white text-gray-900'
       }`}

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useInView } from '../hooks/useInView';
 import { CheckCircle2 } from 'lucide-react';
 
@@ -20,7 +19,7 @@ export function PricingCard({ plan, isDarkTheme, isAnnualBilling, getDisplayPric
 
   return (
     <div
-      ref={ref}
+      ref={typeof ref === 'function' ? ref : null}
       className={`fade-in-up ${isInView ? 'visible' : ''} ${
         isDarkTheme ? 'bg-gray-800' : 'bg-white'
       } rounded-2xl shadow-lg p-6 ${plan.popular ? 'ring-2 ring-teal-600' : ''}`}
