@@ -7,6 +7,14 @@ import TermsOfUse from './components/TermsOfUse';
 import Imprint from './components/Imprint';
 import Footer from './components/Footer';
 import { Metric } from './components/Metric';
+// Image imports
+import heroBackground from './assets/images/Safina-call-agent-hero-background-soundwaves.jpg';
+import mockup01 from './assets/images/Safina-AI-App-Mockup-01.jpg';
+import mockup02 from './assets/images/Safina-AI-App-Mockup-02.jpg';
+import mockup03 from './assets/images/Safina-AI-App-Mockup-03.jpg';
+import mockup04 from './assets/images/Safina-AI-App-Mockup-04.jpg';
+import appStoreBadge from './assets/images/Badge-Safina-App-appstore.svg';
+import playStoreBadge from './assets/images/Badge-Safina-App-googleplay.svg';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -302,7 +310,7 @@ function App() {
             <section
               className="relative pt-28 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
               style={{
-                backgroundImage: 'url(/src/Images/Safina-call-agent-hero-background-soundwaves.jpg)',
+                backgroundImage: `url(${heroBackground})`,
                 backgroundPosition: 'center center',
                 backgroundSize: 'cover',
               }}
@@ -313,7 +321,7 @@ function App() {
                 style={{
                   mixBlendMode: 'screen',
                   opacity: 0.3,
-                  backgroundImage: 'url(/src/Images/Safina-call-agent-hero-background-soundwaves.jpg)',
+                  backgroundImage: `url(${heroBackground})`,
                   backgroundPosition: 'center center',
                   backgroundSize: 'cover',
                 }}
@@ -405,28 +413,28 @@ function App() {
                   {[
                     {
                       number: '1',
-                      image: '/src/Images/Safina-AI-App-Mockup-01.jpg',
+                      image: mockup01,
                       title: "Configure Safina",
                       description:
                         'Choose a voice that matches your style, ensuring every call sounds professional.',
                     },
                     {
                       number: '2',
-                      image: '/src/Images/Safina-AI-App-Mockup-02.jpg',
+                      image: mockup02,
                       title: 'Test call',
                       description:
                         'Experience firsthand how Safina handles callers by going through a test call scenario.',
                     },
                     {
                       number: '3',
-                      image: '/src/Images/Safina-AI-App-Mockup-03.jpg',
+                      image: mockup03,
                       title: 'Set forwarding',
                       description:
                         'Forwarding to Safina is set up with just one call to a dedicated number.',
                     },
                     {
                       number: '4',
-                      image: '/src/Images/Safina-AI-App-Mockup-04.jpg',
+                      image: mockup04,
                       title: 'Notifications',
                       description:
                         'Customize when to receive notifications about calls, aligning with your preferences.',
@@ -632,14 +640,14 @@ function App() {
                   <div className="flex justify-center space-x-4">
                     <a href="https://apps.apple.com/your-app-link" target="_blank" rel="noopener noreferrer">
                       <img 
-                        src="/src/Images/Badge-Safina-App-appstore.svg" 
+                        src={appStoreBadge} 
                         alt="Download on the App Store" 
                         className="h-12"
                       />
                     </a>
                     <a href="https://play.google.com/store/apps/your-app-link" target="_blank" rel="noopener noreferrer">
                       <img 
-                        src="/src/Images/Badge-Safina-App-googleplay.svg" 
+                        src={playStoreBadge} 
                         alt="Get it on Google Play" 
                         className="h-12"
                       />
