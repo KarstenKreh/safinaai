@@ -329,9 +329,7 @@ function App() {
                     </h1>
 
                     <p className="text-xl text-white max-w-2xl mx-auto">
-                      Safina is an intelligent AI assistant designed to manage your
-                      calls seamlessly by filtering unwanted or unknown callers and
-                      providing clear call summaries.
+                    Never miss an important call again. Safina answers, converses naturally, and delivers clear actionable summaries straight to you.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                       <button 
@@ -464,52 +462,72 @@ function App() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {/* Card 1: Comprehensive Call Reports */}
                   <div className={`${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-hidden`}>
-                    <div className="h-48 bg-gray-300"></div>
                     <div className="p-6">
-                      <h3 className={`text-xl font-semibold mb-4 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>Intuitive Dashboard Design</h3>
+                      <img 
+                        src="/src/Images/Intuitive Dashboard Design.png"
+                        alt="Intuitive Dashboard Design"
+                        className="w-full h-auto drop-shadow-lg"
+                      />
+                    </div>
+                    <div className="p-6 pt-0">
+                      <h3 className={`text-2xl font-semibold mb-4 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>Intuitive Dashboard Design</h3>
                       <p className={`${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>
-                      Easily navigate a sleek dashboard for quick call overviews, sentiment assessments, and interaction prioritization.
+                        Easily navigate a sleek dashboard for quick call overviews, sentiment assessments, and interaction prioritization.
                       </p>
                     </div>
                   </div>
 
                   {/* Card 2: Seamless Multi-Device Access */}
                   <div className={`md:col-span-2 ${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-hidden`}>
-                    <div className="md:flex">
-                      <div className="md:w-1/2">
-                        <div className="h-48 md:h-full bg-gray-300"></div>
+                    <div className="md:flex h-full">
+                      <div className="md:w-1/2 pr-6 pb-6">
+                        <img 
+                          src="/src/Images/Seamless Multi-Device Access.png"
+                          alt="Seamless Multi-Device Access"
+                          className="w-full h-auto drop-shadow-lg"
+                        />
                       </div>
-                      <div className="md:w-1/2 p-6">
-                        <h3 className={`text-xl font-semibold mb-4 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>Seamless Multi-Device Access</h3>
+                      <div className="md:w-1/2 p-6 flex flex-col justify-center">
+                        <h3 className={`text-2xl font-semibold mb-4 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>Seamless Multi-Device Access</h3>
                         <p className={`${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>
-                        Manage calls effortlessly across devices—browser, iOS, or Android—for consistent, convenient access wherever you are.
+                          Manage calls effortlessly across devices—browser, iOS, or Android—for consistent, convenient access wherever you are.
                         </p>
                       </div>
                     </div>
                   </div>
 
-                  {/* Card 3: Intuitive Dashboard Design */}
-                  <div className={`md:col-span-2 ${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-hidden`}>
-                    <div className="md:flex">
-                      <div className="md:w-1/2 p-6">
-                        <h3 className={`text-xl font-semibold mb-4 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>Comprehensive Call Reports</h3>
+                  {/* Card 3: Comprehensive Call Reports */}
+                  <div className={`md:col-span-2 ${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-visible`}>
+                    <div className="md:flex h-full">
+                      <div className="md:w-1/2 p-6 flex flex-col justify-center">
+                        <h3 className={`text-2xl font-semibold mb-4 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>Comprehensive Call Reports</h3>
                         <p className={`${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>
-                        Get detailed reports with conversation summaries, insights, sentiment assessments, access to caller details, transcripts, and audio.
+                          Get detailed reports with conversation summaries, insights, sentiment assessments, access to caller details, transcripts, and audio.
                         </p>
                       </div>
-                      <div className="md:w-1/2">
-                        <div className="h-48 md:h-full bg-gray-300"></div>
+                      <div className="md:w-1/2 p-6 flex items-center">
+                        <img 
+                          src="/src/Images/Snipped Comprehensive Call Reports.png" 
+                          alt="Comprehensive Call Reports"
+                          className="w-full h-auto drop-shadow-lg"
+                        />
                       </div>
                     </div>
                   </div>
 
                   {/* Card 4: Personalized Interaction and Notifications */}
                   <div className={`${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-hidden`}>
-                    <div className="h-48 bg-gray-300"></div>
                     <div className="p-6">
-                      <h3 className={`text-xl font-semibold mb-4 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>Personalized Interaction and Notifications</h3>
+                      <img 
+                        src="/src/Images/Snipped Personalized Interaction and Notifications.png" 
+                        alt="Personalized Interaction and Notifications"
+                        className="w-full h-auto drop-shadow-lg"
+                      />
+                    </div>
+                    <div className="p-6 pt-0">
+                      <h3 className={`text-2xl font-semibold mb-4 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>Personalized Interaction and Notifications</h3>
                       <p className={`${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>
-                      Customize Safina's voice and tone, set unique call excuses, and choose email or push notifications for call summaries to suit your workflow preferences.
+                        Customize Safina's voice and tone, set unique call excuses, and choose email or push notifications for call summaries to suit your workflow preferences.
                       </p>
                     </div>
                   </div>
