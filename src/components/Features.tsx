@@ -4,39 +4,39 @@ import { Feature } from './Feature';
 const features = [
   {
     icon: <Cog className={`w-6 h-6`} />,
-    title: 'Automated Call Management',
+    title: 'AI powered conversations',
     description:
-      'Never miss important information. Safina manages missed or rejected calls, gathering essential details from callers on your behalf.',
+      'Natural language processing enables human-like interactions with callers.',
   },
   {
     icon: <Target className={`w-6 h-6`} />,
     title: 'Uninterrupted Productivity',
     description:
-      'Maintain your workflow without distractions. Safina intercepts and filters out spam, acquisition, and phishing calls.',
+      'Maintain your workflow without distractions. Safina intercepts any unwanted call.',
   },
   {
     icon: <Shield className={`w-6 h-6`} />,
-    title: 'Advanced Spam Protection',
+    title: 'Spam Protection',
     description:
-      'Stay secure with proactive call screening. Safina identifies and blocks potential spam and phishing attempts.',
+      'Stay safe! Safina identifies and warns you about spam and phishing attempts.',
   },
   {
     icon: <Clock className={`w-6 h-6`} />,
-    title: 'Round-the-Clock Availability',
+    title: '24/7 Availability',
     description:
-      'Enjoy 24/7 call coverage. Safina is always on duty, ensuring you never miss important calls, even when you\'re unavailable.',
+      'Safina is always on duty, ensuring you never miss important calls, even when you\'re unavailable.',
   },
   {
     icon: <FileText className={`w-6 h-6`} />,
     title: 'Summaries of Missed Calls',
     description:
-      'Stay informed with detailed call summaries. Safina provides actionable insights, helping you prioritize follow-ups efficiently.',
+      'Safina provides actionable insights, helping you prioritize follow-ups efficiently.',
   },
   {
     icon: <Settings className={`w-6 h-6`} />,
-    title: 'Customizable Professional Assistant',
+    title: 'Custom voice profiles',
     description:
-      'Tailor Safina to your needs. Enjoy a personalized, professional AI secretary that enhances your call experience.',
+      'Get a personalized, professional AI secretary that perfectly matches your preferences.',
   },
 ];
 

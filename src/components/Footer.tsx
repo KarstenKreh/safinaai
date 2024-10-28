@@ -15,7 +15,7 @@ const Footer: React.FC<FooterProps> = ({ isDarkTheme }) => {
             <Bot className="h-6 w-6 mr-2" />
             <span className="font-bold">Safina</span>
           </div>
-          <p className="text-sm">Intelligent call management powered by AI</p>
+          <p className="text-sm">AI powered phone assistant</p>
         </div>
         <div>
           <h4 className="text-white font-medium mb-4">Product</h4>

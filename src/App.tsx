@@ -6,6 +6,7 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfUse from './components/TermsOfUse';
 import Imprint from './components/Imprint';
 import Footer from './components/Footer';
+import { Metric } from './components/Metric';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -18,28 +19,32 @@ function App() {
   const plans = [
     {
       name: 'Mini',
-      price: '12',
+      price: '20',
       features: [
         'Safina takes calls up to 30 min',
-        'Personal Safina phone number included',
-        'All features of the Safina mobile app',
+        'Dedicated personal Safina phone number',
+        'Available 24/7 with natural, human-like conversations',
+        'Built-in spam protection and call screening',
+        'Smart summaries of each call',
+        'Full access to all features of the Safina app',
         'Choose from dozens of different voices',
       ],
     },
     {
       name: 'Basic',
-      price: '20',
+      price: '30',
       features: [
         'Everything included in "Mini" +',
         'Safina takes calls up to 50 min',
-        'Detailed call summaries and transcripts',
-        'Access to audio files of calls',
+        'Custom call-handling preferences tailored to your needs',
+        'Comprehensive call summaries and full transcripts',
+        'Access to downloadable audio recordings of each call',
       ],
       popular: true,
     },
     {
       name: 'Professional',
-      price: '44',
+      price: '50',
       features: [
         'Everything included in "Basic" +',
         'Safina takes calls up to 100 min',
@@ -95,6 +100,10 @@ function App() {
       question: 'Is it necessary to use the dedicated Safina number?',
       answer: 'Using the dedicated Safina number is optional. Calls made to this number are always received by Safina, ensuring seamless handling and management, enhancing your call experience.',
     },
+    {
+      question: 'Is it possible to temporarily disable Safina without cancelling the service?',
+      answer: 'Of course this is possible. To disable forwarding to Safina, simply call #400#.',
+    },
   ];
 
   const getDisplayPrice = (price: string | number): [string, string] => {
@@ -135,6 +144,13 @@ function App() {
     document.body.classList.toggle('dark', isDarkTheme);
   }, [isDarkTheme]);
 
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className={`min-h-screen ${isDarkTheme ? 'dark bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
       {/* Navigation */}
@@ -142,7 +158,14 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <div className="flex items-center">
-              <Link to="/" className="flex items-center" onClick={() => window.scrollTo(0, 0)}>
+              <Link 
+                to="/" 
+                className="flex items-center" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+              >
                 <Bot className="h-8 w-8 text-teal-600" />
                 <span className={`ml-2 text-xl font-bold ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
                   Safina AI
@@ -166,27 +189,33 @@ function App() {
 
             {/* Desktop nav */}
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#features" className={`${isDarkTheme ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} text-base`}>
+              <button 
+                onClick={() => scrollToSection('features')} 
+                className={`${isDarkTheme ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} text-base`}
+              >
                 Features
-              </a>
-              <a
-                href="#how-it-works"
+              </button>
+              <button
+                onClick={() => scrollToSection('how-it-works')}
                 className={`${isDarkTheme ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} text-base`}
               >
                 How it Works
-              </a>
-              <a href="#pricing" className={`${isDarkTheme ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} text-base`}>
+              </button>
+              <button 
+                onClick={() => scrollToSection('pricing')}
+                className={`${isDarkTheme ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} text-base`}
+              >
                 Pricing
-              </a>
-              <a href="#faq" className={`${isDarkTheme ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} text-base`}>
+              </button>
+              <button 
+                onClick={() => scrollToSection('faq')}
+                className={`${isDarkTheme ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'} text-base`}
+              >
                 FAQ
-              </a>
+              </button>
               <button 
                 className="bg-teal-600 text-white px-6 py-2 rounded text-base font-medium hover:bg-teal-700 transition-colors"
-                onClick={() => {
-                  const pricingSection = document.getElementById('pricing');
-                  pricingSection?.scrollIntoView({ behavior: 'smooth' });
-                }}
+                onClick={() => scrollToSection('pricing')}
               >
                 Get Safina
               </button>
@@ -206,19 +235,49 @@ function App() {
         {isMenuOpen && (
           <div className={`md:hidden ${isDarkTheme ? 'bg-gray-900' : 'bg-white'} border-b ${isDarkTheme ? 'border-gray-700' : 'border-gray-100'}`}>
             <div className="px-2 pt-2 pb-3 space-y-1">
-              <a href="#features" className="block px-3 py-2 text-gray-600 text-lg">
+              <button 
+                onClick={() => {
+                  scrollToSection('features');
+                  setIsMenuOpen(false);
+                }} 
+                className="block px-3 py-2 text-gray-600 text-lg w-full text-left"
+              >
                 Features
-              </a>
-              <a href="#how-it-works" className="block px-3 py-2 text-gray-600 text-lg">
+              </button>
+              <button 
+                onClick={() => {
+                  scrollToSection('how-it-works');
+                  setIsMenuOpen(false);
+                }}
+                className="block px-3 py-2 text-gray-600 text-lg w-full text-left"
+              >
                 How it Works
-              </a>
-              <a href="#pricing" className="block px-3 py-2 text-gray-600 text-lg">
+              </button>
+              <button 
+                onClick={() => {
+                  scrollToSection('pricing');
+                  setIsMenuOpen(false);
+                }}
+                className="block px-3 py-2 text-gray-600 text-lg w-full text-left"
+              >
                 Pricing
-              </a>
-              <a href="#faq" className="block px-3 py-2 text-gray-600 text-lg">
+              </button>
+              <button 
+                onClick={() => {
+                  scrollToSection('faq');
+                  setIsMenuOpen(false);
+                }}
+                className="block px-3 py-2 text-gray-600 text-lg w-full text-left"
+              >
                 FAQ
-              </a>
-              <button className="w-full mt-2 bg-teal-600 text-white px-6 py-3 rounded-full text-lg">
+              </button>
+              <button 
+                onClick={() => {
+                  scrollToSection('pricing');
+                  setIsMenuOpen(false);
+                }}
+                className="w-full mt-2 bg-teal-600 text-white px-6 py-3 rounded-full text-lg"
+              >
                 Get Safina
               </button>
             </div>
@@ -265,8 +324,8 @@ function App() {
                 <div className="max-w-screen-lg w-full flex flex-col justify-between pt-16 sm:pt-24"> {/* Added padding-top here */}
                   <div className="space-y-8 text-center">
                     <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white leading-tight font-bold">
-                      Your personal AI powered
-                      <span className="text-teal-200"> call assistant</span>
+                      <span className="text-teal-200"> Safina AI </span>
+                      is your personal AI powered phone assistant
                     </h1>
 
                     <p className="text-xl text-white max-w-2xl mx-auto">
@@ -306,31 +365,26 @@ function App() {
 
             {/* Metrics Section */}
             <section className={`py-16 px-4 sm:px-6 lg:px-8 ${isDarkTheme ? 'bg-gray-800' : 'bg-gray-100'}`}>
-              <div className="max-w-7xl mx-auto">
+              <div className="max-w-7xl mx-auto flex flex-col items-center">
                 <h2 className="text-3xl font-bold text-center mb-12">
                   Safina helps an average user to ...
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                  <div className="text-center">
-                    <p className="text-lg">... save</p>
-                    <p className="text-6xl font-bold text-teal-600 my-4">23</p>
-                    <p className="text-lg">min of time a month.</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-lg">... avoid</p>
-                    <p className="text-6xl font-bold text-teal-600 my-4">46</p>
-                    <p className="text-lg">unwanted interruptions a month.</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-lg">... summarize calls with</p>
-                    <p className="text-6xl font-bold text-teal-600 my-4">98</p>
-                    <p className="text-lg">percent accuracy.</p>
-                  </div>
-                  <div className="text-center">
-                    <p className="text-lg">... intercept</p>
-                    <p className="text-6xl font-bold text-teal-600 my-4">13</p>
-                    <p className="text-lg">spam calls a year.</p>
-                  </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl">
+                  <Metric 
+                    number={34} 
+                    prefix="... save"
+                    suffix="min of time a month."
+                  />
+                  <Metric 
+                    number={46}
+                    prefix="... avoid"
+                    suffix="unwanted interruptions a month."
+                  />
+                  <Metric 
+                    number={11}
+                    prefix="... intercept"
+                    suffix="spam calls a year."
+                  />
                 </div>
               </div>
             </section>
@@ -354,37 +408,43 @@ function App() {
                     {
                       number: '1',
                       image: '/src/Images/Safina-AI-App-Mockup-01.jpg',
-                      title: "Choose Safina's voice",
+                      title: "Configure Safina",
                       description:
-                        'Select the voice that best matches your style and needs to ensure a personalized call management experience.',
+                        'Choose a voice that matches your style, ensuring every call sounds professional.',
                     },
                     {
                       number: '2',
                       image: '/src/Images/Safina-AI-App-Mockup-02.jpg',
-                      title: 'Receive a test call',
+                      title: 'Test call',
                       description:
-                        'Experience firsthand how Safina handles callers by going through a test call scenario with yourself.',
+                        'Experience firsthand how Safina handles callers by going through a test call scenario.',
                     },
                     {
                       number: '3',
                       image: '/src/Images/Safina-AI-App-Mockup-03.jpg',
-                      title: 'Get your new Safina number',
+                      title: 'Set forwarding',
                       description:
-                        'Receive a dedicated Safina number that will serve as your smart call management hub.',
+                        'Forwarding to Safina is set up with just one call to a dedicated number.',
                     },
                     {
                       number: '4',
                       image: '/src/Images/Safina-AI-App-Mockup-04.jpg',
-                      title: 'Choose notification options',
+                      title: 'Notifications',
                       description:
-                        'Customize how you receive notifications about calls and interactions, aligning with your preferences.',
+                        'Customize when to receive notifications about calls, aligning with your preferences.',
                     },
                   ].map((step, index) => (
                     <div key={index} className="text-center">
-                      <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center text-teal-600 mx-auto mb-6 text-3xl font-bold">
+                      <div className="aspect-square w-full mb-6 relative">
+                        <img 
+                          src={step.image} 
+                          alt={`Step ${step.number}`} 
+                          className="absolute inset-0 w-full h-full object-cover rounded-lg"
+                        />
+                      </div>
+                      <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center text-teal-600 mx-auto mb-6 text-2xl font-bold">
                         {step.number}
                       </div>
-                      <img src={step.image} alt={`Step ${step.number}`} className="w-full h-48 object-cover rounded-lg mb-6" />
                       <h3 className={`text-xl font-semibold ${isDarkTheme ? 'text-white' : 'text-gray-900'} mb-4`}>
                         {step.title}
                       </h3>
@@ -406,9 +466,9 @@ function App() {
                   <div className={`${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-hidden`}>
                     <div className="h-48 bg-gray-300"></div>
                     <div className="p-6">
-                      <h3 className={`text-xl font-semibold mb-4 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>Comprehensive Call Reports</h3>
+                      <h3 className={`text-xl font-semibold mb-4 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>Intuitive Dashboard Design</h3>
                       <p className={`${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>
-                        Receive detailed reports with conversation summaries, actionable insights, sentiment assessments, and for Professional Plan users, access to caller details, transcripts, and audio. Stay informed and manage communications effectively.
+                      Easily navigate a sleek dashboard for quick call overviews, sentiment assessments, and interaction prioritization.
                       </p>
                     </div>
                   </div>
@@ -422,7 +482,7 @@ function App() {
                       <div className="md:w-1/2 p-6">
                         <h3 className={`text-xl font-semibold mb-4 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>Seamless Multi-Device Access</h3>
                         <p className={`${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>
-                          Manage your calls effortlessly across devices—browser, iOS, or Android. Enjoy consistent, convenient access to your call tools anywhere, ensuring you're always connected and in control.
+                        Manage calls effortlessly across devices—browser, iOS, or Android—for consistent, convenient access wherever you are.
                         </p>
                       </div>
                     </div>
@@ -432,9 +492,9 @@ function App() {
                   <div className={`md:col-span-2 ${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-hidden`}>
                     <div className="md:flex">
                       <div className="md:w-1/2 p-6">
-                        <h3 className={`text-xl font-semibold mb-4 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>Intuitive Dashboard Design</h3>
+                        <h3 className={`text-xl font-semibold mb-4 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>Comprehensive Call Reports</h3>
                         <p className={`${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>
-                          Navigate a sleek dashboard for a quick overview of all calls. Access sentiment assessments easily, prioritize interactions, and maintain effective communication at a glance.
+                        Get detailed reports with conversation summaries, insights, sentiment assessments, access to caller details, transcripts, and audio.
                         </p>
                       </div>
                       <div className="md:w-1/2">
@@ -449,7 +509,7 @@ function App() {
                     <div className="p-6">
                       <h3 className={`text-xl font-semibold mb-4 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>Personalized Interaction and Notifications</h3>
                       <p className={`${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>
-                        Customize Safina's voice and tone—polite or witty—plus set unique call excuses. Choose email or push notifications for call summaries, aligning with your personal workflow preferences.
+                      Customize Safina's voice and tone, set unique call excuses, and choose email or push notifications for call summaries to suit your workflow preferences.
                       </p>
                     </div>
                   </div>
