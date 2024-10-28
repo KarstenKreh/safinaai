@@ -17,7 +17,7 @@ function App() {
 
   const plans = [
     {
-      name: 'Basic',
+      name: 'Mini',
       price: '12',
       features: [
         'Safina takes calls up to 30 min',
@@ -27,15 +27,23 @@ function App() {
       ],
     },
     {
-      name: 'Professional',
+      name: 'Basic',
       price: '20',
       features: [
-        'Everything included in the Basic plan +',
+        'Everything included in "Mini" +',
         'Safina takes calls up to 50 min',
         'Detailed call summaries and transcripts',
         'Access to audio files of calls',
       ],
       popular: true,
+    },
+    {
+      name: 'Professional',
+      price: '44',
+      features: [
+        'Everything included in "Basic" +',
+        'Safina takes calls up to 100 min',
+      ],
     },
     {
       name: 'Enterprise',
@@ -478,11 +486,11 @@ function App() {
                     </span>
                   </div>
                 </div>
-                <div className="grid md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                   {plans.map((plan, index) => (
                     <div
                       key={index}
-                      className={`${isDarkTheme ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg p-8 ${
+                      className={`${isDarkTheme ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg p-6 ${
                         plan.popular ? 'ring-2 ring-teal-600' : ''
                       }`}
                     >
@@ -491,37 +499,37 @@ function App() {
                           Most Popular
                         </span>
                       )}
-                      <h3 className={`text-2xl font-bold ${isDarkTheme ? 'text-white' : 'text-gray-900'} mt-4`}>
+                      <h3 className={`text-xl font-bold ${isDarkTheme ? 'text-white' : 'text-gray-900'} mt-4`}>
                         {plan.name}
                       </h3>
                       <div className="mt-4 flex items-baseline">
                         {plan.price !== 'Request' ? (
                           <>
-                            <span className="text-4xl font-bold">{getDisplayPrice(plan.price)[0]}</span>
-                            <span className="text-xl">.{getDisplayPrice(plan.price)[1]}</span>
-                            <span className="ml-1 text-2xl">€</span>
-                            <span className="ml-1 text-gray-500 text-lg">/month</span>
+                            <span className="text-3xl font-bold">{getDisplayPrice(plan.price)[0]}</span>
+                            <span className="text-lg">.{getDisplayPrice(plan.price)[1]}</span>
+                            <span className="ml-1 text-xl">€</span>
+                            <span className="ml-1 text-gray-500 text-base">/month</span>
                           </>
                         ) : (
                           <button
                             onClick={() => window.location.href = 'mailto:support@safinaai.com'}
-                            className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg text-lg font-medium hover:bg-gray-400 transition-colors"
+                            className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg text-base font-medium hover:bg-gray-400 transition-colors"
                           >
                             Request
                           </button>
                         )}
                       </div>
-                      {isAnnualBilling && plan.price !== 'On request' && (
+                      {isAnnualBilling && plan.price !== 'Request' && (
                         <p className="text-sm text-green-600 mt-2">
                           Save 20% with annual billing
                         </p>
                       )}
-                      <ul className="mt-6 space-y-4">
+                      <ul className="mt-6 space-y-3">
                         {plan.features.map((feature, featureIndex) => (
-                          <li key={featureIndex} className="flex items-start">
-                            <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 mt-1 flex-shrink-0" />
+                          <li key={featureIndex} className="flex items-center">
+                            <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
                             <span 
-                              className={`${isDarkTheme ? 'text-gray-300' : 'text-gray-600'} text-base`}
+                              className={`${isDarkTheme ? 'text-gray-300' : 'text-gray-600'} text-sm`}
                               dangerouslySetInnerHTML={{ __html: feature }}
                             ></span>
                           </li>
