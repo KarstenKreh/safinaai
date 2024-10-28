@@ -32,7 +32,7 @@ export const Metric = ({ prefix = '... ', number, suffix }: MetricProps) => {
   return (
     <div ref={ref} className="text-center">
       <p className="text-lg">{prefix}</p>
-      <p className="text-6xl font-bold text-teal-600 my-4">{count}</p>
+      <p className="text-6xl font-bold text-teal-600 my-4 font-merriweather">{count}</p>
       <p className="text-lg">{suffix}</p>
     </div>
   );

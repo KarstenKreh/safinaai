@@ -15,6 +15,11 @@ import mockup03 from './assets/images/Safina-AI-App-Mockup-03.jpg';
 import mockup04 from './assets/images/Safina-AI-App-Mockup-04.jpg';
 import appStoreBadge from './assets/images/Badge-Safina-App-appstore.svg';
 import playStoreBadge from './assets/images/Badge-Safina-App-googleplay.svg';
+// Add these imports with your other image imports
+import intuitiveDashboard from './assets/images/Intuitive-Dashboard-Design.png';
+import seamlessAccess from './assets/images/Seamless-Multi-Device-Access.png';
+import callReports from './assets/images/Snipped-Comprehensive-Call-Reports.png';
+import personalizedInteraction from './assets/images/Snipped-Personalized-Interaction-and-Notifications.png';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -468,11 +473,11 @@ function App() {
                   Discover What Sets Safina Apart
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {/* Card 1: Comprehensive Call Reports */}
+                  {/* Card 1: Intuitive Dashboard Design */}
                   <div className={`${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-hidden`}>
                     <div className="p-6">
                       <img 
-                        src="/src/Images/Intuitive Dashboard Design.png"
+                        src={intuitiveDashboard}
                         alt="Intuitive Dashboard Design"
                         className="w-full h-auto drop-shadow-lg"
                       />
@@ -490,7 +495,7 @@ function App() {
                     <div className="md:flex h-full">
                       <div className="md:w-1/2 pr-6 pb-6">
                         <img 
-                          src="/src/Images/Seamless Multi-Device Access.png"
+                          src={seamlessAccess}
                           alt="Seamless Multi-Device Access"
                           className="w-full h-auto drop-shadow-lg"
                         />
@@ -515,7 +520,7 @@ function App() {
                       </div>
                       <div className="md:w-1/2 p-6 flex items-center">
                         <img 
-                          src="/src/Images/Snipped Comprehensive Call Reports.png" 
+                          src={callReports}
                           alt="Comprehensive Call Reports"
                           className="w-full h-auto drop-shadow-lg"
                         />
@@ -527,7 +532,7 @@ function App() {
                   <div className={`${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-hidden`}>
                     <div className="p-6">
                       <img 
-                        src="/src/Images/Snipped Personalized Interaction and Notifications.png" 
+                        src={personalizedInteraction}
                         alt="Personalized Interaction and Notifications"
                         className="w-full h-auto drop-shadow-lg"
                       />
