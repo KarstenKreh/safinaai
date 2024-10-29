@@ -36,9 +36,9 @@ export function PricingCard({ plan, isDarkTheme, isAnnualBilling, getDisplayPric
       <div className="mt-4 flex items-baseline">
         {plan.price !== 'Request' ? (
           <>
-            <span className="text-3xl font-bold">{getDisplayPrice(plan.price)[0]}</span>
-            <span className="text-lg">.{getDisplayPrice(plan.price)[1]}</span>
-            <span className="ml-1 text-xl">€</span>
+            <span className="text-3xl font-bold font-merriweather">{getDisplayPrice(plan.price)[0]}</span>
+            <span className="text-lg font-merriweather">.{getDisplayPrice(plan.price)[1]}</span>
+            <span className="ml-1 text-xl font-merriweather">€</span>
             <span className="ml-1 text-gray-500 text-base">/month</span>
           </>
         ) : (
