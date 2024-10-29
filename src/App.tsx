@@ -20,6 +20,7 @@ import intuitiveDashboard from './assets/images/Intuitive-Dashboard-Design.png';
 import seamlessAccess from './assets/images/Seamless-Multi-Device-Access.png';
 import callReports from './assets/images/Snipped-Comprehensive-Call-Reports.png';
 import personalizedInteraction from './assets/images/Snipped-Personalized-Interaction-and-Notifications.png';
+import { motion } from 'framer-motion';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
