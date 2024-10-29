@@ -5,8 +5,18 @@
 
 # Dependencies
 node_modules/
+node_modules_old/
+
+# Build
 dist/
 build/
+
+# Firebase (remove these files)
+.firebase/
+firebase-debug.log
+functions/
+.github/workflows/firebase-hosting-merge.yml
+.github/workflows/deploy.yml
 
 # Logs
 *.log
@@ -23,5 +33,16 @@ yarn-error.log*
 *.sln
 *.sw?
 
-node_modules
-node_modules_old
+# Cache
+.cache/
+.npm/
+.yarn/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
