@@ -79,7 +79,7 @@ const Footer: React.FC<FooterProps> = ({ isDarkTheme }) => {
         </div>
       </div>
       <div className="max-w-7xl mx-auto mt-8 pt-8 border-t border-gray-800 text-sm text-center">
-        {new Date().getFullYear()} Safina AI. Fuck copyrights. Do whatever you want with it.
+        {new Date().getFullYear()} Safina AI is not copyrighted. Feel free to use it as you wish.
       </div>
     </footer>
   );

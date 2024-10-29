@@ -20,7 +20,7 @@ import intuitiveDashboard from './assets/images/Intuitive-Dashboard-Design.png';
 import seamlessAccess from './assets/images/Seamless-Multi-Device-Access.png';
 import callReports from './assets/images/Snipped-Comprehensive-Call-Reports.png';
 import personalizedInteraction from './assets/images/Snipped-Personalized-Interaction-and-Notifications.png';
-import { motion } from 'framer-motion';
+import { ContactForm } from './components/ContactForm';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -407,7 +407,7 @@ function App() {
             {/* How It Works */}
             <section
               id="how-it-works"
-              className={`py-20 px-4 sm:px-6 lg:px-8 ${isDarkTheme ? 'bg-gray-900' : 'bg-white'}`}
+              className={`py-20 px-4 sm:px-6 lg:px-8 ${isDarkTheme ? 'bg-gray-800' : 'bg-gray-100'}`}
             >
               <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-16">
@@ -468,7 +468,7 @@ function App() {
             </section>
 
             {/* New Features Section */}
-            <section className={`py-20 px-4 sm:px-6 lg:px-8 ${isDarkTheme ? 'bg-gray-800' : 'bg-gray-100'}`}>
+            <section className={`py-20 px-4 sm:px-6 lg:px-8 ${isDarkTheme ? 'bg-gray-900' : 'bg-white'}`}>
               <div className="max-w-7xl mx-auto">
                 <h2 className={`text-3xl sm:text-4xl font-bold text-center mb-16 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
                   Discover What Sets Safina Apart
@@ -550,7 +550,7 @@ function App() {
             </section>
 
             {/* Pricing */}
-            <section id="pricing" className={`py-20 px-4 sm:px-6 lg:px-8 ${isDarkTheme ? 'bg-gray-900' : 'bg-white'}`}>
+            <section id="pricing" className={`py-20 px-4 sm:px-6 lg:px-8 ${isDarkTheme ? 'bg-gray-800' : 'bg-gray-100'}`}>
               <div className="max-w-7xl mx-auto">
                 <div className="text-center mb-16">
                   <h2 className={`text-3xl sm:text-4xl font-bold ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
@@ -582,7 +582,9 @@ function App() {
                   {plans.map((plan, index) => (
                     <div
                       key={index}
-                      className={`${isDarkTheme ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-lg p-6 ${
+                      className={`${
+                        isDarkTheme ? 'bg-gray-700' : 'bg-gray-50'
+                      } rounded-2xl shadow-lg p-6 ${
                         plan.popular ? 'ring-2 ring-teal-600' : ''
                       }`}
                     >
@@ -663,8 +665,23 @@ function App() {
               </div>
             </section>
 
+            {/* Contact Section */}
+            <section id="contact" className={`py-20 px-4 sm:px-6 lg:px-8 ${isDarkTheme ? 'bg-gray-900' : 'bg-white'}`}>
+              <div className="max-w-7xl mx-auto">
+                <div className="text-center mb-16">
+                  <h2 className={`text-3xl sm:text-4xl font-bold ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
+                    Get in Touch
+                  </h2>
+                  <p className={`mt-4 text-xl ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>
+                    Have questions? We'd love to hear from you.
+                  </p>
+                </div>
+                <ContactForm isDarkTheme={isDarkTheme} />
+              </div>
+            </section>
+
             {/* FAQ */}
-            <section id="faq" className={`py-20 px-4 sm:px-6 lg:px-8 ${isDarkTheme ? 'bg-gray-800' : 'bg-gray-50'}`}>
+            <section id="faq" className={`py-20 px-4 sm:px-6 lg:px-8 ${isDarkTheme ? 'bg-gray-800' : 'bg-gray-100'}`}>
               <div className="max-w-3xl mx-auto">
                 <div className="text-center mb-16">
                   <h2 className={`text-3xl sm:text-4xl font-bold ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
