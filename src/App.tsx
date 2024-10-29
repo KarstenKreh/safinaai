@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
-import { Shield, ChevronDown, CheckCircle2, Bot, Menu, X, FileText, MessageCircle, Moon, Sun } from 'lucide-react';
+import { Shield, ChevronDown, CheckCircle2, Menu, X, FileText, MessageCircle, Moon, Sun } from 'lucide-react';
 import { Features } from './components/Features';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfUse from './components/TermsOfUse';
@@ -8,7 +8,7 @@ import Imprint from './components/Imprint';
 import Footer from './components/Footer';
 import { Metric } from './components/Metric';
 // Image imports
-import heroBackground from './assets/images/Safina-call-agent-hero-background-soundwaves.jpg';
+// import heroBackground from './assets/images/Safina-call-agent-hero-background-soundwaves.jpg';
 import mockup01 from './assets/images/Safina-AI-App-Mockup-01.jpg';
 import mockup02 from './assets/images/Safina-AI-App-Mockup-02.jpg';
 import mockup03 from './assets/images/Safina-AI-App-Mockup-03.jpg';
@@ -21,6 +21,11 @@ import seamlessAccess from './assets/images/Seamless-Multi-Device-Access.png';
 import callReports from './assets/images/Snipped-Comprehensive-Call-Reports.png';
 import personalizedInteraction from './assets/images/Snipped-Personalized-Interaction-and-Notifications.png';
 import { ContactForm } from './components/ContactForm';
+import { useInView } from './hooks/useInView'; // Ensure this hook is imported
+import waveAnimationHero from './assets/lottie/wave-animation-hero.json';
+import { Player } from '@lottiefiles/react-lottie-player';
+import logoLight from './assets/images/Logo-safina-ai-on-light.svg';
+import logoDark from './assets/images/Logo-safina-ai-on-dark.svg';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -158,13 +163,19 @@ function App() {
     }
   };
 
+  const [ref1, isInView1] = useInView({ threshold: 0.1 });
+  const [ref2, isInView2] = useInView({ threshold: 0.1 });
+  const [ref3, isInView3] = useInView({ threshold: 0.1 });
+  const ref4 = useRef<HTMLDivElement | null>(null);
+  const [isInView4] = useInView({ threshold: 0.1 });
+
   return (
     <div className={`min-h-screen ${isDarkTheme ? 'dark bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
       {/* Navigation */}
       <nav className={`fixed w-full ${isDarkTheme ? 'bg-gray-900/80' : 'bg-white/80'} backdrop-blur-lg z-50 border-b ${isDarkTheme ? 'border-gray-700' : 'border-gray-100'} transition-transform duration-300 ${visible ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
-            <div className="flex items-center">
+            <div className="flex items-center space-x-4">
               <Link 
                 to="/" 
                 className="flex items-center" 
@@ -173,10 +184,11 @@ function App() {
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
               >
-                <Bot className="h-8 w-8 text-teal-600" />
-                <span className={`ml-2 text-xl font-bold ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
-                  Safina AI
-                </span>
+                <img 
+                  src={isDarkTheme ? logoDark : logoLight} 
+                  alt="Safina AI Logo" 
+                  className="h-10 w-auto"
+                />
               </Link>
             </div>
 
@@ -305,38 +317,26 @@ function App() {
       <Routes>
         <Route path="/" element={
           <>
-            {/* Hero Section */}
-            <section
-              className="relative pt-28 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
-              style={{
-                backgroundImage: `url(${heroBackground})`,
-                backgroundPosition: 'center center',
-                backgroundSize: 'cover',
-              }}
-            >
+            {/* Hero 2 Section */}
+            <section className="relative h-screen overflow-hidden">
+              <div className="absolute inset-0 flex justify-center items-center">
+                <Player
+                  autoplay
+                  loop
+                  src={waveAnimationHero}
+                  style={{ height: '100%', width: 'auto', minWidth: '100vw', objectFit: 'cover' }}
+                />
+              </div>
               <div className="absolute inset-0 bg-black opacity-70 pointer-events-none"></div>
-              <div
-                className="absolute inset-0"
-                style={{
-                  mixBlendMode: 'screen',
-                  opacity: 0.3,
-                  backgroundImage: `url(${heroBackground})`,
-                  backgroundPosition: 'center center',
-                  backgroundSize: 'cover',
-                }}
-              ></div>
-
-              {/* Ensure content is vertically centered */}
-              <div className="relative flex justify-center px-4 min-h-[80vh]">
-                <div className="max-w-screen-lg w-full flex flex-col justify-between pt-16 sm:pt-24"> {/* Added padding-top here */}
+              <div className="relative flex justify-center items-center h-full">
+                <div className="max-w-screen-lg w-full flex flex-col justify-between pt-16 sm:pt-24">
                   <div className="space-y-8 text-center">
-                    <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white leading-tight font-bold">
+                    <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white leading-loose font-bold">
                       <span className="text-teal-200"> Safina AI </span>
                       is your personal AI powered phone assistant
                     </h1>
-
                     <p className="text-xl text-white max-w-2xl mx-auto">
-                    Never miss an important call again. Safina answers, converses naturally, and delivers clear actionable summaries straight to you.
+                      Never miss an important call again. Safina answers, converses naturally, and delivers clear actionable summaries straight to you.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                       <button 
@@ -468,7 +468,7 @@ function App() {
                 </h2>
                 <div className="grid md:grid-cols-3 gap-8">
                   {/* Card 1: Intuitive Dashboard Design */}
-                  <div className={`${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-hidden`}>
+                  <div ref={ref1 as React.RefObject<HTMLDivElement>} className={`fade-in-up ${isInView1 ? 'visible' : ''} ${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-hidden`}>
                     <div className="p-6">
                       <img 
                         src={intuitiveDashboard}
@@ -485,7 +485,7 @@ function App() {
                   </div>
 
                   {/* Card 2: Seamless Multi-Device Access */}
-                  <div className={`md:col-span-2 ${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-hidden`}>
+                  <div ref={ref2 as React.RefObject<HTMLDivElement>} className={`fade-in-up ${isInView2 ? 'visible' : ''} md:col-span-2 ${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-hidden`}>
                     <div className="md:flex h-full">
                       <div className="md:w-1/2 pr-6 pb-6">
                         <img 
@@ -504,7 +504,7 @@ function App() {
                   </div>
 
                   {/* Card 3: Comprehensive Call Reports */}
-                  <div className={`md:col-span-2 ${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-visible`}>
+                  <div ref={ref3 as React.RefObject<HTMLDivElement>} className={`fade-in-up ${isInView3 ? 'visible' : ''} md:col-span-2 ${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-visible`}>
                     <div className="md:flex h-full">
                       <div className="md:w-1/2 p-6 flex flex-col justify-center">
                         <h3 className={`text-2xl font-semibold mb-4 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>Comprehensive Call Reports</h3>
@@ -523,7 +523,7 @@ function App() {
                   </div>
 
                   {/* Card 4: Personalized Interaction and Notifications */}
-                  <div className={`${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-hidden`}>
+                  <div ref={ref4} className={`fade-in-up ${isInView4 ? 'visible' : ''} ${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-hidden`}>
                     <div className="p-6">
                       <img 
                         src={personalizedInteraction}
@@ -572,58 +572,62 @@ function App() {
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {plans.map((plan, index) => (
-                    <div
-                      key={index}
-                      className={`${
-                        isDarkTheme ? 'bg-gray-700' : 'bg-gray-50'
-                      } rounded-2xl shadow-lg p-6 ${
-                        plan.popular ? 'ring-2 ring-teal-600' : ''
-                      }`}
-                    >
-                      {plan.popular && (
-                        <span className="bg-teal-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                          Most Popular
-                        </span>
-                      )}
-                      <h3 className={`text-xl font-bold ${isDarkTheme ? 'text-white' : 'text-gray-900'} mt-4`}>
-                        {plan.name}
-                      </h3>
-                      <div className="mt-4 flex items-baseline">
-                        {plan.price !== 'Request' ? (
-                          <>
-                            <span className="text-3xl font-bold font-merriweather">{getDisplayPrice(plan.price)[0]}</span>
-                            <span className="text-lg font-merriweather">.{getDisplayPrice(plan.price)[1]}</span>
-                            <span className="ml-1 text-xl font-merriweather">€</span>
-                            <span className="ml-1 text-gray-500 text-base">/month</span>
-                          </>
-                        ) : (
-                          <button
-                            onClick={() => window.location.href = 'mailto:support@safinaai.com'}
-                            className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg text-base font-medium hover:bg-gray-400 transition-colors"
-                          >
-                            Request
-                          </button>
+                  {plans.map((plan, index) => {
+                    const [ref, isInView] = useInView({ threshold: 0.1 });
+                    return (
+                      <div
+                        key={index}
+                        ref={ref as React.RefObject<HTMLDivElement>}
+                        className={`fade-in-up ${isInView ? 'visible' : ''} ${
+                          isDarkTheme ? 'bg-gray-700' : 'bg-gray-50'
+                        } rounded-2xl shadow-lg p-6 ${
+                          plan.popular ? 'ring-2 ring-teal-600' : ''
+                        }`}
+                      >
+                        {plan.popular && (
+                          <span className="bg-teal-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+                            Most Popular
+                          </span>
                         )}
+                        <h3 className={`text-xl font-bold ${isDarkTheme ? 'text-white' : 'text-gray-900'} mt-4`}>
+                          {plan.name}
+                        </h3>
+                        <div className="mt-4 flex items-baseline">
+                          {plan.price !== 'Request' ? (
+                            <>
+                              <span className="text-3xl font-bold font-merriweather">{getDisplayPrice(plan.price)[0]}</span>
+                              <span className="text-lg font-merriweather">.{getDisplayPrice(plan.price)[1]}</span>
+                              <span className="ml-1 text-xl font-merriweather">€</span>
+                              <span className="ml-1 text-gray-500 text-base">/month</span>
+                            </>
+                          ) : (
+                            <button
+                              onClick={() => window.location.href = 'mailto:support@safinaai.com'}
+                              className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg text-base font-medium hover:bg-gray-400 transition-colors"
+                            >
+                              Request
+                            </button>
+                          )}
+                        </div>
+                        {isAnnualBilling && plan.price !== 'Request' && (
+                          <p className="text-sm text-green-600 mt-2">
+                            Save 20% with annual billing
+                          </p>
+                        )}
+                        <ul className="mt-6 space-y-3">
+                          {plan.features.map((feature, featureIndex) => (
+                            <li key={featureIndex} className="flex items-center">
+                              <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
+                              <span 
+                                className={`${isDarkTheme ? 'text-gray-300' : 'text-gray-600'} text-sm`}
+                                dangerouslySetInnerHTML={{ __html: feature }}
+                              ></span>
+                            </li>
+                          ))}
+                        </ul>
                       </div>
-                      {isAnnualBilling && plan.price !== 'Request' && (
-                        <p className="text-sm text-green-600 mt-2">
-                          Save 20% with annual billing
-                        </p>
-                      )}
-                      <ul className="mt-6 space-y-3">
-                        {plan.features.map((feature, featureIndex) => (
-                          <li key={featureIndex} className="flex items-center">
-                            <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
-                            <span 
-                              className={`${isDarkTheme ? 'text-gray-300' : 'text-gray-600'} text-sm`}
-                              dangerouslySetInnerHTML={{ __html: feature }}
-                            ></span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
                 
                 {/* New primary button */}

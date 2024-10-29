@@ -19,14 +19,14 @@
 
 @font-face {
   font-family: 'Mukta';
-  src: url('./fonts/Mukta-Regular.ttf') format('truetype');
+  src: url('./assets/fonts/Mukta-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Mukta';
-  src: url('./fonts/Mukta-Bold.ttf') format('truetype');
+  src: url('./assets/fonts/Mukta-Bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
 }
