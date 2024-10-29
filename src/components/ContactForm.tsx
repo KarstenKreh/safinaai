@@ -94,7 +94,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ isDarkTheme }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
+    <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <label className={`block mb-2 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
@@ -178,12 +178,14 @@ export const ContactForm: React.FC<ContactFormProps> = ({ isDarkTheme }) => {
         {errors.consent && <p className="mt-1 text-red-500 text-sm">{errors.consent}</p>}
       </div>
 
-      <button
-        type="submit"
-        className="mt-8 w-full bg-teal-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-teal-700 transition-colors"
-      >
-        Send Message
-      </button>
+      <div className="flex justify-end">
+        <button
+          type="submit"
+          className="inline-flex bg-teal-600 text-white px-6 py-2 rounded text-base font-medium hover:bg-teal-700 transition-colors"
+        >
+          Send Message
+        </button>
+      </div>
     </form>
   );
 }; 

@@ -32,49 +32,42 @@ function App() {
 
   const plans = [
     {
-      name: 'Mini',
-      price: '20',
+      name: 'Basic',
+      price: '19.99',
       features: [
-        'Safina takes calls up to 30 min',
         'Dedicated personal Safina phone number',
+        'Safina manages calls up to 30 minutes',
         'Available 24/7 with natural, human-like conversations',
         'Built-in spam protection and call screening',
         'Smart summaries of each call',
-        'Full access to all features of the Safina app',
-        'Choose from dozens of different voices',
+        'Full access to all features in the Safina mobile app',
+        'Choose from a range of voice options'
       ],
-    },
-    {
-      name: 'Basic',
-      price: '30',
-      features: [
-        'Everything included in "Mini" +',
-        'Safina takes calls up to 50 min',
-        'Custom call-handling preferences tailored to your needs',
-        'Comprehensive call summaries and full transcripts',
-        'Access to downloadable audio recordings of each call',
-      ],
-      popular: true,
     },
     {
       name: 'Professional',
-      price: '50',
+      price: '39.99',
       features: [
-        'Everything included in "Basic" +',
-        'Safina takes calls up to 100 min',
+        'Everything in the Basic plan, plus:',
+        'Custom call-handling preferences tailored to your needs',
+        'Extended call management for calls up to 60 minutes',
+        'Comprehensive call summaries and full transcripts',
+        'Access to downloadable audio recordings of each call'
       ],
+      popular: true,
     },
     {
       name: 'Enterprise',
       price: 'Request',
       features: [
-        'Everything included in the Professional plan +',
-        'Safina takes unlimited calls',
-        'Access to our API',
-        'Custom voice training',        
-        'Add multiple Safina numbers',
+        'Everything in the Professional plan, plus:',
+        'Unlimited call management',
+        'API access for seamless integrations',
+        'Custom voice training for a branded experience',
+        'Option to manage multiple Safina numbers',
+        'Ability to train Safina with your own data for deeper personalization'
       ],
-    },
+    }
   ];
 
   const faqs = [
@@ -451,7 +444,7 @@ function App() {
                         <img 
                           src={step.image} 
                           alt={`Step ${step.number}`} 
-                          className="absolute inset-0 w-full h-full object-cover rounded-lg"
+                          className="absolute inset-0 w-full h-full object-cover rounded-lg opacity-0 animate-fade-in"
                         />
                       </div>
                       <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center text-teal-600 mx-auto mb-6 text-2xl font-bold">
@@ -473,7 +466,7 @@ function App() {
                 <h2 className={`text-3xl sm:text-4xl font-bold text-center mb-16 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
                   Discover What Sets Safina Apart
                 </h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid md:grid-cols-3 gap-8">
                   {/* Card 1: Intuitive Dashboard Design */}
                   <div className={`${isDarkTheme ? 'bg-gray-700' : 'bg-white'} rounded-lg shadow-lg overflow-hidden`}>
                     <div className="p-6">
@@ -578,7 +571,7 @@ function App() {
                     </span>
                   </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                   {plans.map((plan, index) => (
                     <div
                       key={index}
