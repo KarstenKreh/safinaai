@@ -722,7 +722,13 @@ function App() {
                   Join thousands of users who trust Safina to manage their calls
                   intelligently
                 </p>
-                <button className="bg-white text-teal-600 px-8 py-3 rounded text-lg font-medium hover:bg-teal-50 transition-colors">
+                <button 
+                  onClick={() => {
+                    const pricingSection = document.getElementById('pricing');
+                    pricingSection?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="bg-white text-teal-600 px-8 py-3 rounded text-lg font-medium hover:bg-teal-50 transition-colors"
+                >
                   Get Safina
                 </button>
               </div>

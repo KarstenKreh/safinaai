@@ -1,190 +1,242 @@
-import React, { useState } from 'react';
-import { CheckCircle2 } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import emailjs from '@emailjs/browser';
+import { useState } from 'react';
 
 interface ContactFormProps {
   isDarkTheme: boolean;
 }
 
-const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";       // ❌ Placeholder
-const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";     // ❌ Placeholder
-const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";       // ❌ Placeholder
+interface FormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  message: string;
+}
 
-export const ContactForm: React.FC<ContactFormProps> = ({ isDarkTheme }) => {
-  const [formData, setFormData] = useState({
+export const ContactForm = ({ isDarkTheme }: ContactFormProps) => {
+  const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
     message: '',
-    consent: false
   });
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
-
-  const validateForm = () => {
-    const newErrors: Record<string, string> = {};
-    
-    if (!formData.firstName.trim()) {
-      newErrors.firstName = 'First name is required';
-    }
-    if (!formData.lastName.trim()) {
-      newErrors.lastName = 'Last name is required';
-    }
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email';
-    }
-    if (!formData.message.trim()) {
-      newErrors.message = 'Message is required';
-    }
-    if (!formData.consent) {
-      newErrors.consent = 'You must agree to be contacted';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!validateForm()) return;
+    setStatus('submitting');
 
     try {
-      const templateParams = {
-        to_email: 'info@safina.ai',
-        from_name: `${formData.firstName} ${formData.lastName}`,
-        from_email: formData.email,
-        phone: formData.phone || 'Not provided',
-        message: formData.message
-      };
+      console.log('Sending form data:', formData);
 
-      await emailjs.send(
-        EMAILJS_SERVICE_ID,
-        EMAILJS_TEMPLATE_ID,
-        templateParams,
-        EMAILJS_PUBLIC_KEY
-      );
-
-      setIsSubmitted(true);
-    } catch (error) {
-      console.error('Error sending email:', error);
-      setErrors({
-        ...errors,
-        submit: 'Failed to send message. Please try again later.'
+      const response = await fetch('http://localhost:3001/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(formData),
       });
+
+      console.log('Response status:', response.status);
+
+      const data = await response.json();
+      console.log('Response data:', data);
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send message');
+      }
+
+      setStatus('success');
+      setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' });
+      setTimeout(() => setStatus('idle'), 5000);
+    } catch (error) {
+      console.error('Detailed error:', error);
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
     }
   };
 
-  if (isSubmitted) {
-    return (
-      <div className={`max-w-2xl mx-auto text-center p-8 rounded-lg ${isDarkTheme ? 'bg-gray-800' : 'bg-white'}`}>
-        <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-4" />
-        <h3 className={`text-2xl font-bold mb-2 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
-          Thank you for your message!
-        </h3>
-        <p className={isDarkTheme ? 'text-gray-300' : 'text-gray-600'}>
-          We'll get back to you as soon as possible.
-        </p>
-      </div>
-    );
-  }
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl mx-auto space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
+      <div className="space-y-6">
+        {/* First Name */}
         <div>
-          <label className={`block mb-2 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
+          <label 
+            htmlFor="firstName" 
+            className={`block text-sm font-medium ${
+              isDarkTheme ? 'text-gray-300' : 'text-gray-700'
+            }`}
+          >
             First Name *
           </label>
           <input
             type="text"
+            id="firstName"
+            name="firstName"
             value={formData.firstName}
-            onChange={(e) => setFormData({...formData, firstName: e.target.value})}
-            className={`w-full p-3 rounded-lg border ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
+            onChange={handleChange}
+            required
+            className={`mt-1 block w-full rounded-md shadow-sm py-2 px-3 ${
+              isDarkTheme 
+                ? 'bg-gray-800 border-gray-700 text-white' 
+                : 'bg-white border-gray-300 text-gray-900'
+            } focus:ring-teal-500 focus:border-teal-500`}
           />
-          {errors.firstName && <p className="mt-1 text-red-500 text-sm">{errors.firstName}</p>}
         </div>
+
+        {/* Last Name */}
         <div>
-          <label className={`block mb-2 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
+          <label 
+            htmlFor="lastName" 
+            className={`block text-sm font-medium ${
+              isDarkTheme ? 'text-gray-300' : 'text-gray-700'
+            }`}
+          >
             Last Name *
           </label>
           <input
             type="text"
+            id="lastName"
+            name="lastName"
             value={formData.lastName}
-            onChange={(e) => setFormData({...formData, lastName: e.target.value})}
-            className={`w-full p-3 rounded-lg border ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
+            onChange={handleChange}
+            required
+            className={`mt-1 block w-full rounded-md shadow-sm py-2 px-3 ${
+              isDarkTheme 
+                ? 'bg-gray-800 border-gray-700 text-white' 
+                : 'bg-white border-gray-300 text-gray-900'
+            } focus:ring-teal-500 focus:border-teal-500`}
           />
-          {errors.lastName && <p className="mt-1 text-red-500 text-sm">{errors.lastName}</p>}
         </div>
-      </div>
 
-      <div className="mt-6">
-        <label className={`block mb-2 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
-          Email *
-        </label>
-        <input
-          type="email"
-          value={formData.email}
-          onChange={(e) => setFormData({...formData, email: e.target.value})}
-          className={`w-full p-3 rounded-lg border ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
-        />
-        {errors.email && <p className="mt-1 text-red-500 text-sm">{errors.email}</p>}
-      </div>
-
-      <div className="mt-6">
-        <label className={`block mb-2 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
-          Phone Number (Optional)
-        </label>
-        <input
-          type="tel"
-          value={formData.phone}
-          onChange={(e) => setFormData({...formData, phone: e.target.value})}
-          className={`w-full p-3 rounded-lg border ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
-        />
-      </div>
-
-      <div className="mt-6">
-        <label className={`block mb-2 ${isDarkTheme ? 'text-white' : 'text-gray-900'}`}>
-          Message *
-        </label>
-        <textarea
-          value={formData.message}
-          onChange={(e) => setFormData({...formData, message: e.target.value})}
-          rows={5}
-          className={`w-full p-3 rounded-lg border ${isDarkTheme ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-300'}`}
-        />
-        {errors.message && <p className="mt-1 text-red-500 text-sm">{errors.message}</p>}
-      </div>
-
-      <div className="mt-6">
-        <label className="flex items-start space-x-3">
+        {/* Email */}
+        <div>
+          <label 
+            htmlFor="email" 
+            className={`block text-sm font-medium ${
+              isDarkTheme ? 'text-gray-300' : 'text-gray-700'
+            }`}
+          >
+            Email *
+          </label>
           <input
-            type="checkbox"
-            checked={formData.consent}
-            onChange={(e) => setFormData({...formData, consent: e.target.checked})}
-            className="mt-1"
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className={`mt-1 block w-full rounded-md shadow-sm py-2 px-3 ${
+              isDarkTheme 
+                ? 'bg-gray-800 border-gray-700 text-white' 
+                : 'bg-white border-gray-300 text-gray-900'
+            } focus:ring-teal-500 focus:border-teal-500`}
           />
-          <span className={`text-sm ${isDarkTheme ? 'text-gray-300' : 'text-gray-600'}`}>
-            I agree to be contacted and have read the{' '}
-            <Link to="/privacy-policy" className="text-teal-600 hover:text-teal-500">
-              Privacy Policy
-            </Link>
-          </span>
-        </label>
-        {errors.consent && <p className="mt-1 text-red-500 text-sm">{errors.consent}</p>}
-      </div>
+        </div>
 
-      <div className="flex justify-end">
-        <button
-          type="submit"
-          className="inline-flex bg-teal-600 text-white px-6 py-2 rounded text-base font-medium hover:bg-teal-700 transition-colors"
-        >
-          Send Message
-        </button>
+        {/* Phone (Optional) */}
+        <div>
+          <label 
+            htmlFor="phone" 
+            className={`block text-sm font-medium ${
+              isDarkTheme ? 'text-gray-300' : 'text-gray-700'
+            }`}
+          >
+            Phone (Optional)
+          </label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            className={`mt-1 block w-full rounded-md shadow-sm py-2 px-3 ${
+              isDarkTheme 
+                ? 'bg-gray-800 border-gray-700 text-white' 
+                : 'bg-white border-gray-300 text-gray-900'
+            } focus:ring-teal-500 focus:border-teal-500`}
+          />
+        </div>
+
+        {/* Message */}
+        <div>
+          <label 
+            htmlFor="message" 
+            className={`block text-sm font-medium ${
+              isDarkTheme ? 'text-gray-300' : 'text-gray-700'
+            }`}
+          >
+            Message *
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            value={formData.message}
+            onChange={handleChange}
+            required
+            rows={4}
+            className={`mt-1 block w-full rounded-md shadow-sm py-2 px-3 ${
+              isDarkTheme 
+                ? 'bg-gray-800 border-gray-700 text-white' 
+                : 'bg-white border-gray-300 text-gray-900'
+            } focus:ring-teal-500 focus:border-teal-500`}
+          />
+        </div>
+
+        {/* Button - Updated styling */}
+        <div className="flex justify-end">
+          <button
+            type="submit"
+            disabled={status === 'submitting'}
+            className={`inline-flex px-6 py-3 rounded-md shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 ${
+              status === 'submitting' ? 'opacity-75 cursor-not-allowed' : ''
+            }`}
+          >
+            {status === 'submitting' ? 'Sending...' : 'Send Message'}
+          </button>
+        </div>
+
+        {status === 'success' && (
+          <div className="rounded-md bg-green-50 p-4">
+            <div className="flex">
+              <div className="flex-shrink-0">
+                <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div className="ml-3">
+                <p className="text-sm font-medium text-green-800">
+                  Message sent successfully!
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {status === 'error' && (
+          <div className="rounded-md bg-red-50 p-4">
+            <div className="flex">
+              <div className="flex-shrink-0">
+                <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                </svg>
+              </div>
+              <div className="ml-3">
+                <p className="text-sm font-medium text-red-800">
+                  Failed to send message. Please try again.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </form>
   );
