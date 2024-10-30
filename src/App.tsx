@@ -7,23 +7,21 @@ import TermsOfUse from './components/TermsOfUse';
 import Imprint from './components/Imprint';
 import Footer from './components/Footer';
 import { Metric } from './components/Metric';
+import { Player } from '@lottiefiles/react-lottie-player';
+import { useInView } from './hooks/useInView';
+import { ContactForm } from './components/ContactForm';
 // Image imports
-// import heroBackground from './assets/images/Safina-call-agent-hero-background-soundwaves.jpg';
 import mockup01 from './assets/images/Safina-AI-App-Mockup-01.jpg';
 import mockup02 from './assets/images/Safina-AI-App-Mockup-02.jpg';
 import mockup03 from './assets/images/Safina-AI-App-Mockup-03.jpg';
 import mockup04 from './assets/images/Safina-AI-App-Mockup-04.jpg';
 import appStoreBadge from './assets/images/Badge-Safina-App-appstore.svg';
 import playStoreBadge from './assets/images/Badge-Safina-App-googleplay.svg';
-// Add these imports with your other image imports
 import intuitiveDashboard from './assets/images/Intuitive-Dashboard-Design.png';
 import seamlessAccess from './assets/images/Seamless-Multi-Device-Access.png';
 import callReports from './assets/images/Snipped-Comprehensive-Call-Reports.png';
 import personalizedInteraction from './assets/images/Snipped-Personalized-Interaction-and-Notifications.png';
-import { ContactForm } from './components/ContactForm';
-import { useInView } from './hooks/useInView'; // Ensure this hook is imported
 import waveAnimationHero from './assets/lottie/wave-animation-hero.json';
-import { Player } from '@lottiefiles/react-lottie-player';
 import logoLight from './assets/images/Logo-safina-ai-on-light.svg';
 import logoDark from './assets/images/Logo-safina-ai-on-dark.svg';
 
