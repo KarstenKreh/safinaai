@@ -1,6 +1,10 @@
 import { useState } from 'react';
 
-export const EarlyAccessBanner = () => {
+interface EarlyAccessBannerProps {
+  isDarkTheme: boolean;
+}
+
+export const EarlyAccessBanner = ({ isDarkTheme }: EarlyAccessBannerProps) => {
   return (
     <div>
       {/* Your component JSX */}
