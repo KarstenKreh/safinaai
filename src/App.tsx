@@ -36,7 +36,7 @@ function App() {
   const plans = [
     {
       name: 'Basic',
-      price: '19.99',
+      price: '4.99',
       features: [
         'Dedicated personal Safina phone number',
         'Safina manages calls up to 30 minutes',
@@ -49,7 +49,7 @@ function App() {
     },
     {
       name: 'Professional',
-      price: '39.99',
+      price: '9.99',
       features: [
         'Everything in the Basic plan, plus:',
         'Custom call-handling preferences tailored to your needs',
@@ -171,21 +171,25 @@ function App() {
     <div className={`min-h-screen ${isDarkTheme ? 'dark bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
       {/* Navigation */}
       <nav className={`fixed w-full ${isDarkTheme ? 'bg-gray-900/80' : 'bg-white/80'} backdrop-blur-lg z-50 border-b ${isDarkTheme ? 'border-gray-700' : 'border-gray-100'} transition-transform duration-300 ${visible ? 'translate-y-0' : '-translate-y-full'}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
           <div className="flex justify-between h-16 items-center">
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center">
               <Link 
                 to="/" 
                 className="flex items-center" 
                 onClick={(e) => {
-                  e.preventDefault();
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                  if (window.location.pathname === '/') {
+                    // If we're on homepage, prevent default and scroll to top
+                    e.preventDefault();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }
+                  // If we're on another page, let the Link component handle navigation to home
                 }}
               >
                 <img 
                   src={isDarkTheme ? logoDark : logoLight} 
                   alt="Safina AI Logo" 
-                  className="h-10 w-auto"
+                  className="h-6 w-auto"
                 />
               </Link>
             </div>
@@ -330,7 +334,7 @@ function App() {
                 <div className="max-w-screen-lg w-full flex flex-col justify-between pt-16 sm:pt-24">
                   <div className="space-y-8 text-center">
                     <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white leading-loose font-bold">
-                      <span className="text-teal-200"> Safina AI </span>
+                      <span className="text-teal-200"> Safina </span>
                       is your personal AI powered phone assistant
                     </h1>
                     <p className="text-xl text-white max-w-2xl mx-auto">
