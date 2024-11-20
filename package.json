@@ -14,7 +14,7 @@
     "dev:all": "concurrently \"npm run dev\" \"npm run dev:server\""
   },
   "dependencies": {
-    "@emailjs/browser": "^4.4.1",
+    "@formspark/use-formspark": "^0.1.39",
     "@lottiefiles/react-lottie-player": "^3.5.4",
     "@types/react-router-dom": "^5.3.3",
     "concurrently": "^8.2.2",
