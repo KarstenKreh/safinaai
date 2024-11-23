@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import posthog from '../utils/posthog';
 
 interface CookieBannerProps {
