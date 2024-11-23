@@ -8,12 +8,16 @@ if (import.meta.env.PROD) {
   posthog.init('phc_2oqdIiyYEDIB6VWgicJBumGjZdT8F7UivU74bsYDqbN', {
     api_host: 'https://eu.i.posthog.com',
     person_profiles: 'identified_only',
-    opt_out_capturing_by_default: cookieChoice !== 'all', // Disable by default unless already accepted
+    opt_out_capturing_by_default: cookieChoice !== 'all',
     loaded: (posthog) => {
+      if (import.meta.env.DEV) {
+        posthog.opt_out_capturing();
+      }
       if (cookieChoice !== 'all') {
         posthog.opt_out_capturing();
       }
-    }
+    },
+    capture_pageview: false
   })
 }
 
