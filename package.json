@@ -26,6 +26,7 @@
     "lottie-web": "^5.12.2",
     "lucide-react": "^0.344.0",
     "nodemon": "^3.1.7",
+    "posthog-js": "^1.188.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.27.0"

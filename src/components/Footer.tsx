@@ -1,88 +1,60 @@
-import React from 'react';
-import { Bot } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import logoLight from "../assets/images/Logo-safina-ai-on-light.svg";
+import logoDark from "../assets/images/Logo-safina-ai-on-dark.svg";
 
 interface FooterProps {
   isDarkTheme: boolean;
+  onCookieSettingsClick: () => void;
 }
 
-const Footer: React.FC<FooterProps> = ({ isDarkTheme }) => {
+function Footer({ isDarkTheme, onCookieSettingsClick }: FooterProps) {
   return (
-    <footer className={`py-12 px-4 sm:px-6 lg:px-8 ${isDarkTheme ? 'bg-gray-900 text-gray-300' : 'bg-gray-900 text-gray-400'}`}>
-      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8">
-        <div>
-          <div className="flex items-center text-white mb-4">
-            <Bot className="h-6 w-6 mr-2" />
-            <span className="font-bold">Safina</span>
+    <footer className={`${isDarkTheme ? 'bg-gray-900' : 'bg-white'} border-t ${isDarkTheme ? 'border-gray-800' : 'border-gray-100'}`}>
+      <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col items-center space-y-8">
+          {/* Logo and Claim */}
+          <div className="flex flex-col items-center">
+            <img
+              src={isDarkTheme ? logoDark : logoLight}
+              alt="Safina AI Logo"
+              className="h-8 w-auto mb-2"
+            />
+            <p className={`text-sm ${isDarkTheme ? 'text-gray-400' : 'text-gray-500'}`}>
+              Your personal AI powered phone assistant
+            </p>
           </div>
-          <p className="text-sm">AI powered phone assistant</p>
+
+          {/* Legal Links */}
+          <div className="flex flex-wrap justify-center gap-6">
+            <Link
+              to="/privacy-policy"
+              className={`text-sm ${isDarkTheme ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-600'}`}
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              to="/terms-of-use"
+              className={`text-sm ${isDarkTheme ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-600'}`}
+            >
+              Terms of Use
+            </Link>
+            <Link
+              to="/imprint"
+              className={`text-sm ${isDarkTheme ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-600'}`}
+            >
+              Imprint
+            </Link>
+            <button
+              onClick={onCookieSettingsClick}
+              className={`text-sm ${isDarkTheme ? 'text-gray-400 hover:text-gray-300' : 'text-gray-500 hover:text-gray-600'}`}
+            >
+              Cookie Settings
+            </button>
+          </div>
         </div>
-        <div>
-          <h4 className="text-white font-medium mb-4">Product</h4>
-          <ul className="space-y-2 text-sm">
-            <li>
-              <Link to="/#features" className="hover:text-white">
-                Features
-              </Link>
-            </li>
-            <li>
-              <Link to="/#pricing" className="hover:text-white">
-                Pricing
-              </Link>
-            </li>
-            <li>
-              <Link to="/#" className="hover:text-white">
-                Security
-              </Link>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <h4 className="text-white font-medium mb-4">Company</h4>
-          <ul className="space-y-2 text-sm">
-            <li>
-              <Link to="/#" className="hover:text-white">
-                About
-              </Link>
-            </li>
-            <li>
-              <Link to="/#" className="hover:text-white">
-                Blog
-              </Link>
-            </li>
-            <li>
-              <Link to="/#" className="hover:text-white">
-                Careers
-              </Link>
-            </li>
-          </ul>
-        </div>
-        <div>
-          <h4 className="text-white font-medium mb-4">Legal</h4>
-          <ul className="space-y-2 text-sm">
-            <li>
-              <Link to="/privacy-policy" className="hover:text-white">
-                Privacy Policy
-              </Link>
-            </li>
-            <li>
-              <Link to="/terms-of-use" className="hover:text-white">
-                Terms of Use
-              </Link>
-            </li>
-            <li>
-              <Link to="/imprint" className="hover:text-white">
-                Imprint
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div className="max-w-7xl mx-auto mt-8 pt-8 border-t border-gray-800 text-sm text-center">
-        {new Date().getFullYear()} Safina AI is not copyrighted. Feel free to use it as you wish.
       </div>
     </footer>
   );
-};
+}
 
 export default Footer;

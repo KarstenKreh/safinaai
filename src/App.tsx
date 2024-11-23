@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Route, Routes, Link } from "react-router-dom";
+import { Route, Routes, Link, useLocation } from "react-router-dom";
 import {
   Shield,
   ChevronDown,
@@ -36,6 +36,8 @@ import appStoreBadgeDesktop from "./assets/images/Badge-Safina-App-appstore-desk
 import appStoreBadgePhone from "./assets/images/Badge-Safina-App-appstore-phone.svg";
 import playStoreBadgeDesktop from "./assets/images/Badge-Safina-App-googleplay-desktop.svg";
 import playStoreBadgePhone from "./assets/images/Badge-Safina-App-googleplay-phone.svg";
+import posthog from './utils/posthog';
+import { CookieBanner } from './components/CookieBanner';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -44,6 +46,8 @@ function App() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [isAnnualBilling, setIsAnnualBilling] = useState(true);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const location = useLocation();
+  const [isCookieBannerVisible, setIsCookieBannerVisible] = useState(false);
 
   const plans = [
     {
@@ -195,6 +199,22 @@ function App() {
   const [ref3, isInView3] = useInView({ threshold: 0.1 });
   const ref4 = useRef<HTMLDivElement | null>(null);
   const [isInView4] = useInView({ threshold: 0.1 });
+
+  useEffect(() => {
+    if (import.meta.env.PROD) {
+      posthog.capture('$pageview')
+    }
+  }, [location]);
+
+  const handlePricingClick = (planName: string) => {
+    if (import.meta.env.PROD) {
+      posthog.capture('pricing_plan_clicked', {
+        plan: planName,
+        billing: isAnnualBilling ? 'annual' : 'monthly'
+      })
+    }
+    // ... rest of your click handling code
+  }
 
   return (
     <div
@@ -790,6 +810,7 @@ function App() {
                           } rounded-2xl shadow-lg p-6 ${
                             plan.popular ? "ring-2 ring-teal-600" : ""
                           }`}
+                          onClick={() => handlePricingClick(plan.name)}
                         >
                           {plan.popular && (
                             <span className="bg-teal-600 text-white px-3 py-1 rounded-full text-sm font-medium">
@@ -1037,7 +1058,15 @@ function App() {
         <Route path="/imprint" element={<Imprint />} />
       </Routes>
 
-      <Footer isDarkTheme={isDarkTheme} />
+      <Footer 
+        isDarkTheme={isDarkTheme} 
+        onCookieSettingsClick={() => setIsCookieBannerVisible(true)} 
+      />
+      <CookieBanner 
+        isDarkTheme={isDarkTheme} 
+        isVisible={isCookieBannerVisible}
+        setIsVisible={setIsCookieBannerVisible}
+      />
     </div>
   );
 }

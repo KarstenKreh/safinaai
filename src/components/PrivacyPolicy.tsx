@@ -244,15 +244,37 @@ const PrivacyPolicy: React.FC = () => {
             </section>
 
             <section>
-              <h2 className="text-2xl font-semibold mt-8">19. Google Fonts (Bezug vom Google Server)</h2>
+              <h2 className="text-2xl font-semibold mt-8">19. Google Fonts</h2>
               <div className="space-y-4">
-                <p><strong>Verarbeitete Datenarten:</strong> Nutzungsdaten (z. B. Seitenaufrufe und Verweildauer, Klickpfade, Nutzungsintensität und -frequenz, verwendete Gerätetypen und Betriebssysteme, Interaktionen mit Inhalten und Funktionen). Meta-, Kommunikations- und Verfahrensdaten (z. B. IP-Adressen, Zeitangaben, Identifikationsnummern, beteiligte Personen).</p>
-                <p><strong>Betroffene Personen:</strong> Nutzer (z. B. Webseitenbesucher, Nutzer von Onlinediensten).</p>
-                <p><strong>Zwecke der Verarbeitung:</strong> Reichweitenmessung (z. B. Zugriffsstatistiken, Erkennung wiederkehrender Besucher). Profile mit nutzerbezogenen Informationen (Erstellen von Nutzerprofilen).</p>
-                <p><strong>Aufbewahrung und Löschung:</strong> Löschung entsprechend Angaben im Abschnitt "Allgemeine Informationen zur Datenspeicherung und Löschung". Speicherung von Cookies von bis zu 2 Jahren (Sofern nicht anders angegeben, können Cookies und ähnliche Speichermethoden für einen Zeitraum von zwei Jahren auf den Geräten der Nutzer gespeichert werden.).</p>
-                <p><strong>Sicherheitsmaßnahmen:</strong> IP-Masking (Pseudonymisierung der IP-Adresse).</p>
-                <p><strong>Rechtsgrundlagen:</strong> Einwilligung (Art. 6 Abs. 1 S. 1 lit. a) DSGVO). Berechtigte Interessen (Art. 6 Abs. 1 S. 1 lit. f) DSGVO).</p>
-                <p><strong>Dienstanbieter:</strong> Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland; <span className=""><strong>Rechtsgrundlagen:</strong> Berechtigte Interessen (Art. 6 Abs. 1 S. 1 lit. f) DSGVO); </span><strong>Website:</strong> <a href="https://fonts.google.com/" target="_blank">https://fonts.google.com/</a>; <strong>Datenschutzerklärung:</strong> <a href="https://policies.google.com/privacy" target="_blank">https://policies.google.com/privacy</a>; <strong>Grundlage Drittlandtransfers:</strong> Data Privacy Framework (DPF). <strong>Weitere Informationen:</strong> <a href="https://developers.google.com/fonts/faq/privacy?hl=de" target="_blank">https://developers.google.com/fonts/faq/privacy?hl=de</a>.</p>
+                <p>Die Seite nutzt zur einheitlichen Darstellung von Schritarten sog. „Google Fonts" ein, die von dem Anbieter Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland, bereitgestellt werden. Wenn wir Google Fonts aus Gründen der Darstellung nutzen, sind diese Schriften lokal auf unseren Servern installiert und stellen keine Verbindung zu Google her.</p>
+
+                <p>Weitere Informationen zu Google Web Fonts finden Sie unter:<br/>
+                Datenschutzerklärung: <a href="https://policies.google.com/privacy" target="_blank">https://policies.google.com/privacy</a>.</p>
+
+                <p>Das Unternehmen Google verfügt über eine Zertifizierung nach dem „EU-US Data Privacy Framework" (DPF). Der DPF ist ein Übereinkommen zwischen der Europäischen Union und den USA, der die Einhaltung europäischer Datenschutzstandards bei Datenverarbeitungen in den USA gewährleisten soll. Jedes nachdem DPF zertifizierte Unternehmen verpflichtet sich, diese Datenschutzstandards einzuhalten.</p>
+
+                <p>Weitere Informationen hierzu erhalten Sie vom jeweiligen Anbieter unter dem folgenden Link:<br/>
+                <a href="https://www.dataprivacyframework.gov/s/participantsearch/participantdetail?contact=true&id=a2zt000000001L5AAI&status=Active" target="_blank">https://www.dataprivacyframework.gov/s/participantsearch/participantdetail?contact=true&id=a2zt000000001L5AAI&status=Active</a></p>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-semibold mt-8">20. Posthog</h2>
+              <div className="space-y-4">
+                <p>Analyse-Tool: Posthog (Posthog Inc.)</p>
+
+                <p>Wenn Sie gem. Art. 6 Abs. 1 lit. a) DSGVO Ihre Einwilligung erteilt haben, sammeln wir über unser Analysetool Nutzerdaten über Ihr Verhalten innerhalb der App (Klick- und Anzeigeverhalten), welche wir zu internen Zwecken (App-Optimierung, Verbesserung der User-Experience/Nutzerfreundlichkeit) statistisch auswerten.</p>
+
+                <p>Dafür verwenden wir Funktionen des Dienstes Posthog Inc., 965 Mission Street, San Francisco, CA 94103 USA. Posthog kann Ihr Verhalten innerhalb der App aufzeichnen und wiedergeben. Dabei werden Ihre personenbezogenen Daten gespeichert und ausgewertet – insbesondere die Aktivität (welche Funktionen wurden genutzt, welche Elemente wurden angeklickt). Dafür wird jedem Nutzer ein Tracking-Code zugeordnet (pseudonymisierte Nutzer-ID). Die verarbeiteten personenbezogenen Daten werden von PostHog auf einen Server in Europa übermittelt und dort anonymisiert gespeichert.</p>
+
+                <p>Die Speicherung dieser Daten erfolgt so lange, wie sie zur Erfüllung der Verarbeitungszweck erforderlich sind. Nach Zweckerreichung weisen wir umgehend die Löschung der Daten an.</p>
+
+                <p>Weitere Informationen zur Verarbeitung der Daten durch PostHog erhalten Sie hier: <a href="https://posthog.com/privacy" target="_blank">https://posthog.com/privacy</a>.</p>
+
+                <p>PostHog Inc. verfügt über eine Zertifizierung nach dem „EU-US Data Privacy Framework" (DPF). Der DPF ist ein Übereinkommen zwischen der Europäischen Union und den USA, der die Einhaltung europäischer Datenschutzstandards bei Datenverarbeitungen in den USA gewährleisten soll. Jedes nachdem DPF zertifizierte Unternehmen verpflichtet sich, diese Datenschutzstandards einzuhalten.</p>
+
+                <p>Weitere Informationen hierzu erhalten Sie vom jeweiligen Anbieter unter dem folgenden Link:<br/>
+                <a href="https://www.dataprivacyframework.gov/s/participantsearch/participantdetail?contact=true&id=a2zt000000001L5AAI&status=Active" target="_blank">https://www.dataprivacyframework.gov/s/participantsearch/participantdetail?contact=true&id=a2zt000000001L5AAI&status=Active</a></p>
               </div>
             </section>
 
