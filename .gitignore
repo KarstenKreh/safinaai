@@ -15,8 +15,6 @@ build/
 .firebase/
 firebase-debug.log
 functions/
-.github/workflows/firebase-hosting-merge.yml
-.github/workflows/deploy.yml
 
 # Logs
 *.log

@@ -1,66 +1,51 @@
-import { useState } from 'react';
+import { useState } from "react";
+import { SubmitPayload, useFormspark } from "@formspark/use-formspark";
 
 interface ContactFormProps {
   isDarkTheme: boolean;
 }
 
-interface FormData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  message: string;
-}
-
 export const ContactForm = ({ isDarkTheme }: ContactFormProps) => {
-  const [formData, setFormData] = useState<FormData>({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    message: '',
+  const [submit, submitting] = useFormspark({
+    formId: "okkws8NG5",
   });
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+
+  const [formData, setFormData] = useState<SubmitPayload>({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus('submitting');
 
     try {
-      console.log('Sending form data:', formData);
-
-      const response = await fetch('http://localhost:3001/api/send-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(formData),
+      await submit(formData);
+      setStatus("success");
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        message: "",
       });
-
-      console.log('Response status:', response.status);
-
-      const data = await response.json();
-      console.log('Response data:', data);
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to send message');
-      }
-
-      setStatus('success');
-      setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' });
-      setTimeout(() => setStatus('idle'), 5000);
+      setTimeout(() => setStatus("idle"), 5000);
     } catch (error) {
-      console.error('Detailed error:', error);
-      setStatus('error');
-      setTimeout(() => setStatus('idle'), 5000);
+      console.error("Error submitting form:", error);
+      setStatus("error");
+      setTimeout(() => setStatus("idle"), 5000);
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
   };
 
@@ -69,10 +54,10 @@ export const ContactForm = ({ isDarkTheme }: ContactFormProps) => {
       <div className="space-y-6">
         {/* First Name */}
         <div>
-          <label 
-            htmlFor="firstName" 
+          <label
+            htmlFor="firstName"
             className={`block text-sm font-medium ${
-              isDarkTheme ? 'text-gray-300' : 'text-gray-700'
+              isDarkTheme ? "text-gray-300" : "text-gray-700"
             }`}
           >
             First Name *
@@ -81,23 +66,23 @@ export const ContactForm = ({ isDarkTheme }: ContactFormProps) => {
             type="text"
             id="firstName"
             name="firstName"
-            value={formData.firstName}
+            value={formData.firstName as string}
             onChange={handleChange}
             required
             className={`mt-1 block w-full rounded-md shadow-sm py-2 px-3 ${
-              isDarkTheme 
-                ? 'bg-gray-800 border-gray-700 text-white' 
-                : 'bg-white border-gray-300 text-gray-900'
+              isDarkTheme
+                ? "bg-gray-800 border-gray-700 text-white"
+                : "bg-white border-gray-300 text-gray-900"
             } focus:ring-teal-500 focus:border-teal-500`}
           />
         </div>
 
         {/* Last Name */}
         <div>
-          <label 
-            htmlFor="lastName" 
+          <label
+            htmlFor="lastName"
             className={`block text-sm font-medium ${
-              isDarkTheme ? 'text-gray-300' : 'text-gray-700'
+              isDarkTheme ? "text-gray-300" : "text-gray-700"
             }`}
           >
             Last Name *
@@ -106,23 +91,23 @@ export const ContactForm = ({ isDarkTheme }: ContactFormProps) => {
             type="text"
             id="lastName"
             name="lastName"
-            value={formData.lastName}
+            value={formData.lastName as string}
             onChange={handleChange}
             required
             className={`mt-1 block w-full rounded-md shadow-sm py-2 px-3 ${
-              isDarkTheme 
-                ? 'bg-gray-800 border-gray-700 text-white' 
-                : 'bg-white border-gray-300 text-gray-900'
+              isDarkTheme
+                ? "bg-gray-800 border-gray-700 text-white"
+                : "bg-white border-gray-300 text-gray-900"
             } focus:ring-teal-500 focus:border-teal-500`}
           />
         </div>
 
         {/* Email */}
         <div>
-          <label 
-            htmlFor="email" 
+          <label
+            htmlFor="email"
             className={`block text-sm font-medium ${
-              isDarkTheme ? 'text-gray-300' : 'text-gray-700'
+              isDarkTheme ? "text-gray-300" : "text-gray-700"
             }`}
           >
             Email *
@@ -131,23 +116,23 @@ export const ContactForm = ({ isDarkTheme }: ContactFormProps) => {
             type="email"
             id="email"
             name="email"
-            value={formData.email}
+            value={formData.email as string}
             onChange={handleChange}
             required
             className={`mt-1 block w-full rounded-md shadow-sm py-2 px-3 ${
-              isDarkTheme 
-                ? 'bg-gray-800 border-gray-700 text-white' 
-                : 'bg-white border-gray-300 text-gray-900'
+              isDarkTheme
+                ? "bg-gray-800 border-gray-700 text-white"
+                : "bg-white border-gray-300 text-gray-900"
             } focus:ring-teal-500 focus:border-teal-500`}
           />
         </div>
 
         {/* Phone (Optional) */}
         <div>
-          <label 
-            htmlFor="phone" 
+          <label
+            htmlFor="phone"
             className={`block text-sm font-medium ${
-              isDarkTheme ? 'text-gray-300' : 'text-gray-700'
+              isDarkTheme ? "text-gray-300" : "text-gray-700"
             }`}
           >
             Phone (Optional)
@@ -156,22 +141,22 @@ export const ContactForm = ({ isDarkTheme }: ContactFormProps) => {
             type="tel"
             id="phone"
             name="phone"
-            value={formData.phone}
+            value={formData.phone as string}
             onChange={handleChange}
             className={`mt-1 block w-full rounded-md shadow-sm py-2 px-3 ${
-              isDarkTheme 
-                ? 'bg-gray-800 border-gray-700 text-white' 
-                : 'bg-white border-gray-300 text-gray-900'
+              isDarkTheme
+                ? "bg-gray-800 border-gray-700 text-white"
+                : "bg-white border-gray-300 text-gray-900"
             } focus:ring-teal-500 focus:border-teal-500`}
           />
         </div>
 
         {/* Message */}
         <div>
-          <label 
-            htmlFor="message" 
+          <label
+            htmlFor="message"
             className={`block text-sm font-medium ${
-              isDarkTheme ? 'text-gray-300' : 'text-gray-700'
+              isDarkTheme ? "text-gray-300" : "text-gray-700"
             }`}
           >
             Message *
@@ -179,14 +164,14 @@ export const ContactForm = ({ isDarkTheme }: ContactFormProps) => {
           <textarea
             id="message"
             name="message"
-            value={formData.message}
+            value={formData.message as string}
             onChange={handleChange}
             required
             rows={4}
             className={`mt-1 block w-full rounded-md shadow-sm py-2 px-3 ${
-              isDarkTheme 
-                ? 'bg-gray-800 border-gray-700 text-white' 
-                : 'bg-white border-gray-300 text-gray-900'
+              isDarkTheme
+                ? "bg-gray-800 border-gray-700 text-white"
+                : "bg-white border-gray-300 text-gray-900"
             } focus:ring-teal-500 focus:border-teal-500`}
           />
         </div>
@@ -195,21 +180,29 @@ export const ContactForm = ({ isDarkTheme }: ContactFormProps) => {
         <div className="flex justify-end">
           <button
             type="submit"
-            disabled={status === 'submitting'}
+            disabled={submitting}
             className={`inline-flex px-6 py-3 rounded-md shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 ${
-              status === 'submitting' ? 'opacity-75 cursor-not-allowed' : ''
+              submitting ? "opacity-75 cursor-not-allowed" : ""
             }`}
           >
-            {status === 'submitting' ? 'Sending...' : 'Send Message'}
+            {submitting ? "Sending..." : "Send Message"}
           </button>
         </div>
 
-        {status === 'success' && (
+        {status === "success" && (
           <div className="rounded-md bg-green-50 p-4">
             <div className="flex">
               <div className="flex-shrink-0">
-                <svg className="h-5 w-5 text-green-400" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                <svg
+                  className="h-5 w-5 text-green-400"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clipRule="evenodd"
+                  />
                 </svg>
               </div>
               <div className="ml-3">
@@ -221,12 +214,20 @@ export const ContactForm = ({ isDarkTheme }: ContactFormProps) => {
           </div>
         )}
 
-        {status === 'error' && (
+        {status === "error" && (
           <div className="rounded-md bg-red-50 p-4">
             <div className="flex">
               <div className="flex-shrink-0">
-                <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                <svg
+                  className="h-5 w-5 text-red-400"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                    clipRule="evenodd"
+                  />
                 </svg>
               </div>
               <div className="ml-3">
@@ -240,4 +241,4 @@ export const ContactForm = ({ isDarkTheme }: ContactFormProps) => {
       </div>
     </form>
   );
-}; 
+};
