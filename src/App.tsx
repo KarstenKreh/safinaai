@@ -38,6 +38,7 @@ import playStoreBadgeDesktop from "./assets/images/Badge-Safina-App-googleplay-d
 import playStoreBadgePhone from "./assets/images/Badge-Safina-App-googleplay-phone.svg";
 import posthog from './utils/posthog';
 import { CookieBanner } from './components/CookieBanner';
+import NotFound from './components/NotFound';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -430,11 +431,12 @@ function App() {
                 <div className="relative flex justify-center items-center h-full">
                   <div className="mx-4 lg:mx-auto" style={{ maxWidth: "1400px" }}>
                     <div className="space-y-8 text-center">
-                      <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white leading-loose font-bold">
-                        <span className="text-teal-200"> Safina </span>
-                        is your personal AI powered phone assistant
+                      <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white leading-loose font-bold px-4">
+                        Safina is your
+                        <span className="text-teal-200">AI powered </span>
+                        phone assistant
                       </h1>
-                      <p className="text-xl text-white max-w-2xl mx-auto">
+                      <p className="text-xl text-white max-w-2xl mx-auto px-4">
                         Never miss an important call again. Safina answers,
                         converses naturally, and delivers clear actionable
                         summaries straight to you.
@@ -479,7 +481,7 @@ function App() {
                 }`}
               >
                 <div className="max-w-7xl mx-auto flex flex-col items-center">
-                  <h2 className="text-3xl font-bold text-center mb-12">
+                  <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">
                     Safina helps an average user to ...
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl">
@@ -1056,6 +1058,7 @@ function App() {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-use" element={<TermsOfUse />} />
         <Route path="/imprint" element={<Imprint />} />
+        <Route path="*" element={<NotFound isDarkTheme={isDarkTheme} />} />
       </Routes>
 
       <Footer 
