@@ -79,6 +79,21 @@ h1, h2, h3, h4, h5, h6 {
   animation-delay: 500ms;
 }
 
+/* Hero animation responsive styles */
+.hero-animation {
+  height: 100%;
+  width: auto;
+  min-height: 100%;
+}
+
+@media (min-width: 1401px) {
+  .hero-animation {
+    width: 100%;
+    height: auto;
+    min-width: 100vw;
+  }
+}
+
 
 
 

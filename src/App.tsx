@@ -25,8 +25,6 @@ import mockup01 from "./assets/images/Safina-AI-App-Mockup-01.jpg";
 import mockup02 from "./assets/images/Safina-AI-App-Mockup-02.jpg";
 import mockup03 from "./assets/images/Safina-AI-App-Mockup-03.jpg";
 import mockup04 from "./assets/images/Safina-AI-App-Mockup-04.jpg";
-import appStoreBadge from "./assets/images/Badge-Safina-App-appstore.svg";
-import playStoreBadge from "./assets/images/Badge-Safina-App-googleplay.svg";
 import intuitiveDashboard from "./assets/images/Intuitive-Dashboard-Design.png";
 import seamlessAccess from "./assets/images/Seamless-Multi-Device-Access.png";
 import callReports from "./assets/images/Snipped-Comprehensive-Call-Reports.png";
@@ -34,6 +32,10 @@ import personalizedInteraction from "./assets/images/Snipped-Personalized-Intera
 import waveAnimationHero from "./assets/lottie/wave-animation-hero.json";
 import logoLight from "./assets/images/Logo-safina-ai-on-light.svg";
 import logoDark from "./assets/images/Logo-safina-ai-on-dark.svg";
+import appStoreBadgeDesktop from "./assets/images/Badge-Safina-App-appstore-desktop.svg";
+import appStoreBadgePhone from "./assets/images/Badge-Safina-App-appstore-phone.svg";
+import playStoreBadgeDesktop from "./assets/images/Badge-Safina-App-googleplay-desktop.svg";
+import playStoreBadgePhone from "./assets/images/Badge-Safina-App-googleplay-phone.svg";
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -210,7 +212,7 @@ function App() {
           visible ? "translate-y-0" : "-translate-y-full"
         }`}
       >
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between h-16 items-center">
             <div className="flex items-center">
               <Link
@@ -398,16 +400,15 @@ function App() {
                     loop
                     src={waveAnimationHero}
                     style={{
-                      height: "100%",
-                      width: "auto",
-                      minWidth: "100vw",
-                      objectFit: "cover",
+                      height: '100%',
+                      width: 'auto',
+                      aspectRatio: 'auto'
                     }}
                   />
                 </div>
                 <div className="absolute inset-0 bg-black opacity-70 pointer-events-none"></div>
                 <div className="relative flex justify-center items-center h-full">
-                  <div className="max-w-screen-lg w-full flex flex-col justify-between pt-16 sm:pt-24">
+                  <div className="mx-4 lg:mx-auto" style={{ maxWidth: "1400px" }}>
                     <div className="space-y-8 text-center">
                       <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white leading-loose font-bold">
                         <span className="text-teal-200"> Safina </span>
@@ -578,17 +579,17 @@ function App() {
                     Discover What Sets Safina Apart
                   </h2>
                   <div className="grid md:grid-cols-3 gap-8">
-                    {/* Card 1: Intuitive Dashboard Design */}
+                    {/* Card 1: Personalized Interaction and Notifications */}
                     <div
-                      ref={ref1 as React.RefObject<HTMLDivElement>}
-                      className={`fade-in-up ${isInView1 ? "visible" : ""} ${
+                      ref={ref4}
+                      className={`fade-in-up ${isInView4 ? "visible" : ""} ${
                         isDarkTheme ? "bg-gray-700" : "bg-white"
                       } rounded-lg shadow-lg overflow-hidden`}
                     >
                       <div className="p-6">
                         <img
-                          src={intuitiveDashboard}
-                          alt="Intuitive Dashboard Design"
+                          src={personalizedInteraction}
+                          alt="Personalized Interaction and Notifications"
                           className="w-full h-auto drop-shadow-lg"
                         />
                       </div>
@@ -598,59 +599,21 @@ function App() {
                             isDarkTheme ? "text-white" : "text-gray-900"
                           }`}
                         >
-                          Intuitive Dashboard Design
+                          Personalized Interaction and Notifications
                         </h3>
                         <p
                           className={`${
                             isDarkTheme ? "text-gray-300" : "text-gray-600"
                           }`}
                         >
-                          Easily navigate a sleek dashboard for quick call
-                          overviews, sentiment assessments, and interaction
-                          prioritization.
+                          Customize Safina's voice and tone, set unique call
+                          excuses, and choose email or push notifications for
+                          call summaries to suit your workflow preferences.
                         </p>
                       </div>
                     </div>
 
-                    {/* Card 2: Seamless Multi-Device Access */}
-                    <div
-                      ref={ref2 as React.RefObject<HTMLDivElement>}
-                      className={`fade-in-up ${
-                        isInView2 ? "visible" : ""
-                      } md:col-span-2 ${
-                        isDarkTheme ? "bg-gray-700" : "bg-white"
-                      } rounded-lg shadow-lg overflow-hidden`}
-                    >
-                      <div className="md:flex h-full">
-                        <div className="md:w-1/2 pr-6 pb-6">
-                          <img
-                            src={seamlessAccess}
-                            alt="Seamless Multi-Device Access"
-                            className="w-full h-auto drop-shadow-lg"
-                          />
-                        </div>
-                        <div className="md:w-1/2 p-6 flex flex-col justify-center">
-                          <h3
-                            className={`text-2xl font-semibold mb-4 ${
-                              isDarkTheme ? "text-white" : "text-gray-900"
-                            }`}
-                          >
-                            Seamless Multi-Device Access
-                          </h3>
-                          <p
-                            className={`${
-                              isDarkTheme ? "text-gray-300" : "text-gray-600"
-                            }`}
-                          >
-                            Manage calls effortlessly across devices—browser,
-                            iOS, or Android—for consistent, convenient access
-                            wherever you are.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Card 3: Comprehensive Call Reports */}
+                    {/* Card 2: Comprehensive Call Reports */}
                     <div
                       ref={ref3 as React.RefObject<HTMLDivElement>}
                       className={`fade-in-up ${
@@ -688,17 +651,53 @@ function App() {
                       </div>
                     </div>
 
-                    {/* Card 4: Personalized Interaction and Notifications */}
+                    {/* Card 3: Seamless Multi-Device Access */}
                     <div
-                      ref={ref4}
-                      className={`fade-in-up ${isInView4 ? "visible" : ""} ${
+                      ref={ref2 as React.RefObject<HTMLDivElement>}
+                      className={`fade-in-up ${
+                        isInView2 ? "visible" : ""
+                      } md:col-span-2 ${
+                        isDarkTheme ? "bg-gray-700" : "bg-white"
+                      } rounded-lg shadow-lg overflow-hidden`}
+                    >
+                      <div className="md:flex h-full">
+                        <div className="md:w-1/2 pr-6 pb-6">
+                          <img
+                            src={seamlessAccess}
+                            alt="Seamless Multi-Device Access"
+                            className="w-full h-auto drop-shadow-lg"
+                          />
+                        </div>
+                        <div className="md:w-1/2 p-6 flex flex-col justify-center">
+                          <h3
+                            className={`text-2xl font-semibold mb-4 ${
+                              isDarkTheme ? "text-white" : "text-gray-900"
+                            }`}
+                          >
+                            Seamless Multi-Device Access
+                          </h3>
+                          <p
+                            className={`${
+                              isDarkTheme ? "text-gray-300" : "text-gray-600"
+                            }`}
+                          >
+                            Manage calls effortlessly on your phone or tablet device.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card 4: Intuitive Dashboard Design */}
+                    <div
+                      ref={ref1 as React.RefObject<HTMLDivElement>}
+                      className={`fade-in-up ${isInView1 ? "visible" : ""} ${
                         isDarkTheme ? "bg-gray-700" : "bg-white"
                       } rounded-lg shadow-lg overflow-hidden`}
                     >
                       <div className="p-6">
                         <img
-                          src={personalizedInteraction}
-                          alt="Personalized Interaction and Notifications"
+                          src={intuitiveDashboard}
+                          alt="Intuitive Dashboard Design"
                           className="w-full h-auto drop-shadow-lg"
                         />
                       </div>
@@ -708,16 +707,16 @@ function App() {
                             isDarkTheme ? "text-white" : "text-gray-900"
                           }`}
                         >
-                          Personalized Interaction and Notifications
+                          Intuitive Dashboard Design
                         </h3>
                         <p
                           className={`${
                             isDarkTheme ? "text-gray-300" : "text-gray-600"
                           }`}
                         >
-                          Customize Safina's voice and tone, set unique call
-                          excuses, and choose email or push notifications for
-                          call summaries to suit your workflow preferences.
+                          Easily navigate a sleek dashboard for quick call
+                          overviews, sentiment assessments, and interaction
+                          prioritization.
                         </p>
                       </div>
                     </div>
@@ -860,13 +859,6 @@ function App() {
                     })}
                   </div>
 
-                  {/* New primary button */}
-                  <div className="mt-12 text-center">
-                    <button className="bg-teal-600 text-white px-8 py-3 rounded-lg text-lg font-medium hover:bg-teal-700 transition-colors">
-                      Get Safina
-                    </button>
-                  </div>
-
                   {/* Availability and App Store Badges */}
                   <div className="mt-16 text-center">
                     <h3
@@ -874,19 +866,23 @@ function App() {
                         isDarkTheme ? "text-white" : "text-gray-900"
                       }`}
                     >
-                      Safina is Available for iOS, Android, and in your web
-                      browser
+                      Safina is Available for iOS and Android
                     </h3>
-                    <div className="flex justify-center space-x-4">
+                    <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-8">
                       <a
                         href="https://apps.apple.com/your-app-link"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
                         <img
-                          src={appStoreBadge}
+                          src={appStoreBadgeDesktop}
                           alt="Download on the App Store"
-                          className="h-12"
+                          className="h-auto w-[200px] hidden md:block"
+                        />
+                        <img
+                          src={appStoreBadgePhone}
+                          alt="Download on the App Store"
+                          className="h-auto w-[200px] md:hidden"
                         />
                       </a>
                       <a
@@ -895,9 +891,14 @@ function App() {
                         rel="noopener noreferrer"
                       >
                         <img
-                          src={playStoreBadge}
+                          src={playStoreBadgeDesktop}
                           alt="Get it on Google Play"
-                          className="h-12"
+                          className="h-auto w-[200px] hidden md:block"
+                        />
+                        <img
+                          src={playStoreBadgePhone}
+                          alt="Get it on Google Play"
+                          className="h-auto w-[200px] md:hidden"
                         />
                       </a>
                     </div>
@@ -926,7 +927,7 @@ function App() {
                         isDarkTheme ? "text-gray-300" : "text-gray-600"
                       }`}
                     >
-                      Have questions? We'd love to hear from you.
+                      Have feedback or suggestions about our app? We would love to hear from you. Feel free to reach out to us!
                     </p>
                   </div>
                   <ContactForm isDarkTheme={isDarkTheme} />
@@ -995,28 +996,37 @@ function App() {
               </section>
 
               {/* CTA */}
-              <section
-                className={`py-20 px-4 sm:px-6 lg:px-8 ${
-                  isDarkTheme ? "bg-gray-900" : "bg-white"
-                }`}
-              >
-                <div className="max-w-7xl mx-auto bg-gradient-to-r from-teal-600 to-teal-700 rounded-3xl p-12 text-center text-white">
-                  <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-                    Ready to Transform Your Call Experience?
-                  </h2>
-                  <p className="text-xl mb-8 text-teal-100 max-w-2xl mx-auto">
-                    Join thousands of users who trust Safina to manage their
-                    calls intelligently
-                  </p>
-                  <button
-                    onClick={() => {
-                      const pricingSection = document.getElementById("pricing");
-                      pricingSection?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    className="bg-white text-teal-600 px-8 py-3 rounded text-lg font-medium hover:bg-teal-50 transition-colors"
-                  >
-                    Get Safina
-                  </button>
+              <section className={`py-20 px-4 sm:px-6 lg:px-8 ${isDarkTheme ? 'bg-gray-900' : 'bg-white'}`}>
+                <div className="max-w-7xl mx-auto bg-gradient-to-r from-teal-600 to-teal-700 rounded-3xl overflow-hidden">
+                  <div className="flex flex-col-reverse md:flex-row items-center">
+                    {/* Image - now with 3rem padding */}
+                    <div className="w-full md:w-1/2 px-12 pt-12">
+                      <img 
+                        src="/src/assets/images/Safina AI Ready to Transform Your Call Experience.png"
+                        alt="Safina AI Transform Your Call Experience"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    
+                    {/* Content */}
+                    <div className="w-full md:w-1/2 p-12 text-left">
+                      <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-white">
+                        Ready to Transform Your Call Experience?
+                      </h2>
+                      <p className="text-xl mb-8 text-teal-100 max-w-2xl">
+                        Join thousands of users who trust Safina to manage their calls intelligently
+                      </p>
+                      <button
+                        onClick={() => {
+                          const pricingSection = document.getElementById("pricing");
+                          pricingSection?.scrollIntoView({ behavior: "smooth" });
+                        }}
+                        className="bg-white text-teal-600 px-8 py-3 rounded text-lg font-medium hover:bg-teal-50 transition-colors"
+                      >
+                        Get Safina
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </section>
             </>
