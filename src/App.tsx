@@ -432,7 +432,7 @@ function App() {
                   <div className="mx-4 lg:mx-auto" style={{ maxWidth: "1400px" }}>
                     <div className="space-y-8 text-center">
                       <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white leading-loose font-bold px-4">
-                        Safina is your
+                        Safina is your 
                         <span className="text-teal-200">AI powered </span>
                         phone assistant
                       </h1>
