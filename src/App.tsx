@@ -441,7 +441,7 @@ function App() {
                     <div className="space-y-8 text-center">
                       <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white leading-loose font-bold px-4">
                         Safina is your
-                        <span className="text-teal-200">AI powered </span>
+                        <span className="text-teal-200"> AI powered </span>
                         phone assistant
                       </h1>
                       <p className="text-xl text-white max-w-2xl mx-auto px-4">
