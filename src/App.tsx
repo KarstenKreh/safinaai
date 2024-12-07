@@ -204,19 +204,19 @@ function App() {
 
   useEffect(() => {
     if (import.meta.env.PROD) {
-      posthog.capture('$pageview')
+      posthog.capture("$pageview");
     }
   }, [location]);
 
   const handlePricingClick = (planName: string) => {
     if (import.meta.env.PROD) {
-      posthog.capture('pricing_plan_clicked', {
+      posthog.capture("pricing_plan_clicked", {
         plan: planName,
-        billing: isAnnualBilling ? 'annual' : 'monthly'
-      })
+        billing: isAnnualBilling ? "annual" : "monthly",
+      });
     }
     // ... rest of your click handling code
-  }
+  };
 
   return (
     <div
@@ -424,21 +424,33 @@ function App() {
 
               {/* Hero 2 Section */}
               <section className="relative h-screen overflow-hidden">
-                <div className="absolute inset-0 flex justify-center items-center">
+                <div className="absolute inset-0">
                   <Player
                     autoplay
                     loop
                     src={waveAnimationHero}
-                    className="hero-wave-animation"
+                    style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
+                      width: "100vw",
+                      height: "100vh",
+                      objectFit: "cover",
+                      transform: "scale(1.5)",
+                    }}
+                    rendererSettings={{
+                      preserveAspectRatio: "xMidYMid slice",
+                      clearCanvas: true,
+                    }}
                   />
                 </div>
                 <div className="absolute inset-0 bg-black opacity-70 pointer-events-none"></div>
                 <div className="relative flex justify-center items-center h-full">
-                  <div className="mx-4 lg:mx-auto" style={{ maxWidth: "1400px" }}>
+                  <div className="max-w-screen-lg w-full flex flex-col justify-between pt-16 sm:pt-24 px-4">
                     <div className="space-y-8 text-center">
                       <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white leading-loose font-bold px-4">
-                        Safina is your 
-                        <span className="text-teal-200">AI powered </span>
+                        Safina is your
+                        <span className="text-teal-200"> AI powered </span>
                         phone assistant
                       </h1>
                       <p className="text-xl text-white max-w-2xl mx-auto px-4">
@@ -709,7 +721,8 @@ function App() {
                               isDarkTheme ? "text-gray-300" : "text-gray-600"
                             }`}
                           >
-                            Manage calls effortlessly on your phone or tablet device.
+                            Manage calls effortlessly on your phone or tablet
+                            device.
                           </p>
                         </div>
                       </div>
@@ -852,7 +865,7 @@ function App() {
                               <button
                                 onClick={() =>
                                   (window.location.href =
-                                    "mailto:support@safinaai.com")
+                                    "mailto:info@safina.ai")
                                 }
                                 className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg text-base font-medium hover:bg-gray-400 transition-colors"
                               >
@@ -956,7 +969,8 @@ function App() {
                         isDarkTheme ? "text-gray-300" : "text-gray-600"
                       }`}
                     >
-                      Have feedback or suggestions about our app? We would love to hear from you. Feel free to reach out to us!
+                      Have feedback or suggestions about our app? We would love
+                      to hear from you. Feel free to reach out to us!
                     </p>
                   </div>
                   <ContactForm isDarkTheme={isDarkTheme} />
@@ -1025,31 +1039,39 @@ function App() {
               </section>
 
               {/* CTA */}
-              <section className={`py-20 px-4 sm:px-6 lg:px-8 ${isDarkTheme ? 'bg-gray-900' : 'bg-white'}`}>
+              <section
+                className={`py-20 px-4 sm:px-6 lg:px-8 ${
+                  isDarkTheme ? "bg-gray-900" : "bg-white"
+                }`}
+              >
                 <div className="max-w-7xl mx-auto bg-gradient-to-r from-teal-600 to-teal-700 rounded-3xl overflow-hidden">
                   <div className="flex flex-col-reverse md:flex-row items-center">
                     {/* Image - now with 3rem padding */}
                     <div className="w-full md:w-1/2 px-12 pt-12">
-                      <img 
-                        src={transformCallExperience}
+                      <img
+                        src="/src/assets/images/Safina AI Ready to Transform Your Call Experience.png"
                         alt="Safina AI Transform Your Call Experience"
                         className="cta-image w-full h-full object-cover"
                         loading="lazy"
                       />
                     </div>
-                    
+
                     {/* Content */}
                     <div className="w-full md:w-1/2 p-12 text-left">
                       <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-white">
                         Ready to Transform Your Call Experience?
                       </h2>
                       <p className="text-xl mb-8 text-teal-100 max-w-2xl">
-                        Join thousands of users who trust Safina to manage their calls intelligently
+                        Join thousands of users who trust Safina to manage their
+                        calls intelligently
                       </p>
                       <button
                         onClick={() => {
-                          const pricingSection = document.getElementById("pricing");
-                          pricingSection?.scrollIntoView({ behavior: "smooth" });
+                          const pricingSection =
+                            document.getElementById("pricing");
+                          pricingSection?.scrollIntoView({
+                            behavior: "smooth",
+                          });
                         }}
                         className="bg-white text-teal-600 px-8 py-3 rounded text-lg font-medium hover:bg-teal-50 transition-colors"
                       >
@@ -1068,12 +1090,12 @@ function App() {
         <Route path="*" element={<NotFound isDarkTheme={isDarkTheme} />} />
       </Routes>
 
-      <Footer 
-        isDarkTheme={isDarkTheme} 
-        onCookieSettingsClick={() => setIsCookieBannerVisible(true)} 
+      <Footer
+        isDarkTheme={isDarkTheme}
+        onCookieSettingsClick={() => setIsCookieBannerVisible(true)}
       />
-      <CookieBanner 
-        isDarkTheme={isDarkTheme} 
+      <CookieBanner
+        isDarkTheme={isDarkTheme}
         isVisible={isCookieBannerVisible}
         setIsVisible={setIsCookieBannerVisible}
       />
