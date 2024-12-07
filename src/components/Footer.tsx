@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import logoLight from "../assets/images/Logo-safina-ai-on-light.svg";
 import logoDark from "../assets/images/Logo-safina-ai-on-dark.svg";
+import { Linkedin, Twitter } from 'lucide-react';
 
 interface FooterProps {
   isDarkTheme: boolean;
@@ -50,6 +51,32 @@ function Footer({ isDarkTheme, onCookieSettingsClick }: FooterProps) {
             >
               Cookie Settings
             </button>
+          </div>
+
+          {/* Social Links */}
+          <div className="flex items-center space-x-4">
+            <a
+              href="https://www.linkedin.com/company/safina-ai/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`hover:text-teal-600 transition-colors ${
+                isDarkTheme ? 'text-gray-400 hover:text-teal-400' : 'text-gray-600'
+              }`}
+              aria-label="Follow us on LinkedIn"
+            >
+              <Linkedin className="h-6 w-6" />
+            </a>
+            <a
+              href="https://x.com/Safina_AI_app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`hover:text-teal-600 transition-colors ${
+                isDarkTheme ? 'text-gray-400 hover:text-teal-400' : 'text-gray-600'
+              }`}
+              aria-label="Follow us on X (Twitter)"
+            >
+              <Twitter className="h-6 w-6" />
+            </a>
           </div>
         </div>
       </div>

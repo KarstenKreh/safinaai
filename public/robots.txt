@@ -1,0 +1,3 @@
+Sitemap: https://safina.ai/sitemap.xml
+User-agent: *
+Allow: / 

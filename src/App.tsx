@@ -39,6 +39,7 @@ import playStoreBadgePhone from "./assets/images/Badge-Safina-App-googleplay-pho
 import posthog from './utils/posthog';
 import { CookieBanner } from './components/CookieBanner';
 import NotFound from './components/NotFound';
+import transformCallExperience from "./assets/images/safina-ai-transform-call-experience.png";
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -413,6 +414,14 @@ function App() {
           path="/"
           element={
             <>
+              <main>
+                <h1 className="sr-only">Safina AI - Your Personal Call Assistant</h1>
+                {/* Hero section */}
+                <section aria-labelledby="hero-heading">
+                  <h2 id="hero-heading" className="text-4xl">...</h2>
+                </section>
+              </main>
+
               {/* Hero 2 Section */}
               <section className="relative h-screen overflow-hidden">
                 <div className="absolute inset-0 flex justify-center items-center">
@@ -420,11 +429,7 @@ function App() {
                     autoplay
                     loop
                     src={waveAnimationHero}
-                    style={{
-                      height: '100%',
-                      width: 'auto',
-                      aspectRatio: 'auto'
-                    }}
+                    className="hero-wave-animation"
                   />
                 </div>
                 <div className="absolute inset-0 bg-black opacity-70 pointer-events-none"></div>
@@ -561,6 +566,7 @@ function App() {
                             src={step.image}
                             alt={`Step ${step.number}`}
                             className="absolute inset-0 w-full h-full object-cover rounded-lg opacity-0 animate-fade-in"
+                            loading="lazy"
                           />
                         </div>
                         <div className="w-12 h-12 bg-teal-100 rounded-full flex items-center justify-center text-teal-600 mx-auto mb-6 text-2xl font-bold">
@@ -1025,9 +1031,10 @@ function App() {
                     {/* Image - now with 3rem padding */}
                     <div className="w-full md:w-1/2 px-12 pt-12">
                       <img 
-                        src="/src/assets/images/Safina AI Ready to Transform Your Call Experience.png"
+                        src={transformCallExperience}
                         alt="Safina AI Transform Your Call Experience"
-                        className="w-full h-full object-cover"
+                        className="cta-image w-full h-full object-cover"
+                        loading="lazy"
                       />
                     </div>
                     
