@@ -21,10 +21,10 @@ import { Player } from "@lottiefiles/react-lottie-player";
 import { useInView } from "./hooks/useInView";
 import { ContactForm } from "./components/ContactForm";
 // Image imports
-import mockup01 from "./assets/images/safina-ai-app-mockup-01.jpg";
-import mockup02 from "./assets/images/safina-ai-app-mockup-02.jpg";
-import mockup03 from "./assets/images/safina-ai-app-mockup-03.jpg";
-import mockup04 from "./assets/images/safina-ai-app-mockup-04.jpg";
+import mockup01 from "./assets/images/Safina-AI-App-Mockup-01.jpg";
+import mockup02 from "./assets/images/Safina-AI-App-Mockup-02.jpg";
+import mockup03 from "./assets/images/Safina-AI-App-Mockup-03.jpg";
+import mockup04 from "./assets/images/Safina-AI-App-Mockup-04.jpg";
 import intuitiveDashboard from "./assets/images/intuitive-dashboard-design.png";
 import seamlessAccess from "./assets/images/seamless-multi-device-access.png";
 import callReports from "./assets/images/snipped-comprehensive-call-reports.png";
@@ -36,9 +36,9 @@ import appStoreBadgeDesktop from "./assets/images/Badge-Safina-App-appstore-desk
 import appStoreBadgePhone from "./assets/images/Badge-Safina-App-appstore-phone.svg";
 import playStoreBadgeDesktop from "./assets/images/Badge-Safina-App-googleplay-desktop.svg";
 import playStoreBadgePhone from "./assets/images/Badge-Safina-App-googleplay-phone.svg";
-import posthog from './utils/posthog';
-import { CookieBanner } from './components/CookieBanner';
-import NotFound from './components/NotFound';
+import posthog from "./utils/posthog";
+import { CookieBanner } from "./components/CookieBanner";
+import NotFound from "./components/NotFound";
 import transformCallExperience from "./assets/images/safina-ai-ready-to-transform-your-call-experience.png";
 
 function App() {
@@ -415,10 +415,14 @@ function App() {
           element={
             <>
               <main>
-                <h1 className="sr-only">Safina AI - Your Personal Call Assistant</h1>
+                <h1 className="sr-only">
+                  Safina AI - Your Personal Call Assistant
+                </h1>
                 {/* Hero section */}
                 <section aria-labelledby="hero-heading">
-                  <h2 id="hero-heading" className="text-4xl">...</h2>
+                  <h2 id="hero-heading" className="text-4xl">
+                    ...
+                  </h2>
                 </section>
               </main>
 
