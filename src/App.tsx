@@ -1049,7 +1049,7 @@ function App() {
                     {/* Image - now with 3rem padding */}
                     <div className="w-full md:w-1/2 px-12 pt-12">
                       <img
-                        src="/src/assets/images/Safina AI Ready to Transform Your Call Experience.png"
+                        src={transformCallExperience}
                         alt="Safina AI Transform Your Call Experience"
                         className="cta-image w-full h-full object-cover"
                         loading="lazy"
