@@ -21,13 +21,13 @@ import { Player } from "@lottiefiles/react-lottie-player";
 import { useInView } from "./hooks/useInView";
 import { ContactForm } from "./components/ContactForm";
 // Image imports
-import mockup01 from "./assets/images/Safina-AI-App-Mockup-01.jpg";
-import mockup02 from "./assets/images/Safina-AI-App-Mockup-02.jpg";
-import mockup03 from "./assets/images/Safina-AI-App-Mockup-03.jpg";
-import mockup04 from "./assets/images/Safina-AI-App-Mockup-04.jpg";
-import intuitiveDashboard from "./assets/images/Intuitive-Dashboard-Design.png";
-import seamlessAccess from "./assets/images/Seamless-Multi-Device-Access.png";
-import callReports from "./assets/images/Snipped-Comprehensive-Call-Reports.png";
+import mockup01 from "./assets/images/safina-ai-app-mockup-01.jpg";
+import mockup02 from "./assets/images/safina-ai-app-mockup-02.jpg";
+import mockup03 from "./assets/images/safina-ai-app-mockup-03.jpg";
+import mockup04 from "./assets/images/safina-ai-app-mockup-04.jpg";
+import intuitiveDashboard from "./assets/images/intuitive-dashboard-design.png";
+import seamlessAccess from "./assets/images/seamless-multi-device-access.png";
+import callReports from "./assets/images/snipped-comprehensive-call-reports.png";
 import personalizedInteraction from "./assets/images/Snipped-Personalized-Interaction-and-Notifications.png";
 import waveAnimationHero from "./assets/lottie/wave-animation-hero.json";
 import logoLight from "./assets/images/Logo-safina-ai-on-light.svg";
@@ -39,7 +39,7 @@ import playStoreBadgePhone from "./assets/images/Badge-Safina-App-googleplay-pho
 import posthog from './utils/posthog';
 import { CookieBanner } from './components/CookieBanner';
 import NotFound from './components/NotFound';
-import transformCallExperience from "./assets/images/safina-ai-transform-call-experience.png";
+import transformCallExperience from "./assets/images/safina-ai-ready-to-transform-your-call-experience.png";
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

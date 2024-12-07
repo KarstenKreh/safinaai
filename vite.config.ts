@@ -2,9 +2,6 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { imagetools } from 'vite-imagetools';
 
-const isProd = process.env.NODE_ENV === 'production';
-const CDN_URL = 'https://cdn.safinaai.com'; // Replace with your CDN domain
-
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
@@ -17,7 +14,7 @@ export default defineConfig({
       }),
     }),
   ],
-  base: isProd ? CDN_URL : '/',
+  base: '/',
   build: {
     outDir: 'dist',
     rollupOptions: {
