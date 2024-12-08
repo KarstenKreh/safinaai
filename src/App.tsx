@@ -40,8 +40,13 @@ import posthog from "./utils/posthog";
 import { CookieBanner } from "./components/CookieBanner";
 import NotFound from "./components/NotFound";
 import transformCallExperience from "./assets/images/safina-ai-ready-to-transform-your-call-experience.png";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
+import ukFlag from "./assets/images/uk-flag.svg";
+import deFlag from "./assets/images/de-flag.svg";
 
 function App() {
+  const { t } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
@@ -50,101 +55,72 @@ function App() {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
   const location = useLocation();
   const [isCookieBannerVisible, setIsCookieBannerVisible] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState(
+    navigator.language.split("-")[0]
+  );
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
 
   const plans = [
     {
-      name: "Personal",
+      name: t("pricing.plans.personal.name"),
       price: "4.99",
-      features: [
-        "Dedicated personal Safina phone number",
-        "Safina manages calls up to 30 minutes per month",
-        "Available 24/7 with natural, human-like conversations",
-        "Built-in spam protection and call screening",
-        "Smart summaries of each call",
-        "Full access to all features in the Safina mobile app",
-      ],
+      features: t("pricing.plans.personal.features", { returnObjects: true }),
     },
     {
-      name: "Professional",
+      name: t("pricing.plans.professional.name"),
       price: "9.99",
-      features: [
-        "Everything in the Personal plan",
-        "Custom call-handling preferences tailored to your needs",
-        "Extended call management for calls up to 60 minutes per month",
-        "Comprehensive call summaries and full transcripts",
-        "Customize Safinas' voice and set custom instructions",
-        "Access to downloadable audio recordings of each call",
-      ],
+      features: t("pricing.plans.professional.features", {
+        returnObjects: true,
+      }),
       popular: true,
     },
     {
-      name: "Enterprise",
-      price: "Request",
-      features: [
-        "Everything in the Professional plan",
-        "Unlimited call management",
-        "API access for seamless integrations",
-        "Custom voice training for a branded experience",
-        "Option to manage multiple Safina numbers",
-        "Ability to train Safina with your own data for deeper personalization",
-      ],
+      name: t("pricing.plans.enterprise.name"),
+      price: t("pricing.requestButton"),
+      features: t("pricing.plans.enterprise.features", { returnObjects: true }),
     },
   ];
 
   const faqs = [
     {
-      question: "What is Safina and how does it work?",
-      answer:
-        "Safina is an AI-powered personal phone secretary that manages your calls by answering those you miss or decline. It identifies spam or phishing calls, provides actionable summaries of interactions, and helps you avoid unnecessary interruptions.",
+      question: t("faq.questions.whatIsSafina.question"),
+      answer: t("faq.questions.whatIsSafina.answer"),
     },
     {
-      question: "How does Safina determine which calls to answer?",
-      answer:
-        "Safina automatically answers a call if you decline it, if it rings more than five times, or if you're in Focus Mode, ensuring important calls are managed effectively without bothering you.",
+      question: t("faq.questions.howDoesItAnswer.question"),
+      answer: t("faq.questions.howDoesItAnswer.answer"),
     },
     {
-      question: "How does Safina assess the risk level of calls?",
-      answer:
-        "Safina evaluates calls and categorizes them into Harmless, Suspicious, or Dangerous. This assessment helps you understand the potential risk level of each call based on various indicators.",
+      question: t("faq.questions.riskAssessment.question"),
+      answer: t("faq.questions.riskAssessment.answer"),
     },
     {
-      question:
-        "What type of information does Safina provide in call summaries?",
-      answer:
-        "Safina asks callers for the purpose of their call and provides concise summaries, offering you a clear understanding of the caller's intent and the importance of the interaction.",
+      question: t("faq.questions.callSummaries.question"),
+      answer: t("faq.questions.callSummaries.answer"),
     },
     {
-      question:
-        "How can I personalize Safina's voice and notification settings?",
-      answer:
-        "You can always modify Safina's voice and notification preferences by updating your profile settings, allowing you to tailor the experience to your liking.",
+      question: t("faq.questions.personalization.question"),
+      answer: t("faq.questions.personalization.answer"),
     },
     {
-      question:
-        "What are the benefits of upgrading to a higher plan with Safina?",
-      answer:
-        "Upgrading to a higher plan, such as Pro, allows for unlimited calls and access to all mobile app features, providing a comprehensive call management solution suitable for busy professionals.",
+      question: t("faq.questions.upgradeBenefits.question"),
+      answer: t("faq.questions.upgradeBenefits.answer"),
     },
     {
-      question: "How does Focus Mode work with Safina?",
-      answer:
-        "In Focus Mode, all calls are seamlessly forwarded to Safina, allowing you to concentrate on your tasks without interruptions while ensuring that no calls are missed.",
+      question: t("faq.questions.focusMode.question"),
+      answer: t("faq.questions.focusMode.answer"),
     },
     {
-      question: "Can Safina handle international calls?",
-      answer:
-        "Yes, Safina can always handle international calls, regardless of the subscription plan, providing consistent call management globally.",
+      question: t("faq.questions.internationalCalls.question"),
+      answer: t("faq.questions.internationalCalls.answer"),
     },
     {
-      question: "Is it necessary to use the dedicated Safina number?",
-      answer:
-        "Using the dedicated Safina number is optional. Calls made to this number are always received by Safina, ensuring seamless handling and management, enhancing your call experience.",
+      question: t("faq.questions.dedicatedNumber.question"),
+      answer: t("faq.questions.dedicatedNumber.answer"),
     },
     {
-      question:
-        "Is it possible to temporarily disable Safina without cancelling the service?",
-      answer:
-        "Of course this is possible. To disable forwarding to Safina, simply call #400#.",
+      question: t("faq.questions.temporaryDisable.question"),
+      answer: t("faq.questions.temporaryDisable.answer"),
     },
   ];
 
@@ -218,6 +194,18 @@ function App() {
     // ... rest of your click handling code
   };
 
+  useEffect(() => {
+    // Set initial language based on browser language
+    const browserLang = navigator.language.split("-")[0];
+    const supportedLanguages = ["en", "de"];
+    const defaultLang = supportedLanguages.includes(browserLang)
+      ? browserLang
+      : "en";
+
+    i18next.changeLanguage(defaultLang);
+    setCurrentLanguage(defaultLang);
+  }, []);
+
   return (
     <div
       className={`min-h-screen ${
@@ -281,7 +269,7 @@ function App() {
                     : "text-gray-600 hover:text-gray-900"
                 } text-base`}
               >
-                Features
+                {t("common.features")}
               </button>
               <button
                 onClick={() => scrollToSection("how-it-works")}
@@ -291,7 +279,7 @@ function App() {
                     : "text-gray-600 hover:text-gray-900"
                 } text-base`}
               >
-                How it Works
+                {t("common.howItWorks")}
               </button>
               <button
                 onClick={() => scrollToSection("pricing")}
@@ -301,7 +289,7 @@ function App() {
                     : "text-gray-600 hover:text-gray-900"
                 } text-base`}
               >
-                Pricing
+                {t("common.pricing")}
               </button>
               <button
                 onClick={() => scrollToSection("faq")}
@@ -311,16 +299,100 @@ function App() {
                     : "text-gray-600 hover:text-gray-900"
                 } text-base`}
               >
-                FAQ
+                {t("common.faq")}
               </button>
               <button
                 className="bg-teal-600 text-white px-6 py-2 rounded text-base font-medium hover:bg-teal-700 transition-colors"
                 onClick={() => scrollToSection("pricing")}
               >
-                Get Safina
+                {t("cta.button")}
               </button>
 
-              {/* Add theme toggle button */}
+              {/* Desktop Language Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() =>
+                    setIsLanguageDropdownOpen(!isLanguageDropdownOpen)
+                  }
+                  className={`flex items-center space-x-2 px-3 py-1 rounded-md ${
+                    isDarkTheme
+                      ? "bg-gray-800 text-gray-300 hover:text-white"
+                      : "bg-gray-200 text-gray-700 hover:text-gray-900"
+                  }`}
+                >
+                  <img
+                    src={currentLanguage === "en" ? ukFlag : deFlag}
+                    alt={currentLanguage === "en" ? "English" : "Deutsch"}
+                    className="w-5 h-5 rounded-sm"
+                  />
+                  <span>{currentLanguage.toUpperCase()}</span>
+                  <ChevronDown
+                    className={`w-4 h-4 transform transition-transform ${
+                      isLanguageDropdownOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {/* Dropdown Menu */}
+                {isLanguageDropdownOpen && (
+                  <div
+                    className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg ${
+                      isDarkTheme ? "bg-gray-800" : "bg-white"
+                    } ring-1 ring-black ring-opacity-5 z-50`}
+                  >
+                    <div className="py-1">
+                      <button
+                        onClick={() => {
+                          i18next.changeLanguage("en");
+                          setCurrentLanguage("en");
+                          setIsLanguageDropdownOpen(false);
+                        }}
+                        className={`flex items-center space-x-3 px-4 py-2 w-full text-left ${
+                          isDarkTheme
+                            ? "hover:bg-gray-700 text-gray-300"
+                            : "hover:bg-gray-100 text-gray-700"
+                        } ${
+                          currentLanguage === "en"
+                            ? "bg-teal-50 text-teal-600"
+                            : ""
+                        }`}
+                      >
+                        <img
+                          src={ukFlag}
+                          alt="English"
+                          className="w-5 h-5 rounded-sm"
+                        />
+                        <span>English</span>
+                      </button>
+                      <button
+                        onClick={() => {
+                          i18next.changeLanguage("de");
+                          setCurrentLanguage("de");
+                          setIsLanguageDropdownOpen(false);
+                        }}
+                        className={`flex items-center space-x-3 px-4 py-2 w-full text-left ${
+                          isDarkTheme
+                            ? "hover:bg-gray-700 text-gray-300"
+                            : "hover:bg-gray-100 text-gray-700"
+                        } ${
+                          currentLanguage === "de"
+                            ? "bg-teal-50 text-teal-600"
+                            : ""
+                        }`}
+                      >
+                        <img
+                          src={deFlag}
+                          alt="Deutsch"
+                          className="w-5 h-5 rounded-sm"
+                        />
+                        <span>Deutsch</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Existing theme toggle button */}
               <button
                 onClick={toggleTheme}
                 className={`p-2 rounded-full ${
@@ -354,7 +426,7 @@ function App() {
                 }}
                 className="block px-3 py-2 text-gray-600 text-lg w-full text-left"
               >
-                Features
+                {t("mobileMenu.features")}
               </button>
               <button
                 onClick={() => {
@@ -363,7 +435,7 @@ function App() {
                 }}
                 className="block px-3 py-2 text-gray-600 text-lg w-full text-left"
               >
-                How it Works
+                {t("mobileMenu.howItWorks")}
               </button>
               <button
                 onClick={() => {
@@ -372,7 +444,7 @@ function App() {
                 }}
                 className="block px-3 py-2 text-gray-600 text-lg w-full text-left"
               >
-                Pricing
+                {t("mobileMenu.pricing")}
               </button>
               <button
                 onClick={() => {
@@ -381,7 +453,7 @@ function App() {
                 }}
                 className="block px-3 py-2 text-gray-600 text-lg w-full text-left"
               >
-                FAQ
+                {t("mobileMenu.faq")}
               </button>
               <button
                 onClick={() => {
@@ -390,19 +462,67 @@ function App() {
                 }}
                 className="w-full mt-2 bg-teal-600 text-white px-6 py-3 rounded-full text-lg"
               >
-                Get Safina
+                {t("mobileMenu.getSafina")}
               </button>
-            </div>
 
-            {/* Add theme toggle button to mobile menu */}
-            <div className="px-3 py-2">
+              {/* Mobile Language Selector */}
+              <div className="px-2 pt-2 pb-3">
+                <div className="space-y-1">
+                  <button
+                    onClick={() => {
+                      i18next.changeLanguage("en");
+                      setCurrentLanguage("en");
+                      setIsMenuOpen(false);
+                    }}
+                    className={`flex items-center space-x-3 w-full px-3 py-2 rounded-md ${
+                      currentLanguage === "en"
+                        ? "bg-teal-50 text-teal-600"
+                        : isDarkTheme
+                        ? "text-gray-300 hover:bg-gray-700"
+                        : "text-gray-600 hover:bg-gray-100"
+                    }`}
+                  >
+                    <img
+                      src={ukFlag}
+                      alt="English"
+                      className="w-5 h-5 rounded-sm"
+                    />
+                    <span>English</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      i18next.changeLanguage("de");
+                      setCurrentLanguage("de");
+                      setIsMenuOpen(false);
+                    }}
+                    className={`flex items-center space-x-3 w-full px-3 py-2 rounded-md ${
+                      currentLanguage === "de"
+                        ? "bg-teal-50 text-teal-600"
+                        : isDarkTheme
+                        ? "text-gray-300 hover:bg-gray-700"
+                        : "text-gray-600 hover:bg-gray-100"
+                    }`}
+                  >
+                    <img
+                      src={deFlag}
+                      alt="Deutsch"
+                      className="w-5 h-5 rounded-sm"
+                    />
+                    <span>Deutsch</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Existing theme toggle */}
               <button
                 onClick={toggleTheme}
                 className={`w-full text-left px-3 py-2 ${
                   isDarkTheme ? "text-white" : "text-gray-600"
                 }`}
               >
-                {isDarkTheme ? "Light Mode" : "Dark Mode"}
+                {isDarkTheme
+                  ? t("mobileMenu.lightMode")
+                  : t("mobileMenu.darkMode")}
               </button>
             </div>
           </div>
@@ -415,9 +535,7 @@ function App() {
           element={
             <>
               <main>
-                <h1 className="sr-only">
-                  Safina AI - Your Personal Call Assistant
-                </h1>
+                <h1 className="sr-only">{t("common.title")}</h1>
                 {/* Hero section */}
                 <section aria-labelledby="hero-heading">
                   <h2 id="hero-heading" className="text-4xl">
@@ -453,23 +571,24 @@ function App() {
                   <div className="max-w-screen-lg w-full flex flex-col justify-between pt-16 sm:pt-24 px-4">
                     <div className="space-y-8 text-center">
                       <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white leading-loose font-bold px-4">
-                        Safina is your
-                        <span className="text-teal-200"> AI powered </span>
-                        <br />
-                        <br />
-                        <span className="text-white">Voice Mail Assistant</span>
+                        {t("hero.title")}
+                        <span className="text-teal-200">
+                          {" "}
+                          {t("hero.aiPowered")}{" "}
+                        </span>
+                      </h1>
+                      <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white leading-loose font-bold">
+                        {t("hero.voiceMailAssistant")}
                       </h1>
                       <p className="text-xl text-white max-w-2xl mx-auto px-4">
-                        Never miss an important call again. Safina answers,
-                        converses naturally, and delivers clear actionable
-                        summaries straight to you.
+                        {t("hero.subtitle")}
                       </p>
                       <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                         <a
                           href="tel:+498962828095"
                           className="border-2 border-white text-white px-8 py-3 rounded text-lg font-medium hover:bg-white/10 transition-colors"
                         >
-                          Call Safina
+                          {t("hero.callSafina")}
                         </a>
                         <button
                           className="bg-white text-teal-600 px-8 py-3 rounded text-lg font-medium hover:bg-gray-200 transition-colors"
@@ -481,22 +600,28 @@ function App() {
                             });
                           }}
                         >
-                          Get Safina
+                          {t("cta.button")}
                         </button>
                       </div>
                     </div>
                     <div className="flex flex-wrap items-center gap-4 text-sm text-white justify-center mt-8">
                       <div className="flex items-center bg-white/[.15] p-2 rounded-xl">
                         <MessageCircle className="w-5 h-5 text-white mr-2" />
-                        <span className="text-m">Natural Conversations</span>
+                        <span className="text-m">
+                          {t("hero.features.naturalConversations")}
+                        </span>
                       </div>
                       <div className="flex items-center bg-white/[.15] p-2 rounded-xl">
                         <FileText className="w-5 h-5 text-white mr-2" />
-                        <span className="text-m">Actionable Summaries</span>
+                        <span className="text-m">
+                          {t("hero.features.actionableSummaries")}
+                        </span>
                       </div>
                       <div className="flex items-center bg-white/[.15] p-2 rounded-xl">
                         <Shield className="w-5 h-5 text-white mr-2" />
-                        <span className="text-m">Intercepting spam calls</span>
+                        <span className="text-m">
+                          {t("hero.features.spamProtection")}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -511,23 +636,23 @@ function App() {
               >
                 <div className="max-w-7xl mx-auto flex flex-col items-center">
                   <h2 className="text-3xl sm:text-4xl font-bold text-center mb-12">
-                    Safina helps an average user to ...
+                    {t("metrics.title")}
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl">
                     <Metric
                       number={34}
-                      prefix="... save"
-                      suffix="min of time a month."
+                      prefix={t("metrics.save")}
+                      suffix={t("metrics.minutes")}
                     />
                     <Metric
                       number={46}
-                      prefix="... avoid"
-                      suffix="unwanted interruptions a month."
+                      prefix={t("metrics.avoid")}
+                      suffix={t("metrics.interruptions")}
                     />
                     <Metric
                       number={11}
-                      prefix="... intercept"
-                      suffix="spam calls a year."
+                      prefix={t("metrics.intercept")}
+                      suffix={t("metrics.spam")}
                     />
                   </div>
                 </div>
@@ -550,7 +675,7 @@ function App() {
                         isDarkTheme ? "text-white" : "text-gray-900"
                       }`}
                     >
-                      How It Works
+                      {t("howItWorks.title")}
                     </h2>
                   </div>
                   <div className="grid md:grid-cols-4 gap-8">
@@ -558,30 +683,32 @@ function App() {
                       {
                         number: "1",
                         image: mockup01,
-                        title: "Configure Safina",
-                        description:
-                          "Choose a voice that matches your style, ensuring every call sounds professional.",
+                        title: t("howItWorks.steps.configure.title"),
+                        description: t(
+                          "howItWorks.steps.configure.description"
+                        ),
                       },
                       {
                         number: "2",
                         image: mockup02,
-                        title: "Test call",
-                        description:
-                          "Experience firsthand how Safina handles callers by going through a test call scenario.",
+                        title: t("howItWorks.steps.test.title"),
+                        description: t("howItWorks.steps.test.description"),
                       },
                       {
                         number: "3",
                         image: mockup03,
-                        title: "Set forwarding",
-                        description:
-                          "Forwarding to Safina is set up with just one call to a dedicated number.",
+                        title: t("howItWorks.steps.forwarding.title"),
+                        description: t(
+                          "howItWorks.steps.forwarding.description"
+                        ),
                       },
                       {
                         number: "4",
                         image: mockup04,
-                        title: "Notifications",
-                        description:
-                          "Customize when to receive notifications about calls, aligning with your preferences.",
+                        title: t("howItWorks.steps.notifications.title"),
+                        description: t(
+                          "howItWorks.steps.notifications.description"
+                        ),
                       },
                     ].map((step, index) => (
                       <div key={index} className="text-center">
@@ -628,7 +755,7 @@ function App() {
                       isDarkTheme ? "text-white" : "text-gray-900"
                     }`}
                   >
-                    Discover What Sets Safina Apart
+                    {t("features.discover.title")}
                   </h2>
                   <div className="grid md:grid-cols-3 gap-8">
                     {/* Card 1: Personalized Interaction and Notifications */}
@@ -641,7 +768,9 @@ function App() {
                       <div className="p-6">
                         <img
                           src={personalizedInteraction}
-                          alt="Personalized Interaction and Notifications"
+                          alt={t(
+                            "features.discover.personalizedInteraction.title"
+                          )}
                           className="w-full h-auto drop-shadow-lg"
                         />
                       </div>
@@ -651,16 +780,16 @@ function App() {
                             isDarkTheme ? "text-white" : "text-gray-900"
                           }`}
                         >
-                          Personalized Interaction and Notifications
+                          {t("features.discover.personalizedInteraction.title")}
                         </h3>
                         <p
                           className={`${
                             isDarkTheme ? "text-gray-300" : "text-gray-600"
                           }`}
                         >
-                          Customize Safina's voice and tone, set unique call
-                          excuses, and choose email or push notifications for
-                          call summaries to suit your workflow preferences.
+                          {t(
+                            "features.discover.personalizedInteraction.description"
+                          )}
                         </p>
                       </div>
                     </div>
@@ -681,22 +810,20 @@ function App() {
                               isDarkTheme ? "text-white" : "text-gray-900"
                             }`}
                           >
-                            Comprehensive Call Reports
+                            {t("features.discover.callReports.title")}
                           </h3>
                           <p
                             className={`${
                               isDarkTheme ? "text-gray-300" : "text-gray-600"
                             }`}
                           >
-                            Get detailed reports with conversation summaries,
-                            insights, sentiment assessments, access to caller
-                            details, transcripts, and audio.
+                            {t("features.discover.callReports.description")}
                           </p>
                         </div>
                         <div className="md:w-1/2 p-6 flex items-center">
                           <img
                             src={callReports}
-                            alt="Comprehensive Call Reports"
+                            alt={t("features.discover.callReports.title")}
                             className="w-full h-auto drop-shadow-lg"
                           />
                         </div>
@@ -716,7 +843,7 @@ function App() {
                         <div className="md:w-1/2 pr-6 pb-6">
                           <img
                             src={seamlessAccess}
-                            alt="Seamless Multi-Device Access"
+                            alt={t("features.discover.seamlessAccess.title")}
                             className="w-full h-auto drop-shadow-lg"
                           />
                         </div>
@@ -726,15 +853,14 @@ function App() {
                               isDarkTheme ? "text-white" : "text-gray-900"
                             }`}
                           >
-                            Seamless Multi-Device Access
+                            {t("features.discover.seamlessAccess.title")}
                           </h3>
                           <p
                             className={`${
                               isDarkTheme ? "text-gray-300" : "text-gray-600"
                             }`}
                           >
-                            Manage calls effortlessly on your phone or tablet
-                            device.
+                            {t("features.discover.seamlessAccess.description")}
                           </p>
                         </div>
                       </div>
@@ -750,7 +876,7 @@ function App() {
                       <div className="p-6">
                         <img
                           src={intuitiveDashboard}
-                          alt="Intuitive Dashboard Design"
+                          alt={t("features.discover.dashboard.title")}
                           className="w-full h-auto drop-shadow-lg"
                         />
                       </div>
@@ -760,16 +886,14 @@ function App() {
                             isDarkTheme ? "text-white" : "text-gray-900"
                           }`}
                         >
-                          Intuitive Dashboard Design
+                          {t("features.discover.dashboard.title")}
                         </h3>
                         <p
                           className={`${
                             isDarkTheme ? "text-gray-300" : "text-gray-600"
                           }`}
                         >
-                          Easily navigate a sleek dashboard for quick call
-                          overviews, sentiment assessments, and interaction
-                          prioritization.
+                          {t("features.discover.dashboard.description")}
                         </p>
                       </div>
                     </div>
@@ -791,7 +915,7 @@ function App() {
                         isDarkTheme ? "text-white" : "text-gray-900"
                       }`}
                     >
-                      Choose a plan that works for you
+                      {t("pricing.choosePlan")}
                     </h2>
                     <div className="mt-6 flex items-center justify-center">
                       <span
@@ -805,7 +929,7 @@ function App() {
                             : "text-gray-900"
                         }`}
                       >
-                        Billed Monthly
+                        {t("pricing.billingToggle.monthly")}
                       </span>
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input
@@ -827,7 +951,7 @@ function App() {
                             : "text-gray-500"
                         }`}
                       >
-                        Billed annually
+                        {t("pricing.billingToggle.annually")}
                       </span>
                     </div>
                   </div>
@@ -847,7 +971,7 @@ function App() {
                         >
                           {plan.popular && (
                             <span className="bg-teal-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                              Most Popular
+                              {t("pricing.mostPopular")}
                             </span>
                           )}
                           <h3
@@ -870,7 +994,7 @@ function App() {
                                   €
                                 </span>
                                 <span className="ml-1 text-gray-500 text-base">
-                                  /month
+                                  {t("pricing.perMonth")}
                                 </span>
                               </>
                             ) : (
@@ -887,26 +1011,30 @@ function App() {
                           </div>
                           {isAnnualBilling && plan.price !== "Request" && (
                             <p className="text-sm text-green-600 mt-2">
-                              Save 20% with annual billing
+                              {t("pricing.billingToggle.saveText")}
                             </p>
                           )}
                           <ul className="mt-6 space-y-3">
-                            {plan.features.map((feature, featureIndex) => (
-                              <li
-                                key={featureIndex}
-                                className="flex items-center"
-                              >
-                                <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
-                                <span
-                                  className={`${
-                                    isDarkTheme
-                                      ? "text-gray-300"
-                                      : "text-gray-600"
-                                  } text-sm`}
-                                  dangerouslySetInnerHTML={{ __html: feature }}
-                                ></span>
-                              </li>
-                            ))}
+                            {(plan.features as string[]).map(
+                              (feature, featureIndex) => (
+                                <li
+                                  key={featureIndex}
+                                  className="flex items-center"
+                                >
+                                  <CheckCircle2 className="w-5 h-5 text-green-500 mr-2 flex-shrink-0" />
+                                  <span
+                                    className={`${
+                                      isDarkTheme
+                                        ? "text-gray-300"
+                                        : "text-gray-600"
+                                    } text-sm`}
+                                    dangerouslySetInnerHTML={{
+                                      __html: feature,
+                                    }}
+                                  ></span>
+                                </li>
+                              )
+                            )}
                           </ul>
                         </div>
                       );
@@ -920,7 +1048,7 @@ function App() {
                         isDarkTheme ? "text-white" : "text-gray-900"
                       }`}
                     >
-                      Safina is Available for iOS and Android
+                      {t("appStore.title")}
                     </h3>
                     <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-8">
                       <a
@@ -930,12 +1058,12 @@ function App() {
                       >
                         <img
                           src={appStoreBadgeDesktop}
-                          alt="Download on the App Store"
+                          alt={t("appStore.appStore")}
                           className="h-auto w-[200px] hidden md:block"
                         />
                         <img
                           src={appStoreBadgePhone}
-                          alt="Download on the App Store"
+                          alt={t("appStore.appStore")}
                           className="h-auto w-[200px] md:hidden"
                         />
                       </a>
@@ -946,12 +1074,12 @@ function App() {
                       >
                         <img
                           src={playStoreBadgeDesktop}
-                          alt="Get it on Google Play"
+                          alt={t("appStore.playStore")}
                           className="h-auto w-[200px] hidden md:block"
                         />
                         <img
                           src={playStoreBadgePhone}
-                          alt="Get it on Google Play"
+                          alt={t("appStore.playStore")}
                           className="h-auto w-[200px] md:hidden"
                         />
                       </a>
@@ -974,15 +1102,14 @@ function App() {
                         isDarkTheme ? "text-white" : "text-gray-900"
                       }`}
                     >
-                      Get in Touch
+                      {t("contact.title")}
                     </h2>
                     <p
                       className={`mt-4 text-xl ${
                         isDarkTheme ? "text-gray-300" : "text-gray-600"
                       }`}
                     >
-                      Have feedback or suggestions about our app? We would love
-                      to hear from you. Feel free to reach out to us!
+                      {t("contact.subtitle")}
                     </p>
                   </div>
                   <ContactForm isDarkTheme={isDarkTheme} />
@@ -1003,7 +1130,7 @@ function App() {
                         isDarkTheme ? "text-white" : "text-gray-900"
                       }`}
                     >
-                      Frequently Asked Questions
+                      {t("faq.title")}
                     </h2>
                   </div>
                   <div className="space-y-4">
@@ -1062,7 +1189,7 @@ function App() {
                     <div className="w-full md:w-1/2 px-12 pt-12">
                       <img
                         src={transformCallExperience}
-                        alt="Safina AI Transform Your Call Experience"
+                        alt={t("cta.title")}
                         className="cta-image w-full h-full object-cover"
                         loading="lazy"
                       />
@@ -1071,11 +1198,10 @@ function App() {
                     {/* Content */}
                     <div className="w-full md:w-1/2 p-12 text-left">
                       <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-white">
-                        Ready to Transform Your Call Experience?
+                        {t("cta.title")}
                       </h2>
                       <p className="text-xl mb-8 text-teal-100 max-w-2xl">
-                        Join thousands of users who trust Safina to manage their
-                        calls intelligently
+                        {t("cta.subtitle")}
                       </p>
                       <button
                         onClick={() => {
@@ -1087,7 +1213,7 @@ function App() {
                         }}
                         className="bg-white text-teal-600 px-8 py-3 rounded text-lg font-medium hover:bg-teal-50 transition-colors"
                       >
-                        Get Safina
+                        {t("cta.button")}
                       </button>
                     </div>
                   </div>
