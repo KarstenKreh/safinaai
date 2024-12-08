@@ -1,42 +1,46 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 @font-face {
-  font-family: 'Merriweather';
-  src: url('./assets/fonts/Merriweather-Regular.ttf') format('truetype');
+  font-family: "Merriweather";
+  src: url("./assets/fonts/Merriweather-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Merriweather';
-  src: url('./assets/fonts/Merriweather-Bold.ttf') format('truetype');
+  font-family: "Merriweather";
+  src: url("./assets/fonts/Merriweather-Bold.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Mukta';
-  src: url('./assets/fonts/Mukta-Regular.ttf') format('truetype');
+  font-family: "Mukta";
+  src: url("./assets/fonts/Mukta-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Mukta';
-  src: url('./assets/fonts/Mukta-Bold.ttf') format('truetype');
+  font-family: "Mukta";
+  src: url("./assets/fonts/Mukta-Bold.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
 }
 
 body {
-  font-family: 'Mukta', sans-serif;
+  font-family: "Mukta", sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Merriweather', serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Merriweather", serif;
 }
 
 @keyframes fadeInUp {
@@ -92,11 +96,4 @@ h1, h2, h3, h4, h5, h6 {
     height: auto;
     min-width: 100vw;
   }
-}
-
-/* Add these styles */
-.hero-wave-animation {
-  height: 100%;
-  width: auto;
-  aspect-ratio: auto;
 }

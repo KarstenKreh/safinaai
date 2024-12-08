@@ -10,6 +10,7 @@ import {
   MessageCircle,
   Moon,
   Sun,
+  PhoneCall,
 } from "lucide-react";
 import { Features } from "./components/Features";
 import PrivacyPolicy from "./components/PrivacyPolicy";
@@ -897,6 +898,17 @@ function App() {
                         </p>
                       </div>
                     </div>
+                  </div>
+                  <div className="mt-16 flex justify-center">
+                    <button
+                      className="flex items-center gap-4 border-2 border-white text-white px-8 py-3 rounded text-lg font-medium hover:bg-white/10 transition-colors"
+                      onClick={() => {
+                        window.location.href = "tel:+498962828095";
+                      }}
+                    >
+                      <PhoneCall className="w-5 h-5" color="white" />
+                      {t("hero.callSafina")}
+                    </button>
                   </div>
                 </div>
               </section>
