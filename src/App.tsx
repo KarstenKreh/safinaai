@@ -982,7 +982,7 @@ function App() {
                             {plan.name}
                           </h3>
                           <div className="mt-4 flex items-baseline">
-                            {plan.price !== "Request" ? (
+                            {plan.price !== t("pricing.requestButton") ? (
                               <>
                                 <span className="text-3xl font-bold font-merriweather">
                                   {getDisplayPrice(plan.price)[0]}
@@ -999,13 +999,16 @@ function App() {
                               </>
                             ) : (
                               <button
-                                onClick={() =>
-                                  (window.location.href =
-                                    "mailto:info@safina.ai")
-                                }
+                                onClick={() => {
+                                  document
+                                    .getElementById("contact")
+                                    ?.scrollIntoView({
+                                      behavior: "smooth",
+                                    });
+                                }}
                                 className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg text-base font-medium hover:bg-gray-400 transition-colors"
                               >
-                                Request
+                                {t("pricing.requestButton")}
                               </button>
                             )}
                           </div>
