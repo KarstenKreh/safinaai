@@ -455,7 +455,9 @@ function App() {
                       <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white leading-loose font-bold px-4">
                         Safina is your
                         <span className="text-teal-200"> AI powered </span>
-                        phone assistant
+                        <br />
+                        <br />
+                        <span className="text-white">Voice Mail Assistant</span>
                       </h1>
                       <p className="text-xl text-white max-w-2xl mx-auto px-4">
                         Never miss an important call again. Safina answers,
@@ -463,6 +465,12 @@ function App() {
                         summaries straight to you.
                       </p>
                       <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                        <a
+                          href="tel:+498962828095"
+                          className="border-2 border-white text-white px-8 py-3 rounded text-lg font-medium hover:bg-white/10 transition-colors"
+                        >
+                          Call Safina
+                        </a>
                         <button
                           className="bg-white text-teal-600 px-8 py-3 rounded text-lg font-medium hover:bg-gray-200 transition-colors"
                           onClick={() => {
