@@ -51,8 +51,18 @@ export default defineConfig({
     },
     sourcemap: true,
     reportCompressedSize: true,
+    assetsDir: "assets",
+    manifest: true,
+    copyPublicDir: true,
+    write: true,
   },
   optimizeDeps: {
     include: ["@lottiefiles/react-lottie-player"],
+  },
+  server: {
+    headers: {
+      // Add cache control headers
+      "Cache-Control": "public, max-age=31536000", // 1 year for static assets
+    },
   },
 });
