@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "react";
+import React from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { Route, Routes, Link, useLocation } from "react-router-dom";
 import {
   Shield,
@@ -18,7 +19,6 @@ import TermsOfUse from "./components/TermsOfUse";
 import Imprint from "./components/Imprint";
 import Footer from "./components/Footer";
 import { Metric } from "./components/Metric";
-import { Player } from "@lottiefiles/react-lottie-player";
 import { useInView } from "./hooks/useInView";
 import { ContactForm } from "./components/ContactForm";
 // Image imports
@@ -45,6 +45,12 @@ import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 import ukFlag from "./assets/images/uk-flag.svg";
 import deFlag from "./assets/images/de-flag.svg";
+
+const Player = React.lazy(() =>
+  import("@lottiefiles/react-lottie-player").then((module) => ({
+    default: module.Player,
+  }))
+);
 
 function App() {
   const { t } = useTranslation();
@@ -548,24 +554,30 @@ function App() {
               {/* Hero 2 Section */}
               <section className="relative h-screen overflow-hidden">
                 <div className="absolute inset-0">
-                  <Player
-                    autoplay
-                    loop
-                    src={waveAnimationHero}
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                      width: "100vw",
-                      height: "100vh",
-                      objectFit: "cover",
-                      transform: "scale(1.5)",
-                    }}
-                    rendererSettings={{
-                      preserveAspectRatio: "xMidYMid slice",
-                      clearCanvas: true,
-                    }}
-                  />
+                  <Suspense
+                    fallback={
+                      <div className="h-screen w-screen bg-gradient-to-b from-teal-50 to-white dark:from-gray-900 dark:to-gray-800" />
+                    }
+                  >
+                    <Player
+                      autoplay
+                      loop
+                      src={waveAnimationHero}
+                      style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        width: "100vw",
+                        height: "100vh",
+                        objectFit: "cover",
+                        transform: "scale(1.5)",
+                      }}
+                      rendererSettings={{
+                        preserveAspectRatio: "xMidYMid slice",
+                        clearCanvas: true,
+                      }}
+                    />
+                  </Suspense>
                 </div>
                 <div className="absolute inset-0 bg-black opacity-70 pointer-events-none"></div>
                 <div className="relative flex justify-center items-center h-full">
