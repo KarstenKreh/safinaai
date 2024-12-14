@@ -43,8 +43,9 @@ import NotFound from "./components/NotFound";
 import transformCallExperience from "./assets/images/safina-ai-ready-to-transform-your-call-experience.png";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
-import ukFlag from "./assets/images/uk-flag.svg";
+import ukFlag from "./assets/images/uk-flag.svg"; 
 import deFlag from "./assets/images/de-flag.svg";
+import { SchemaOrg } from './components/SchemaOrg';
 
 function App() {
   const { t } = useTranslation();
@@ -207,12 +208,21 @@ function App() {
     setCurrentLanguage(defaultLang);
   }, []);
 
+  const websiteSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Your Website Name",
+    "url": "https://your-domain.com"
+    // Add other properties as needed
+  };
+
   return (
     <div
       className={`min-h-screen ${
         isDarkTheme ? "dark bg-gray-900 text-white" : "bg-white text-gray-900"
       }`}
     >
+      <SchemaOrg schema={websiteSchema} />
       {/* Navigation */}
       <nav
         className={`fixed w-full ${
@@ -587,8 +597,9 @@ function App() {
                       <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                         <a
                           href="tel:+498962828095"
-                          className="border-2 border-white text-white px-8 py-3 rounded text-lg font-medium hover:bg-white/10 transition-colors"
+                          className="border-2 border-white text-white px-8 py-3 rounded text-lg font-medium hover:bg-white/10 transition-colors flex items-center gap-2"
                         >
+                          <PhoneCall className="w-5 h-5" />
                           {t("hero.callSafina")}
                         </a>
                         <button
