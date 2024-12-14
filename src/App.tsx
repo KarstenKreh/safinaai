@@ -43,9 +43,9 @@ import NotFound from "./components/NotFound";
 import transformCallExperience from "./assets/images/safina-ai-ready-to-transform-your-call-experience.png";
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
-import ukFlag from "./assets/images/uk-flag.svg"; 
+import ukFlag from "./assets/images/uk-flag.svg";
 import deFlag from "./assets/images/de-flag.svg";
-import { SchemaOrg } from './components/SchemaOrg';
+import { SchemaOrg } from "./components/SchemaOrg";
 
 const Player = React.lazy(() =>
   import("@lottiefiles/react-lottie-player").then((module) => ({
@@ -214,32 +214,47 @@ function App() {
     setCurrentLanguage(defaultLang);
   }, []);
 
-  const websiteSchema = {
+  const schemas = {
     "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Safina AI",
-    "url": "https://safina.ai",
-    "description": "AI-powered voicemail assistant that helps you manage your calls efficiently",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": {
-        "@type": "EntryPoint",
-        "urlTemplate": "https://safina.ai/search?q={search_term_string}"
+    "@graph": [
+      {
+        "@type": "WebSite",
+        name: "Safina AI",
+        url: "https://safina.ai",
+        description:
+          "AI-powered voicemail assistant that helps you manage your calls efficiently",
+        potentialAction: {
+          "@type": "SearchAction",
+          target: {
+            "@type": "EntryPoint",
+            urlTemplate: "https://safina.ai/search?q={search_term_string}",
+          },
+          "query-input": "required name=search_term_string",
+        },
       },
-      "query-input": "required name=search_term_string"
-    }
-  };
-
-  const organizationSchema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Safina AI",
-    "url": "https://safina.ai",
-    "logo": "https://safina.ai/logo.png",
-    "sameAs": [
-      "https://twitter.com/safinai",
-      "https://linkedin.com/company/safina-ai"
-    ]
+      {
+        "@type": "Organization",
+        name: "Safina AI",
+        url: "https://safina.ai",
+        logo: "https://safina.ai/logo.png",
+        sameAs: [
+          "https://twitter.com/safinai",
+          "https://linkedin.com/company/safina-ai",
+        ],
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: "https://safina.ai",
+          },
+          // Add more breadcrumb items as needed
+        ],
+      },
+    ],
   };
 
   return (
@@ -248,7 +263,7 @@ function App() {
         isDarkTheme ? "dark bg-gray-900 text-white" : "bg-white text-gray-900"
       }`}
     >
-      <SchemaOrg schema={[websiteSchema, organizationSchema]} />
+      <SchemaOrg schema={schemas} />
       {/* Navigation */}
       <nav
         className={`fixed w-full ${
