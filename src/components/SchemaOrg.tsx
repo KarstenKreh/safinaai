@@ -1,14 +1,16 @@
-import { FC } from 'react';
+import React from 'react';
 
 interface SchemaOrgProps {
-  schema: Record<string, any>;
+  schema: object | object[];
 }
 
-export const SchemaOrg: FC<SchemaOrgProps> = ({ schema }) => {
+export const SchemaOrg: React.FC<SchemaOrgProps> = ({ schema }) => {
   return (
     <script
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(schema, null, 2)
+      }}
     />
   );
 }; 

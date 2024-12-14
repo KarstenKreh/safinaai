@@ -217,9 +217,29 @@ function App() {
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "Your Website Name",
-    "url": "https://your-domain.com"
-    // Add other properties as needed
+    "name": "Safina AI",
+    "url": "https://safina.ai",
+    "description": "AI-powered voicemail assistant that helps you manage your calls efficiently",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://safina.ai/search?q={search_term_string}"
+      },
+      "query-input": "required name=search_term_string"
+    }
+  };
+
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Safina AI",
+    "url": "https://safina.ai",
+    "logo": "https://safina.ai/logo.png",
+    "sameAs": [
+      "https://twitter.com/safinai",
+      "https://linkedin.com/company/safina-ai"
+    ]
   };
 
   return (
@@ -228,7 +248,7 @@ function App() {
         isDarkTheme ? "dark bg-gray-900 text-white" : "bg-white text-gray-900"
       }`}
     >
-      <SchemaOrg schema={websiteSchema} />
+      <SchemaOrg schema={[websiteSchema, organizationSchema]} />
       {/* Navigation */}
       <nav
         className={`fixed w-full ${
