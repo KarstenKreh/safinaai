@@ -218,6 +218,34 @@ function App() {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "SoftwareApplication",
+        name: "Safina AI",
+        applicationCategory: "BusinessApplication",
+        operatingSystem: ["iOS", "Android"],
+        description:
+          "Safina is your AI phone assistant, offering natural conversations, call summaries, and spam protection. Save time and stay productive.",
+        offers: {
+          "@type": "Offer",
+          price: "4.99",
+          priceCurrency: "EUR",
+        },
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: "4.8",
+          ratingCount: "1250",
+        },
+        author: {
+          "@type": "Organization",
+          name: "Safina AI",
+          url: "https://safina.ai",
+          logo: "https://safina.ai/apple-touch-icon.png",
+          sameAs: [
+            "https://www.linkedin.com/company/safina-ai/",
+            "https://x.com/Safina_AI_app",
+          ],
+        },
+      },
+      {
         "@type": "WebSite",
         name: "Safina AI",
         url: "https://safina.ai",

@@ -1,4 +1,5 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 
 type SchemaObject = {
   "@context": string;
@@ -15,12 +16,11 @@ interface SchemaOrgProps {
 export const SchemaOrg: React.FC<SchemaOrgProps> = ({ schema }) => {
   try {
     return (
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(schema, null, 2),
-        }}
-      />
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(schema, null, 2)}
+        </script>
+      </Helmet>
     );
   } catch (error) {
     console.error("Failed to serialize schema:", error);

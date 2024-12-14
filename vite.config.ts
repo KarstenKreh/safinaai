@@ -13,6 +13,22 @@ export default defineConfig({
         progressive: "",
       }),
     }),
+    {
+      name: "remove-schema-from-body",
+      transformIndexHtml(html) {
+        // Remove any schema scripts from the body
+        return html.replace(
+          /<script type="application\/ld\+json">[\s\S]*?<\/script>/g,
+          (match, offset) => {
+            // Keep only the schema in head
+            if (html.slice(0, offset).includes("</head>")) {
+              return "";
+            }
+            return match;
+          }
+        );
+      },
+    },
   ],
   base: "/",
   build: {
