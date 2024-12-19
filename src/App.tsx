@@ -1153,7 +1153,7 @@ function App() {
                     </h3>
                     <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-8">
                       <a
-                        href="https://apps.apple.com/your-app-link"
+                        href="https://apps.apple.com/de/app/safina-ai/id6738303110"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -1169,7 +1169,7 @@ function App() {
                         />
                       </a>
                       <a
-                        href="https://play.google.com/store/apps/your-app-link"
+                        href="https://play.google.com/store/apps/details?id=ai.safina.app"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
